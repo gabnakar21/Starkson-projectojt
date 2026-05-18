@@ -1,0 +1,10119 @@
+/* =========== Google Fonts ============ */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+
+
+/* =============== Globals ============== */
+
+* {
+
+  font-family: "poppins", sans-serif;
+
+  margin: 0;
+
+  padding: 0;
+
+  box-sizing: border-box;
+
+}
+
+/* Status indicator styles */
+.status-active {
+  color: #28a745;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* O/R Table specific styling */
+#or-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+#or-table td:nth-child(1) { /* Plate No */
+  width: 15%;
+  text-align: left;
+  font-weight: 600;
+}
+
+#or-table td:nth-child(2) { /* Truck Size */
+  width: 20%;
+  text-align: left;
+}
+
+#or-table td:nth-child(3) { /* Registration Date */
+  width: 20%;
+  text-align: left;
+}
+
+#or-table td:nth-child(4) { /* Expiration Date */
+  width: 20%;
+  text-align: left;
+}
+
+#or-table td:nth-child(5) { /* Status */
+  width: 20%;
+  text-align: left;
+}
+
+#or-table td:nth-child(6) { /* Action */
+  width: 15%;
+  text-align: left;
+}
+
+/* Trailer O/R Table specific styling */
+#trailer-or-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+#trailer-or-table td {
+  padding: 12px 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+}
+
+#trailer-or-table td:nth-child(1) { /* Plate No */
+  width: 18%;
+  text-align: left;
+  font-weight: 600;
+}
+
+#trailer-or-table td:nth-child(2) { /* Vehicle Type */
+  width: 16%;
+  text-align: left;
+}
+
+#trailer-or-table td:nth-child(3) { /* Registration Date */
+  width: 18%;
+  text-align: left;
+}
+
+#trailer-or-table td:nth-child(4) { /* Expiration Date */
+  width: 18%;
+  text-align: left;
+}
+
+#trailer-or-table td:nth-child(5) { /* Status */
+  width: 14%;
+  text-align: left;
+}
+
+#trailer-or-table td:nth-child(6) { /* Action */
+  width: 16%;
+  text-align: center;
+}
+
+
+.status-expired {
+  color: #dc3545;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.status-unknown {
+  color: #6c757d;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* More specific O/R table status styles to override conflicts */
+#or-table .status-active {
+  color: #28a745 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+#or-table .status-expired {
+  color: #dc3545 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+#or-table .status-unknown {
+  color: #6c757d !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+/* Trailer O/R table status styles */
+#trailer-or-table .status-active {
+  color: #28a745 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+#trailer-or-table .status-expired {
+  color: #dc3545 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+#trailer-or-table .status-unknown {
+  color: #6c757d !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+/* Action button styling */
+.action-btn {
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(139, 63, 63, 0.3);
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  background: linear-gradient(135deg, #6b2f2f 0%, #d96464 50%, #b85959 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(139, 63, 63, 0.4);
+}
+
+.action-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(139, 63, 63, 0.3);
+}
+
+/* =============== Colors ============== */
+
+:root {
+
+  --blue: #8b3f3f;
+
+  --blue-gradient: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%);
+
+  --blue-gradient-hover: linear-gradient(135deg, #6b2f2f 0%, #d96464 50%, #b85959 100%);
+
+  --white: #fff;
+
+  --gray: #f5f5f5;
+
+  --black1: #222;
+
+  --black2: #999;
+
+}
+
+
+
+input, select, textarea, button {
+
+  user-select: none;
+
+  -webkit-user-select: none;
+
+  -moz-user-select: none;
+
+  -ms-user-select: none;
+
+  font-family: "poppins", sans-serif;
+
+}
+
+
+
+h1, h2, h3, h4, h5, h6 {
+
+  font-family: "poppins", sans-serif;
+
+  font-weight: 600;
+
+}
+
+
+
+p, span, div, td, th, li, a {
+
+  font-family: "poppins", sans-serif;
+
+}
+
+
+
+#clear-filter-btn {
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.2), 0 15px 25px rgba(0, 0, 0, 0.25) !important;
+
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+}
+
+
+
+#clear-filter-btn:hover {
+
+  transform: translateY(-4px);
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15), 0 12px 24px rgba(0, 0, 0, 0.3), 0 20px 40px rgba(42, 33, 133, 0.4) !important;
+
+}
+
+
+
+body {
+
+  min-height: 100vh;
+
+}
+
+
+
+/* Go to Top Button */
+
+#goToTopBtn {
+
+  position: fixed;
+
+  bottom: 20px;
+
+  right: 30px;
+
+  z-index: 99;
+
+  font-size: 18px;
+
+  border: none;
+
+  outline: none;
+
+  background: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%);
+
+  color: white;
+
+  cursor: pointer;
+
+  padding: 15px;
+
+  border-radius: 50%;
+
+  width: 50px;
+
+  height: 50px;
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-shadow: 0 2px 8px rgba(139, 63, 63, 0.3);
+
+  transition: all 0.3s ease;
+
+}
+
+
+
+#goToTopBtn:hover {
+
+  background: linear-gradient(135deg, #6b2f2f 0%, #d96464 50%, #b85959 100%);
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 4px 12px rgba(139, 63, 63, 0.4);
+
+}
+
+
+
+.container {
+
+  position: relative;
+
+  width: 100%;
+
+}
+
+
+
+/* Enable text selection for tables */
+table,
+table th,
+table td,
+table tbody,
+table thead,
+.recentVehicles table,
+.details table {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+}
+
+/* Universal table hover effect for all tables */
+table tbody tr:hover,
+.recentVehicles table tbody tr:hover,
+.details table tbody tr:hover,
+#or-table tbody tr:hover,
+#trailer-or-table tbody tr:hover,
+#dashboard-vehicle-table tbody tr:hover,
+#status-table tbody tr:hover,
+#trailer-table tbody tr:hover,
+#status-container-table tbody tr:hover,
+#status-table-2 tbody tr:hover,
+#trailer-cr-table tbody tr:hover,
+#vehicle-details-table tbody tr:hover,
+#rfid-account-table tbody tr:hover,
+#tire-size-table tbody tr:hover,
+#trailer-registry-table tbody tr:hover,
+#container-registry-table tbody tr:hover,
+#tools-table tbody tr:hover,
+#repair-truck-table tbody tr:hover,
+#repair-trailer-table tbody tr:hover,
+#repair-container-table tbody tr:hover,
+#vehicle-table tbody tr:hover,
+#registry-trailer-table tbody tr:hover,
+#container-table tbody tr:hover,
+#status-summary-table tbody tr:hover,
+#gps-status-table tbody tr:hover,
+#client-table tbody tr:hover,
+#rfid-table tbody tr:hover,
+#diesel-min-table tbody tr:hover,
+#diesel-ave-table tbody tr:hover {
+  background-color: rgba(139, 63, 63, 0.15);
+  transition: background-color 0.2s ease;
+}
+
+/* =============== Navigation ================ */
+
+.navigation {
+
+  position: fixed;
+
+  width: 300px;
+
+  height: 100%;
+
+  background: var(--blue-gradient);
+
+  border-left: 10px solid var(--blue);
+
+  transition: 0.5s;
+
+  overflow: hidden;
+
+}
+
+.navigation.active {
+
+  width: 80px;
+
+}
+
+/* Hide titles when sidebar is collapsed */
+.navigation.active ul li a .title {
+  display: none !important;
+}
+
+/* Center icons when sidebar is collapsed */
+.navigation.active ul li a {
+  justify-content: center !important;
+}
+
+/* Adjust icon positioning when collapsed */
+.navigation.active ul li a .icon {
+  margin-right: 0 !important;
+  min-width: 60px !important;
+}
+
+/* Adjust logo when collapsed */
+.navigation.active ul li:nth-child(1) .icon {
+  width: 60px !important;
+  height: 60px !important;
+  padding: 0 !important;
+}
+
+.navigation.active ul li:nth-child(1) .icon img {
+  max-width: 50px !important;
+  max-height: 50px !important;
+}
+
+/* Tooltip functionality for collapsed sidebar */
+.navigation.active ul li {
+  position: relative;
+}
+
+.navigation.active ul li a .title {
+  display: none !important;
+}
+
+.navigation.active ul li:hover a .title {
+  display: block !important;
+  position: absolute !important;
+  left: 85px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: var(--blue) !important;
+  color: var(--white) !important;
+  padding: 8px 12px !important;
+  border-radius: 6px !important;
+  white-space: nowrap !important;
+  z-index: 1000 !important;
+  font-size: 0.9rem !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  opacity: 0 !important;
+  animation: fadeInTooltip 0.3s ease-in-out forwards !important;
+}
+
+@keyframes fadeInTooltip {
+  to {
+    opacity: 1 !important;
+  }
+}
+
+
+
+.navigation ul {
+
+  position: absolute;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+}
+
+
+
+.navigation ul li {
+
+  position: relative;
+
+  width: 100%;
+
+  list-style: none;
+
+  border-top-left-radius: 30px;
+
+  border-bottom-left-radius: 30px;
+
+}
+
+
+
+.navigation ul li:hover,
+
+.navigation ul li.hovered,
+
+.navigation ul li.active {
+
+  background-color: var(--white);
+
+}
+
+
+
+.navigation ul li:nth-child(1) {
+
+  margin-bottom: 40px;
+
+  pointer-events: none;
+
+}
+
+
+
+/* Logo stretching styles */
+
+.navigation ul li:nth-child(1) .icon {
+
+  min-width: auto !important;
+
+  width: 100% !important;
+
+  height: 80px !important;
+
+  padding: 0 10px !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+
+  justify-content: center !important;
+
+  line-height: 80px !important;
+
+}
+
+
+
+.navigation ul li:nth-child(1) .icon img {
+
+  width: 100% !important;
+
+  max-width: 280px !important;
+
+  height: auto !important;
+
+  max-height: 60px !important;
+
+  object-fit: contain !important;
+
+}
+
+
+
+.navigation ul li a {
+
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-decoration: none;
+
+  color: var(--white);
+
+}
+
+.navigation ul li:hover a,
+
+.navigation ul li.hovered a {
+
+  color: var(--blue);
+
+}
+
+
+
+.navigation ul li.active a {
+
+  color: var(--blue);
+
+}
+
+
+
+.navigation ul li a .icon {
+
+  position: relative;
+
+  display: block;
+
+  min-width: 60px;
+
+  height: 60px;
+
+  line-height: 60px;
+
+  text-align: center;
+
+  margin-right: 10px;
+
+}
+
+.navigation ul li a .icon ion-icon {
+
+  font-size: 1.75rem;
+
+}
+
+
+
+.navigation ul li a .title {
+
+  position: relative;
+
+  display: block;
+
+  padding: 0 10px;
+
+  height: 60px;
+
+  line-height: 60px;
+
+  text-align: start;
+
+  white-space: nowrap;
+
+  flex: 1;
+
+}
+
+
+
+/* --------- curve outside ---------- */
+
+.navigation ul li:hover a::before,
+
+.navigation ul li.hovered a::before,
+
+.navigation ul li.active a::before {
+
+  content: "";
+
+  position: absolute;
+
+  right: 0;
+
+  top: -50px;
+
+  width: 50px;
+
+  height: 50px;
+
+  background-color: transparent;
+
+  border-radius: 50%;
+
+  box-shadow: 35px 35px 0 10px var(--white);
+
+  pointer-events: none;
+
+}
+
+.navigation ul li:hover a::after,
+
+.navigation ul li.hovered a::after,
+
+.navigation ul li.active a::after {
+
+  content: "";
+
+  position: absolute;
+
+  right: 0;
+
+  bottom: -50px;
+
+  width: 50px;
+
+  height: 50px;
+
+  background-color: transparent;
+
+  border-radius: 50%;
+
+  box-shadow: 35px -35px 0 10px var(--white);
+
+  pointer-events: none;
+
+}
+
+
+
+/* ===================== Main ===================== */
+
+.main {
+
+  position: absolute;
+
+  width: calc(100% - 300px);
+
+  left: 300px;
+
+  min-height: 100vh;
+
+  background: var(--white);
+
+  transition: 0.5s;
+
+}
+
+.main.active {
+
+  width: calc(100% - 80px);
+
+  left: 80px;
+
+}
+
+
+
+.content-view {
+
+  display: none;
+
+}
+
+
+
+.content-view.active {
+
+  display: block;
+
+}
+
+
+
+.topbar {
+
+  width: 100%;
+
+  height: 60px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 0 10px;
+
+}
+
+
+
+.toggle {
+
+  position: relative;
+
+  width: 60px;
+
+  height: 60px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 2.5rem;
+
+  cursor: pointer;
+
+}
+
+
+
+.search {
+
+  position: relative;
+
+  width: 200px;
+
+  margin: 0 10px;
+
+}
+
+
+
+.search label {
+
+  position: relative;
+
+  width: 100%;
+
+}
+
+
+
+.search label input {
+
+  width: 100%;
+
+  height: 40px;
+
+  border-radius: 40px;
+
+  padding: 5px 20px;
+
+  padding-left: 35px;
+
+  font-size: 11px;
+
+  outline: none;
+
+  border: 1px solid var(--black2);
+
+}
+
+
+
+.search label .fas {
+
+  position: absolute;
+
+  top: 50%;
+
+  left: 15px;
+
+  transform: translateY(-50%);
+
+  font-size: 1.2rem;
+
+  color: var(--black2);
+
+  z-index: 1;
+
+}
+
+
+
+.user {
+
+  position: relative;
+
+  width: 40px;
+
+  height: 40px;
+
+  border-radius: 50%;
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+}
+
+
+
+.user img {
+
+  position: absolute;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+}
+
+
+
+/* ======================= Cards ====================== */
+
+/* Standardized content view layout */
+.content-view {
+  padding: 20px;
+  min-height: calc(100vh - 60px);
+}
+
+.content-view .cardBox {
+  position: relative;
+  width: 100%;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 15px;
+  margin-bottom: 20px;
+}
+
+.content-view .filter-section {
+  padding: 0 20px 10px;
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.content-view .details {
+  margin-top: 20px;
+}
+
+/* Standardized filter button styling */
+.btn-filter {
+  padding: 8px 14px !important;
+  background: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+  transition: all 0.3s !important;
+  user-select: none !important;
+}
+
+.btn-filter:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+  background: linear-gradient(135deg, #6b2f2f 0%, #d96464 50%, #b85959 100%) !important;
+}
+
+/* Standardized recentVehicles container styling */
+.content-view .details .recentVehicles {
+  background: var(--white);
+  padding: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  max-width: 100%;
+  position: relative;
+}
+
+/* Standardized cardHeader styling */
+.content-view .details .recentVehicles .cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.content-view .details .recentVehicles .cardHeader h2 {
+  color: var(--black1);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Standardized table styling */
+.content-view .details .recentVehicles table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid rgba(139, 63, 63, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.content-view .details .recentVehicles table thead td {
+  font-weight: 600;
+  font-size: 0.85rem;
+  border-bottom: 2px solid var(--blue);
+  padding: 12px 10px;
+  text-align: left;
+  vertical-align: middle;
+  background: var(--blue-gradient);
+  color: var(--white);
+  white-space: nowrap;
+}
+
+.content-view .details .recentVehicles table td {
+  border-bottom: 1px solid rgba(139, 63, 63, 0.15);
+  padding: 12px 10px;
+  color: var(--black1);
+  vertical-align: middle;
+  text-align: left;
+  line-height: 1.4;
+  font-size: 0.85rem;
+}
+
+.cardBox {
+
+  position: relative;
+
+  width: 100%;
+
+  padding: 15px;
+
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  grid-gap: 15px;
+
+}
+
+
+
+.cardBox .card {
+
+  position: relative;
+
+  background: var(--white);
+
+  padding: 20px;
+
+  border-radius: 12px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  cursor: pointer;
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.2), 0 15px 25px rgba(0, 0, 0, 0.25);
+
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  transform: translateZ(0px);
+
+  user-select: none;
+
+  -webkit-user-select: none;
+
+  -moz-user-select: none;
+
+}
+
+
+
+.cardBox .card .numbers {
+
+  position: relative;
+
+  font-weight: 600;
+
+  font-size: 1.5rem;
+
+  color: var(--blue);
+
+}
+
+
+
+.cardBox .card .cardName {
+
+  color: var(--black2);
+
+  font-size: 0.9rem;
+
+  margin-top: 3px;
+
+}
+
+
+
+.cardBox .card .iconBx {
+
+  font-size: 2.2rem;
+
+  color: var(--black2);
+
+  opacity: 1.0;
+
+}
+
+
+
+.cardBox .card:hover {
+
+  background: var(--blue-gradient);
+
+  transform: translateY(-6px) scale(1.02);
+
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15), 0 16px 28px rgba(0, 0, 0, 0.3), 0 24px 48px rgba(139, 63, 63, 0.4);
+
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+}
+
+.cardBox .card:hover .numbers,
+
+.cardBox .card:hover .cardName,
+
+.cardBox .card:hover .iconBx {
+
+  color: var(--white);
+
+}
+
+
+
+.plant-card.active {
+
+  border: 2px solid #f9a825;
+
+  background: linear-gradient(135deg, rgba(249, 168, 37, 0.05) 0%, rgba(255, 255, 255, 1) 100%);
+
+  box-shadow: 0 0 0 2px rgba(249, 168, 37, 0.2), 0 8px 25px rgba(249, 168, 37, 0.25), 0 0 0 4px rgba(249, 168, 37, 0.3);
+
+  transform: translateY(-2px);
+
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+}
+
+.plant-card .cardName {
+
+  font-weight: 600;
+
+}
+
+
+
+/* ================== Order Details List ============== */
+
+.details {
+
+  position: relative;
+
+  width: 100%;
+
+  padding: 15px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+
+}
+
+
+
+/* Dashboard specific layout - maintain two columns */
+
+#dashboard-vehicles-section {
+
+  display: grid;
+
+  grid-template-columns: 2.5fr 1.0fr;
+
+  grid-gap: 20px;
+
+}
+
+
+
+.details .recentOrders {
+
+  position: relative;
+
+  display: grid;
+
+  min-height: 500px;
+
+  background: var(--white);
+
+  padding: 20px;
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+
+  border-radius: 20px;
+
+}
+
+
+
+.details .cardHeader {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+}
+
+
+
+@media (max-width: 768px) {
+
+  .details .cardHeader {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+  }
+
+  
+
+  .cardHeader .btn {
+
+    width: 100%;
+
+    text-align: center;
+
+  }
+
+  
+  /* Improved responsive design for button groups */
+  .cardHeader > div[style*="display: flex"] {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+  
+  .cardHeader > div[style*="display: flex"] > div[style*="display: flex"] {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+  
+  /* Add Vehicle button visibility controlled by auth system */
+  #add-vehicle-btn {
+    display: inline-flex;
+    margin: 10px 0;
+    width: auto;
+  }
+  
+  /* Responsive table containers */
+  .recentVehicles {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Responsive navigation improvements */
+  .main {
+    width: 100% !important;
+    left: 0 !important;
+  }
+  
+  .topbar {
+    padding: 10px !important;
+  }
+  
+  .search label input {
+    font-size: 0.9rem !important;
+  }
+}
+
+.cardHeader h2 {
+
+  font-weight: 600;
+
+  color: var(--blue);
+
+}
+
+.cardHeader .btn {
+
+  position: relative;
+
+  padding: 5px 10px;
+
+  background: var(--blue-gradient);
+
+  text-decoration: none;
+
+  color: var(--white);
+
+  border-radius: 6px;
+
+  box-shadow: 0 6px 16px rgba(139, 63, 63, 0.4);
+
+  transition: all 0.3s ease;
+
+  border: none;
+
+  cursor: pointer;
+
+}
+
+
+
+.details table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  margin-top: 10px;
+
+  font-size: 0.9rem;
+
+  user-select: none;
+
+}
+
+
+
+.details table thead td {
+
+  font-weight: 600;
+
+  font-size: 0.85rem;
+
+  border-bottom: 2px solid var(--blue);
+
+  padding: 12px 10px;
+
+  text-align: left;
+
+  vertical-align: middle;
+
+  background: var(--blue-gradient);
+
+  color: var(--white);
+
+  white-space: nowrap;
+
+}
+
+
+
+.details table td {
+
+  padding: 12px 10px;
+
+  line-height: 1.4;
+
+  font-size: 0.85rem;
+
+  vertical-align: middle;
+
+  text-align: left;
+
+  border-bottom: 1px solid rgba(139, 63, 63, 0.15);
+
+  color: var(--black1);
+
+  white-space: normal;
+
+  word-wrap: break-word;
+
+}
+
+
+
+.details table td:nth-child(1) {
+
+  min-width: 100px;
+
+  white-space: nowrap;
+
+}
+
+
+
+.details table td:nth-child(2) {
+
+  min-width: 80px;
+
+  white-space: nowrap;
+
+  text-align: center;
+
+  font-weight: 600;
+
+}
+
+
+
+.details table td:nth-child(3) {
+
+  min-width: 200px;
+
+  max-width: 300px;
+
+}
+
+
+
+.details table td:nth-child(4) {
+
+  min-width: 150px;
+
+  max-width: 250px;
+
+}
+
+
+
+.details table tbody tr:hover {
+
+  background-color: rgba(139, 63, 63, 0.15);
+
+  transition: background-color 0.2s ease;
+
+}
+
+
+
+.driver-cell {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.6rem;
+
+}
+
+.driver-avatar ion-icon {
+
+  font-size: 1.6rem;
+
+  color: var(--blue);
+
+}
+
+.driver-meta {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0.1rem;
+
+}
+
+.driver-plate {
+
+  font-weight: 600;
+
+  font-size: 0.85rem;
+
+}
+
+.driver-size {
+
+  font-size: 0.78rem;
+
+  color: var(--black2);
+
+}
+
+.details .recentOrders table tr {
+
+  color: var(--black1);
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+}
+
+.details .recentVehicles table tr,
+
+.details .recentVehicles table td,
+
+.details .recentVehicles table th {
+
+  font-size: 0.84rem;
+
+}
+
+.details .recentVehicles {
+
+  font-size: 0.84rem;
+
+  background: var(--white);
+
+  padding: 20px;
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+
+  border-radius: 20px;
+
+}
+
+.details .recentVehicles .cardHeader h2 {
+
+  font-size: 1.3rem;
+
+}
+
+
+
+.recentVehicles {
+
+  background: var(--white);
+
+  padding: 20px;
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+
+  border-radius: 20px;
+
+  margin-bottom: 20px;
+
+}
+
+
+
+.recentVehicles table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  border: 1px solid rgba(139, 63, 63, 0.3);
+
+  border-radius: 8px;
+
+  overflow: hidden;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  table-layout: auto; /* Allow natural column width distribution */
+
+}
+  
+
+
+.recentVehicles table thead td {
+
+  font-weight: 600;
+
+  border-bottom: 2px solid var(--blue);
+
+  padding: 12px 10px;
+
+  text-align: left;
+
+  vertical-align: middle;
+
+  background: var(--blue-gradient);
+
+  color: var(--white);
+
+  white-space: nowrap; /* Keep headers on one line */
+
+}
+
+
+
+.recentVehicles table td {
+
+  border-bottom: 1px solid rgba(139, 63, 63, 0.15);
+
+  padding: 12px 10px;
+
+  color: var(--black1);
+
+  vertical-align: middle;
+
+  text-align: left;
+
+  white-space: normal; /* Allow text wrapping in cells */
+
+  word-wrap: break-word;
+
+  line-height: 1.4;
+
+}
+
+
+
+/* Specific column styling for recentVehicles table */
+
+.recentVehicles table td:nth-child(1) { /* Plate column */
+
+  min-width: 80px;
+
+  white-space: nowrap;
+
+  text-align: center;
+
+  font-weight: 600;
+
+}
+
+
+
+.recentVehicles table td:nth-child(2) { /* Model column */
+
+  min-width: 120px;
+
+  max-width: 180px;
+
+}
+
+
+
+.recentVehicles table td:nth-child(3) { /* Type column */
+
+  min-width: 100px;
+
+  max-width: 150px;
+
+}
+
+
+
+.recentVehicles table td:nth-child(4) { /* Year column */
+
+  min-width: 60px;
+
+  white-space: nowrap;
+
+  text-align: center;
+
+}
+
+
+
+/* Vehicle Registry table specific column styling */
+#vehicle-table td {
+  white-space: nowrap;
+  padding: 8px 6px;
+}
+
+/* O/R and C/R Image Upload Styles */
+.form-row .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--black1);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.image-preview-small {
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.image-preview-small:hover {
+  border-color: #c95454 !important;
+  background: #f5f5f5 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(201, 84, 84, 0.15);
+}
+
+.image-preview-small img {
+  max-width: 100%;
+  max-height: 150px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto;
+}
+
+.image-preview-small.has-image {
+  border-color: #c95454;
+  background: #fff;
+  padding: 10px;
+}
+
+.image-preview-small .remove-image {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(201, 84, 84, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.image-preview-small:hover .remove-image {
+  opacity: 1;
+}
+
+.image-preview-small .remove-image:hover {
+  background: rgba(161, 73, 73, 1);
+  transform: scale(1.1);
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+
+.form-row .form-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-row .form-group {
+    min-width: auto;
+  }
+  
+  .form-row .form-group label {
+    white-space: normal;
+    line-height: 1.3;
+  }
+  
+  .image-preview-small {
+    min-height: 80px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-row .form-group label {
+    font-size: 13px;
+  }
+}
+
+#vehicle-table td:nth-child(1) { /* Plate No. */
+  min-width: 90px;
+  text-align: left;
+  font-weight: 600;
+}
+
+#vehicle-table td:nth-child(2) { /* Model */
+  min-width: 120px;
+  font-weight: normal;
+}
+
+#dashboard-vehicle-table td:nth-child(2) { /* Model */
+  font-weight: normal;
+}
+
+/* Remove bold styling from all navigation table cells */
+.content-view .details .recentVehicles table td,
+.details table td,
+.recentVehicles table td,
+#vehicle-table td,
+#dashboard-vehicle-table td,
+#status-table td,
+#trailer-table td,
+#container-table td,
+#status-table-2 td,
+#or-table td,
+#cr-table td,
+#client-table td {
+  text-transform: capitalize;
+}
+#diesel-min-table td,
+#diesel-ave-table td,
+#truck-images-table td {
+  font-weight: normal !important;
+}
+
+/* Admin-only elements visibility */
+.admin-only {
+  display: none !important;
+}
+
+.auth-required {
+  display: none !important;
+}
+
+/* Show admin-only elements only when user is admin */
+body.admin-user .admin-only,
+body.admin-user .auth-required {
+  display: flex !important;
+}
+
+body.admin-user .admin-only.inline,
+body.admin-user .auth-required.inline {
+  display: inline-block !important;
+}
+
+body.admin-user .admin-only.flex,
+body.admin-user .auth-required.flex {
+  display: flex !important;
+}
+
+/* Override auth-required display for specific buttons when they should be hidden */
+body.admin-user #add-trailer-btn.hidden,
+body.admin-user #add-container-btn.hidden {
+  display: none !important;
+}
+
+/* Make first column bold in all navigation tables */
+.content-view .details .recentVehicles table td:nth-child(1),
+.details table td:nth-child(1),
+.recentVehicles table td:nth-child(1),
+#vehicle-table td:nth-child(1),
+#dashboard-vehicle-table td:nth-child(1),
+#status-table td:nth-child(1),
+#trailer-table td:nth-child(1),
+#container-table td:nth-child(1),
+#status-table-2 td:nth-child(1),
+#or-table td:nth-child(1),
+#cr-table td:nth-child(1),
+#client-table td:nth-child(1),
+#diesel-min-table td:nth-child(1),
+#diesel-ave-table td:nth-child(1),
+#truck-images-table td:nth-child(1) {
+  font-weight: 600 !important;
+}
+
+#vehicle-table td:nth-child(3) { /* Size */
+  min-width: 80px;
+  text-align: left;
+}
+
+#vehicle-table td:nth-child(4) { /* Year Model */
+  min-width: 70px;
+  text-align: left;
+}
+
+#vehicle-table td:nth-child(5) { /* Plant */
+  min-width: 80px;
+  text-align: left;
+}
+
+#vehicle-table td:nth-child(6) { /* Engine No. */
+  min-width: 120px;
+}
+
+#vehicle-table td:nth-child(7) { /* Chassis No. */
+  min-width: 140px;
+}
+
+#vehicle-table td:nth-child(8) { /* Classification */
+  min-width: 100px;
+}
+
+#vehicle-table td:nth-child(9) { /* Vehicle Type */
+  min-width: 100px;
+}
+
+#vehicle-table td:nth-child(10) { /* Color */
+  min-width: 80px;
+  text-align: left;
+}
+
+#vehicle-table td:nth-child(11) { /* Aircon Type */
+  min-width: 90px;
+  text-align: left;
+}
+
+/* Trailer table specific column styling */
+#trailer-table td:nth-child(1) { /* PLATE NO. */
+  min-width: 90px;
+  text-align: left;
+  font-weight: 600;
+}
+
+#trailer-table td:nth-child(2) { /* CHASSIS NO. */
+  min-width: 140px;
+  font-weight: normal;
+}
+
+#trailer-table td:nth-child(3) { /* M.V. FILE NO. */
+  min-width: 120px;
+  text-align: left;
+}
+
+#trailer-table td:nth-child(4) { /* YEAR MODEL */
+  min-width: 80px;
+  text-align: left;
+}
+
+#trailer-table td:nth-child(5) { /* OWNER'S NAME */
+  min-width: 150px;
+  font-weight: normal;
+}
+
+#trailer-table td:nth-child(6) { /* LOCATION PLANT */
+  min-width: 100px;
+  text-align: left;
+}
+
+/* Vehicle Registry Container table specific column styling (5 columns) */
+#container-table td:nth-child(1) { /* Chassi No. */
+  min-width: 120px;
+  text-align: left;
+  font-weight: 600;
+}
+
+#container-table td:nth-child(2) { /* Container */
+  min-width: 120px;
+  text-align: left;
+}
+
+#container-table td:nth-child(3) { /* Color */
+  min-width: 80px;
+  text-align: left;
+}
+
+#container-table td:nth-child(4) { /* Size */
+  min-width: 80px;
+  text-align: left;
+}
+
+#container-table td:nth-child(5) { /* Actions */
+  min-width: 120px;
+  text-align: left;
+}
+
+/* Status Container table specific column styling (7 columns) */
+#status-container-table td:nth-child(1) { /* Chassi No. */
+  min-width: 120px;
+  text-align: left;
+  font-weight: 600;
+}
+
+#status-container-table td:nth-child(2) { /* Container */
+  min-width: 120px;
+  text-align: left;
+}
+
+#status-container-table td:nth-child(3) { /* Color */
+  min-width: 80px;
+  text-align: left;
+}
+
+#status-container-table td:nth-child(4) { /* Size */
+  min-width: 80px;
+  text-align: left;
+}
+
+#status-container-table td:nth-child(5) { /* Container Issue */
+  min-width: 120px;
+  text-align: left;
+}
+
+#status-container-table td:nth-child(6) { /* Status */
+  min-width: 100px;
+  text-align: left;
+}
+
+#status-container-table td:nth-child(7) { /* Actions */
+  min-width: 120px;
+  text-align: left;
+}
+
+/* Table container for scrollable tables */
+.table-container {
+  overflow-x: auto;
+  border: 1px solid rgba(139, 63, 63, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+/* Sticky table header for scrollable tables */
+.table-container table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--blue-gradient);
+}
+
+/* Custom scrollbar styling */
+.table-container::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 6px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: var(--blue-gradient);
+  border-radius: 6px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: var(--blue-gradient-hover);
+}
+
+/* Ensure table fills container */
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+
+/* Override global table truncation for client table */
+#client-table td {
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+}
+
+/* Client Management table specific column styling */
+
+#client-table td:nth-child(1) { /* Destination column */
+
+  min-width: 120px;
+
+  max-width: 150px;
+
+  white-space: nowrap;
+
+}
+
+
+
+#client-table td:nth-child(2) { /* Address column */
+
+  min-width: 500px;
+
+  max-width: 600px;
+  
+  white-space: normal;
+
+  word-wrap: break-word;
+
+  overflow: visible;
+
+}
+
+
+
+#client-table td:nth-child(3) { /* Going To column */
+
+  min-width: 100px;
+
+  white-space: nowrap;
+
+}
+
+
+
+#client-table td:nth-child(4) { /* Going Back column */
+
+  min-width: 100px;
+
+  white-space: nowrap;
+
+}
+
+
+
+#client-table td:nth-child(5) { /* Total Km column */
+
+  min-width: 80px;
+
+  white-space: nowrap;
+
+  text-align: center;
+
+}
+
+
+
+#client-table td:nth-child(6) { /* Ave. Time column */
+
+  min-width: 80px;
+
+  white-space: nowrap;
+
+  text-align: left;
+
+}
+
+
+
+#client-table td:nth-child(7) { /* 4/6w column */
+
+  min-width: 60px;
+
+  white-space: nowrap;
+
+  text-align: left;
+
+}
+
+
+
+#client-table td:nth-child(8) { /* 10w column */
+
+  min-width: 60px;
+
+  white-space: nowrap;
+
+  text-align: left;
+
+}
+
+
+
+#client-table td:nth-child(9) { /* Tractor Head column */
+
+  min-width: 100px;
+
+  white-space: nowrap;
+
+  text-align: left;
+
+}
+
+
+
+#client-table td:nth-child(10) { /* Actions column */
+
+  min-width: 140px;
+
+  white-space: nowrap;
+
+  text-align: left;
+
+}
+
+
+/* Client Table Header Styling */
+#client-table thead td {
+  font-weight: 600 !important;
+  font-size: 0.85rem !important;
+  text-align: left !important;
+  padding: 12px 8px !important;
+  border-bottom: 2px solid var(--blue) !important;
+  background: linear-gradient(135deg, rgba(139, 63, 63, 0.05) 0%, rgba(201, 84, 84, 0.05) 50%, rgba(160, 73, 73, 0.05) 100%) !important;
+  white-space: nowrap !important;
+}
+
+/* Client Table Column Width Distribution */
+#client-table {
+  table-layout: fixed !important;
+  width: 100% !important;
+}
+
+#client-table thead td:nth-child(1) { /* Client Information */
+  width: 15% !important;
+  text-align: left !important;
+}
+
+#client-table thead td:nth-child(2) { /* Going To */
+  width: 12% !important;
+  text-align: left !important;
+}
+
+#client-table thead td:nth-child(3) { /* Going Back */
+  width: 12% !important;
+  text-align: left !important;
+}
+
+#client-table thead td:nth-child(4) { /* Total Km */
+  width: 8% !important;
+  text-align: left !important;
+}
+
+#client-table thead td:nth-child(5) { /* Ave. Time */
+  width: 8% !important;
+  text-align: left !important;
+}
+
+#client-table thead td:nth-child(6) { /* 4/6w */
+  width: 8% !important;
+  text-align: left !important;
+}
+
+#client-table thead td:nth-child(7) { /* 10w */
+  width: 8% !important;
+  text-align: left !important;
+}
+
+#client-table thead td:nth-child(8) { /* Tractor Head */
+  width: 10% !important;
+  text-align: left !important;
+}
+
+#client-table thead td:nth-child(9) { /* Actions */
+  width: 14% !important;
+  text-align: left !important;
+}
+
+
+.recentVehicles table tbody tr:hover {
+
+  background-color: rgba(139, 63, 63, 0.05);
+
+  transition: background-color 0.2s ease;
+
+}
+
+
+
+.recentVehicles table tbody tr:last-child td {
+
+  border-bottom: none;
+
+}
+
+
+
+.recentCustomers {
+
+  position: relative;
+
+  display: grid;
+
+  min-height: auto;
+
+  padding: 20px;
+
+  background: var(--white);
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+
+  border-radius: 20px;
+
+  user-select: none;
+
+  -webkit-user-select: none;
+
+}
+
+.recentCustomers .imgBx {
+
+  position: relative;
+
+  width: 40px;
+
+  height: 40px;
+
+  border-radius: 50px;
+
+  overflow: hidden;
+
+}
+
+.recentCustomers .imgBx img {
+
+  position: absolute;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+}
+
+.recentCustomers table tr td {
+
+  padding: 12px 10px;
+
+}
+
+.recentCustomers table tr td h4 {
+
+  font-size: 16px;
+
+  font-weight: 500;
+
+  line-height: 1.2rem;
+
+}
+
+.recentCustomers table tr td h4 span {
+
+  font-size: 14px;
+
+  color: var(--black2);
+
+}
+
+.recentCustomers table tr:hover {
+
+  background: var(--blue-gradient);
+
+  color: var(--white);
+
+}
+
+.recentCustomers table tr:hover td h4 span {
+
+  color: var(--white);
+
+}
+
+
+
+/* ====================== Button Gradients ========================== */
+
+.btn {
+
+  background: var(--blue-gradient) !important;
+
+  transition: all 0.3s ease;
+
+  box-shadow: 0 6px 16px rgba(139, 63, 63, 0.4) !important;
+
+  border: none !important;
+
+  cursor: pointer;
+
+}
+
+
+
+.btn:hover {
+
+  background: var(--blue-gradient-hover) !important;
+
+  box-shadow: 0 8px 24px rgba(139, 63, 63, 0.55) !important;
+
+  transform: translateY(-2px);
+
+}
+
+
+
+.btn:active {
+
+  box-shadow: 0 3px 10px rgba(139, 63, 63, 0.4) !important;
+
+  transform: translateY(0);
+
+}
+
+
+
+/* ====================== All Button Elements ========================== */
+
+button {
+
+  background: var(--blue-gradient);
+
+  color: var(--white);
+
+  border: none;
+
+  border-radius: 6px;
+
+  padding: 8px 16px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  box-shadow: 0 6px 16px rgba(139, 63, 63, 0.4);
+
+}
+
+
+
+button:hover {
+
+  background: var(--blue-gradient-hover);
+
+  box-shadow: 0 8px 24px rgba(139, 63, 63, 0.55);
+
+  transform: translateY(-2px);
+
+}
+
+
+
+button:active {
+
+  box-shadow: 0 3px 10px rgba(139, 63, 63, 0.4);
+
+  transform: translateY(0);
+
+}
+
+
+
+input[type="submit"],
+
+input[type="button"] {
+
+  background: var(--blue-gradient);
+
+  color: var(--white);
+
+  border: none;
+
+  border-radius: 6px;
+
+  padding: 8px 16px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  box-shadow: 0 6px 16px rgba(139, 63, 63, 0.4);
+
+}
+
+
+
+input[type="submit"]:hover,
+
+input[type="button"]:hover {
+
+  background: var(--blue-gradient-hover);
+
+  box-shadow: 0 8px 24px rgba(139, 63, 63, 0.55);
+
+  transform: translateY(-2px);
+
+}
+
+
+
+input[type="submit"]:active,
+
+input[type="button"]:active {
+
+  box-shadow: 0 3px 10px rgba(139, 63, 63, 0.4);
+
+  transform: translateY(0);
+
+}
+
+
+
+
+
+/* Vehicle Status Styles */
+
+.status-expired {
+
+  color: #d32f2f !important;
+
+}
+
+
+
+.status-expired td {
+
+  border-bottom-color: rgba(211, 47, 47, 0.2) !important;
+
+}
+
+
+
+/* Status indicator styles */
+
+.status {
+
+  padding: 4px 12px;
+
+  border-radius: 20px;
+
+  font-size: 0.8rem;
+
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+
+  display: inline-block;
+
+}
+
+
+
+.status.operational {
+
+  background-color: rgba(76, 175, 80, 0.1);
+
+  color: #4caf50;
+
+  border: 1px solid rgba(76, 175, 80, 0.3);
+
+}
+
+
+
+.status.down {
+
+  background-color: rgba(244, 67, 54, 0.1);
+
+  color: #f44336;
+
+  border: 1px solid rgba(244, 67, 54, 0.3);
+
+}
+
+
+
+.status.hustling {
+
+  background-color: rgba(255, 193, 7, 0.1);
+
+  color: #ffc107;
+
+  border: 1px solid rgba(255, 193, 7, 0.3);
+
+}
+
+
+
+
+
+
+.status-badge {
+
+  padding: 4px 12px;
+
+  border-radius: 20px;
+
+  font-size: 0.8rem;
+
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+
+  display: inline-block;
+
+}
+
+
+
+.status-badge.active {
+
+  background: transparent;
+
+  color: #4caf50;
+
+  box-shadow: none;
+
+}
+
+
+
+.status-badge.expired {
+
+  background: transparent;
+
+  color: #f44336;
+
+  box-shadow: none;
+
+}
+
+
+
+/* Table Switch Button Styles */
+
+.table-switch-btn {
+
+  background: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%);
+
+  color: #fff;
+
+  border: none;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+
+  transition: all 0.3s ease;
+
+  box-shadow: 0 2px 4px rgba(139, 63, 63, 0.3);
+
+}
+
+
+
+.table-switch-btn:hover {
+
+  background: linear-gradient(135deg, #6b2f2f 0%, #d96464 50%, #b85959 100%);
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 4px 8px rgba(139, 63, 63, 0.4);
+
+}
+
+
+
+.table-switch-btn.active {
+
+  background: #ffffff !important;
+
+  color: #d32f2f !important;
+
+  border: 3px solid #d32f2f;
+
+  box-shadow: 
+
+    0 6px 20px rgba(211, 47, 47, 0.3),
+
+    0 0 0 3px rgba(211, 47, 47, 0.2),
+
+}
+
+/* Responsive design for table switch buttons */
+@media (max-width: 768px) {
+  .table-switch-btn {
+    padding: 8px 14px !important;
+    font-size: 0.85rem !important;
+    min-width: auto;
+    flex: 1;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .table-switch-btn {
+    padding: 6px 10px !important;
+    font-size: 0.75rem !important;
+    border-radius: 4px !important;
+  }
+  
+  .table-switch-btn.active {
+    border-width: 2px !important;
+  }
+}
+
+@keyframes redGlow {
+
+  0% {
+
+    box-shadow: 
+
+      0 6px 20px rgba(211, 47, 47, 0.3),
+
+      0 0 0 3px rgba(211, 47, 47, 0.2),
+
+      0 0 15px rgba(211, 47, 47, 0.2),
+
+      0 4px 12px rgba(0, 0, 0, 0.15),
+
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+  }
+
+  100% {
+
+    box-shadow: 
+
+      0 8px 25px rgba(211, 47, 47, 0.4),
+
+      0 0 0 4px rgba(211, 47, 47, 0.3),
+
+      0 0 20px rgba(211, 47, 47, 0.3),
+
+      0 6px 15px rgba(0, 0, 0, 0.2),
+
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+  }
+
+}
+
+
+
+/* Modal form styles for vehicle status */
+
+#vehicle-status-form .form-group {
+
+  margin-bottom: 20px;
+
+}
+
+
+
+#vehicle-status-form label {
+
+  display: block;
+
+  font-weight: 600;
+
+  font-size: 14px;
+
+  color: var(--black1);
+
+  margin-bottom: 8px;
+
+}
+
+
+
+/* General styling for all read-only inputs */
+input[readonly] {
+  background-color: #f5f5f5 !important;
+  color: var(--black2);
+  cursor: not-allowed;
+  border: 1px solid #ddd;
+  opacity: 0.8;
+}
+
+/* Styling for editable placeholder fields with shadow effect */
+.editable-placeholder {
+  transition: all 0.3s ease;
+}
+
+.editable-placeholder:focus {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  border-color: #007bff;
+  outline: none;
+  background-color: #fff;
+}
+
+.editable-placeholder:hover {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+#vehicle-status-form input[readonly] {
+  background-color: #f5f5f5;
+  color: var(--black2);
+  cursor: not-allowed;
+}
+
+
+
+#vehicle-status-form input[type="date"] {
+
+  width: 100%;
+
+  padding: 12px;
+
+  border: 2px solid #e0e0e0;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+
+  transition: border-color 0.3s ease;
+
+}
+
+
+
+#vehicle-status-form input[type="date"]:focus {
+
+  outline: none;
+
+  border-color: var(--blue);
+
+  box-shadow: 0 0 0 3px rgba(139, 63, 63, 0.1);
+
+}
+
+
+
+#vehicle-status-form .form-actions {
+
+  display: flex;
+
+  gap: 12px;
+
+  justify-content: flex-end;
+
+  margin-top: 24px;
+
+}
+
+
+
+.btn-submit {
+
+  background: var(--blue-gradient) !important;
+
+  color: white !important;
+
+  border: none !important;
+
+  border-radius: 6px !important;
+
+  padding: 12px 24px !important;
+
+  font-weight: 600 !important;
+
+  cursor: pointer !important;
+
+  transition: all 0.3s ease !important;
+
+  box-shadow: 0 6px 16px rgba(139, 63, 63, 0.4) !important;
+
+}
+
+
+
+.btn-submit:hover {
+
+  background: var(--blue-gradient-hover) !important;
+
+  box-shadow: 0 8px 24px rgba(139, 63, 63, 0.55) !important;
+
+  transform: translateY(-2px) !important;
+
+}
+
+
+
+.btn-cancel {
+
+  background: #f5f5f5 !important;
+
+  color: var(--black1) !important;
+
+  border: 2px solid #e0e0e0 !important;
+
+  border-radius: 6px !important;
+
+  padding: 12px 24px !important;
+
+  font-weight: 600 !important;
+
+  cursor: pointer !important;
+
+  transition: all 0.3s ease !important;
+
+}
+
+
+
+.btn-cancel:hover {
+
+  background: #e0e0e0 !important;
+
+  border-color: #d0d0d0 !important;
+
+}
+
+
+
+/* ====================== Circular Arrow Button ========================== */
+
+.arrow-up-btn {
+
+  width: 70px;
+
+  height: 70px;
+
+  border-radius: 50%;
+
+  background: var(--blue-gradient);
+
+  border: none;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-shadow: 0 4px 12px rgba(139, 63, 63, 0.3);
+
+  transition: all 0.3s ease;
+
+  position: relative;
+
+  overflow: hidden;
+
+}
+
+
+
+.arrow-up-btn svg {
+
+  width: 50px;
+
+  height: 50px;
+
+  fill: white;
+
+  transition: all 0.3s ease;
+
+}
+
+
+
+.arrow-up-btn::before {
+
+  content: '';
+
+  position: absolute;
+
+  top: 0;
+
+  left: 0;
+
+  right: 0;
+
+  bottom: 0;
+
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+
+  border-radius: 50%;
+
+  opacity: 0;
+
+  transition: opacity 0.3s ease;
+
+}
+
+
+
+.arrow-up-btn:hover {
+
+  background: var(--blue-gradient-hover);
+
+  transform: translateY(-3px);
+
+  box-shadow: 0 6px 20px rgba(139, 63, 63, 0.4);
+
+}
+
+
+
+.arrow-up-btn:hover svg {
+
+  transform: scale(1.1);
+
+}
+
+
+
+.arrow-up-btn:hover::before {
+
+  opacity: 1;
+
+}
+
+
+
+.arrow-up-btn:active {
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 2px 8px rgba(139, 63, 63, 0.3);
+
+}
+
+
+
+.arrow-up-btn:active svg {
+
+  transform: scale(1.05);
+
+}
+
+
+
+/* ====================== Responsive Design ========================== */
+
+/* Mobile First Approach - Base styles for mobile */
+
+
+
+/* Small Mobile Devices (320px - 480px) */
+
+@media (max-width: 480px) {
+
+  /* Navigation */
+
+  .navigation {
+
+    width: 100%;
+
+    left: -100%;
+
+    z-index: 1000;
+
+  }
+
+  
+
+  .navigation.active {
+
+    width: 100%;
+
+    left: 0;
+
+  }
+
+  
+
+  .navigation ul li a .title {
+
+    display: block;
+
+  }
+
+  
+
+  .navigation ul li a .icon {
+
+    min-width: 50px;
+
+    height: 50px;
+
+    line-height: 60px;
+
+  }
+  
+  /* Enhanced responsive design for small mobile */
+  .cardHeader h2 {
+    font-size: 1.2rem !important;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .cardHeader > div[style*="display: flex"] {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  .cardHeader > div[style*="display: flex"] > div[style*="display: flex"] {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 8px !important;
+  }
+  
+  /* Add Vehicle button visibility controlled by auth system */
+  #add-vehicle-btn {
+    display: inline-flex;
+    margin: 10px 0;
+    width: auto;
+  }
+  
+  /* Responsive buttons for small mobile */
+  .btn, .btn-action, .crud-button {
+    font-size: 0.85rem !important;
+    padding: 8px 12px !important;
+    min-height: 40px;
+  }
+  
+  /* Responsive tables for small mobile */
+  table {
+    font-size: 0.85rem !important;
+  }
+  
+  table td, table th {
+    padding: 4px 6px !important;
+    min-width: 60px;
+  }
+  
+  /* Responsive search bar */
+  .search label input {
+    padding: 8px 12px !important;
+    font-size: 0.85rem !important;
+  }
+  
+  /* Responsive card layout */
+  .cardBox {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+  
+  .card {
+    padding: 15px !important;
+  }
+  
+  .card .numbers {
+    font-size: 1.5rem !important;
+  }
+  
+  .card .cardName {
+    font-size: 0.9rem !important;
+  }
+
+  
+
+  .navigation ul li a .icon ion-icon {
+
+    font-size: 1.5rem;
+
+  }
+
+  
+
+  /* Main Content */
+
+  .main {
+
+    width: 100%;
+
+    left: 0;
+
+  }
+
+  
+
+  .main.active {
+
+    left: 0;
+
+  }
+
+  
+
+  .toggle {
+
+    z-index: 10001;
+
+    position: fixed;
+
+    top: 10px;
+
+    left: 10px;
+
+    width: 50px;
+
+    height: 50px;
+
+    background: var(--blue-gradient);
+
+    border-radius: 50%;
+
+    color: white;
+
+  }
+
+  
+
+  .main.active .toggle {
+
+    color: #fff;
+
+    position: fixed;
+
+    right: 10px;
+
+    left: auto;
+
+  }
+
+  
+
+  /* Topbar */
+
+  .topbar {
+
+    padding: 0 60px 0 60px;
+
+    height: 60px;
+
+  }
+
+  
+
+  .search {
+
+    width: 100%;
+
+    margin: 0;
+
+  }
+
+  
+
+  .search label input {
+
+    font-size: 16px;
+
+    padding: 8px 20px;
+
+    padding-left: 40px;
+
+  }
+
+  
+
+  .search label .fas {
+
+    left: 12px;
+
+    font-size: 1rem;
+
+  }
+
+  
+
+  /* Cards */
+
+  .cardBox {
+
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+
+    padding: 8px;
+
+    grid-gap: 6px;
+
+  }
+
+  
+
+  .cardBox .card {
+
+    padding: 8px;
+
+    flex-direction: column;
+
+    text-align: center;
+
+    gap: 4px;
+
+    min-height: auto;
+
+    border-radius: 8px;
+
+  }
+
+  
+
+  .cardBox .card .numbers {
+
+    font-size: 0.85rem;
+
+    font-weight: 600;
+
+  }
+
+  
+
+  .cardBox .card .cardName {
+
+    font-size: 0.85rem;
+
+    font-weight: 500;
+
+  }
+
+  
+
+  .cardBox .card .iconBx {
+
+    font-size: 1.2rem;
+
+    margin-bottom: 2px;
+
+  }
+
+  
+
+  /* Dashboard Layout */
+
+  #dashboard-vehicles-section {
+
+    grid-template-columns: 1fr;
+
+    gap: 15px;
+
+  }
+
+  
+
+  .details {
+
+    padding: 10px;
+
+    gap: 15px;
+
+  }
+
+  
+
+  /* ====================== Universal Mobile Table Styling ========================== */
+
+/* Small Mobile Devices (320px - 480px) */
+
+@media (max-width: 480px) {
+
+  /* Universal table container styling */
+
+  table,
+
+  .details table,
+
+  .recentVehicles table,
+
+  #truck-images-table {
+
+    display: block;
+
+    overflow-x: auto;
+
+    -webkit-overflow-scrolling: touch;
+
+    white-space: nowrap;
+
+    border-collapse: separate;
+
+    border-spacing: 0;
+
+    min-width: fit-content;
+
+    table-layout: auto;
+
+    font-size: 0.85rem;
+
+    border-radius: 8px;
+
+    border: 1px solid rgba(139, 63, 63, 0.2);
+
+  }
+
+  
+
+  /* Universal table structure */
+
+  table thead,
+
+  table tbody,
+
+  table thead tr,
+
+  table tbody tr,
+
+  .details table thead,
+
+  .details table tbody,
+
+  .details table thead tr,
+
+  .details table tbody tr,
+
+  .recentVehicles table thead,
+
+  .recentVehicles table tbody,
+
+  .recentVehicles table thead tr,
+
+  .recentVehicles table tbody tr,
+
+  #truck-images-table thead,
+
+  #truck-images-table tbody,
+
+  #truck-images-table thead tr,
+
+  #truck-images-table tbody tr {
+
+    display: table;
+
+    width: 100%;
+
+    table-layout: auto;
+
+  }
+
+  
+
+  /* Universal table headers */
+
+  table th,
+
+  table thead td,
+
+  .details table thead td,
+
+  .recentVehicles table thead td,
+
+  #truck-images-table thead tr td {
+
+    padding: 12px 10px;
+
+    font-size: 0.85rem;
+
+    font-weight: 600;
+
+    text-align: left; /* Left-align headers to match data cells */
+
+    white-space: nowrap;
+
+    vertical-align: middle;
+
+    background: var(--blue-gradient);
+
+    color: var(--white);
+
+    border-bottom: 2px solid var(--blue);
+
+    min-width: 60px;
+
+  }
+
+  
+
+  /* Universal table cells */
+
+  table td,
+
+  .details table td,
+
+  .recentVehicles table td,
+
+  #truck-images-table tbody tr td {
+
+    padding: 12px 10px;
+
+    font-size: 0.85rem;
+
+    white-space: normal;
+
+    word-wrap: break-word;
+
+    text-align: left;
+
+    vertical-align: middle;
+
+    border-bottom: 1px solid rgba(139, 63, 63, 0.1);
+
+    border-right: 1px solid rgba(139, 63, 63, 0.05);
+
+    line-height: 1.4;
+
+    min-width: 60px;
+
+  }
+
+  
+
+  /* Remove last cell border */
+
+  table td:last-child,
+
+  .details table td:last-child,
+
+  .recentVehicles table td:last-child,
+
+  #truck-images-table tbody tr td:last-child {
+
+    border-right: none;
+
+  }
+
+  
+
+  /* Details table specific columns */
+
+  .details table td:nth-child(1) { /* Chassi No column */
+
+    min-width: 100px;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+  }
+
+
+
+  .details table td:nth-child(2) { /* Container column */
+
+    min-width: 120px;
+
+    max-width: 150px;
+
+    text-align: center;
+
+    font-weight: 600;
+
+  }
+
+  
+
+  .details table td:nth-child(3) { /* Color column */
+
+    min-width: 80px;
+
+    max-width: 100px;
+
+  }
+
+  
+
+  .details table td:nth-child(4) { /* Remarks column */
+
+    min-width: 120px;
+
+    max-width: 180px;
+
+  }
+
+  
+
+  /* RecentVehicles table specific columns */
+
+  .recentVehicles table td:nth-child(1) { /* Plate column */
+
+    min-width: 70px;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+    font-weight: 600;
+
+  }
+
+  
+
+  .recentVehicles table td:nth-child(2) { /* Model column */
+
+    min-width: 100px;
+
+    max-width: 140px;
+
+  }
+
+  
+
+  .recentVehicles table td:nth-child(3) { /* Type column */
+
+    min-width: 80px;
+
+    max-width: 120px;
+
+  }
+
+  
+
+  .recentVehicles table td:nth-child(4) { /* Year column */
+
+    min-width: 50px;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+  }
+
+  
+
+  /* Truck images table specific columns */
+
+  #truck-images-table td:nth-child(1) { /* Select column */
+
+    min-width: 60px;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+  }
+
+  
+
+  #truck-images-table td:nth-child(2) { /* Plate column */
+
+    min-width: 70px;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+    font-weight: 600;
+
+  }
+
+  
+
+  #truck-images-table td:nth-child(3) { /* Image column */
+
+    min-width: 80px;
+
+    text-align: center;
+
+  }
+
+  
+
+  #truck-images-table td:nth-child(4) { /* Actions column */
+
+    min-width: 100px;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+  }
+
+  
+
+  #truck-images-table tbody tr td img {
+
+    max-width: 40px;
+
+    max-height: 40px;
+
+  }
+
+  
+
+  /* Table containers for scrolling */
+
+  .details,
+
+  .recentVehicles,
+
+  .table-container {
+
+    overflow-x: auto;
+
+    -webkit-overflow-scrolling: touch;
+
+    position: relative;
+
+  }
+
+  
+
+  /* Scroll indicators */
+
+  .details::after,
+
+  .recentVehicles::after {
+
+    content: '';
+
+    position: absolute;
+
+    bottom: 0;
+
+    right: 0;
+
+    width: 20px;
+
+    height: 20px;
+
+    background: linear-gradient(135deg, transparent 0%, rgba(139, 63, 63, 0.1) 100%);
+
+    pointer-events: none;
+
+    border-radius: 0 0 4px 0;
+
+  }
+
+}
+
+  
+
+  /* Table container for better scrolling */
+
+  .recentVehicles {
+
+    overflow-x: auto;
+
+    -webkit-overflow-scrolling: touch;
+
+    position: relative;
+
+  }
+
+  
+
+  .details .recentVehicles {
+
+    overflow-x: auto;
+
+    -webkit-overflow-scrolling: touch;
+
+    position: relative;
+
+  }
+
+  
+
+  /* Add scroll indicator for tables */
+
+  .recentVehicles::after {
+
+    content: '';
+
+    position: absolute;
+
+    bottom: 0;
+
+    right: 0;
+
+    width: 30px;
+
+    height: 30px;
+
+    background: linear-gradient(135deg, transparent 0%, rgba(139, 63, 63, 0.1) 100%);
+
+    pointer-events: none;
+
+    border-radius: 0 0 8px 0;
+
+  }
+
+  
+
+  /* Ensure table headers stay visible */
+
+  .details table thead {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 10;
+
+    background: var(--blue-gradient);
+
+  }
+
+  
+
+  .recentVehicles table thead {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 10;
+
+    background: var(--blue-gradient);
+
+  }
+
+  
+
+  /* Better table borders on mobile */
+
+  .details table,
+
+  .recentVehicles table {
+
+    border: 1px solid rgba(139, 63, 63, 0.2);
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+  }
+
+  
+
+  .details table td,
+
+  .recentVehicles table td {
+
+    border-right: 1px solid rgba(139, 63, 63, 0.1);
+
+  }
+
+  
+
+  .details table td:last-child,
+
+  .recentVehicles table td:last-child {
+
+    border-right: none;
+
+  }
+
+  
+
+  /* Card Headers */
+
+  .cardHeader {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+  }
+
+  
+
+  .cardHeader h2 {
+
+    font-size: 1.1rem;
+
+  }
+
+  
+
+  .cardHeader .btn {
+
+    width: 100%;
+
+    text-align: center;
+
+    padding: 10px;
+
+    font-size: 0.85rem;
+
+  }
+
+  
+
+  /* Container/Trailer Buttons */
+
+  .container-trailer-buttons {
+
+    grid-template-columns: 1fr;
+
+    gap: 10px;
+
+    padding: 15px 0;
+
+  }
+
+  
+
+  .container-trailer-btn {
+
+    padding: 12px 16px;
+
+    font-size: 0.85rem;
+
+  }
+
+  
+
+  /* Go to Top Button */
+
+  #goToTopBtn {
+
+    width: 45px;
+
+    height: 45px;
+
+    bottom: 15px;
+
+    right: 15px;
+
+    font-size: 16px;
+
+  }
+
+  
+
+  /* Truck Gallery */
+
+  .truck-gallery-grid {
+
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+
+    padding: 12px;
+
+  }
+
+  
+
+  .truck-card {
+
+    height: 280px;
+
+  }
+
+  
+
+  .truck-plate-badge {
+
+    font-size: 12px;
+
+    padding: 6px 12px;
+
+  }
+
+  
+
+  /* Modals */
+
+  .modal-content {
+
+    width: 95%;
+
+    max-width: none;
+
+    margin: 10px;
+
+  }
+
+  
+
+  .modal-header {
+
+    padding: 15px 20px;
+
+  }
+
+  
+
+  .modal-header h2 {
+
+    font-size: 1.1rem;
+
+  }
+
+  
+
+  .modal-form-content {
+
+    padding: 20px;
+
+  }
+
+  
+
+  .form-actions {
+
+    flex-direction: column;
+
+    gap: 10px;
+
+  }
+
+  
+
+  .btn-submit,
+
+  .btn-cancel {
+
+    width: 100%;
+
+    padding: 12px;
+
+  }
+
+  
+
+  /* Touch-friendly interactions */
+
+  .cardBox .card {
+
+    min-height: 44px; /* iOS touch target minimum */
+
+    cursor: pointer;
+
+    -webkit-tap-highlight-color: rgba(139, 63, 63, 0.1);
+
+  }
+
+  
+
+  .navigation ul li a {
+
+    min-height: 44px; /* iOS touch target minimum */
+
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+
+  }
+
+  
+
+  button, .btn, input[type="submit"], input[type="button"] {
+
+    min-height: 44px; /* iOS touch target minimum */
+
+    -webkit-tap-highlight-color: rgba(139, 63, 63, 0.1);
+
+  }
+
+  
+
+  /* Better touch scrolling */
+
+  .main {
+
+    -webkit-overflow-scrolling: touch;
+
+    overflow-y: auto;
+
+  }
+
+  
+
+  /* Improve form inputs for mobile */
+
+  input[type="text"], input[type="date"], input[type="number"], select, textarea {
+
+    font-size: 16px; /* Prevents zoom on iOS */
+
+    -webkit-appearance: none;
+
+    appearance: none;
+
+    -webkit-tap-highlight-color: rgba(139, 63, 63, 0.1);
+
+  }
+
+  
+
+  /* Better hover states for touch */
+
+  @media (hover: none) {
+
+    .cardBox .card:hover {
+
+      transform: none;
+
+    }
+
+    
+
+    .cardBox .card:active {
+
+      transform: scale(0.98);
+
+      transition: transform 0.1s ease;
+
+    }
+
+    
+
+    button:hover, .btn:hover {
+
+      transform: none;
+
+    }
+
+    
+
+    button:active, .btn:active {
+
+      transform: scale(0.95);
+
+      transition: transform 0.1s ease;
+
+    }
+
+  }
+
+  
+
+  /* Mobile-specific modal improvements */
+
+  .modal-overlay {
+
+    -webkit-overflow-scrolling: touch;
+
+    overflow-y: auto;
+
+  }
+
+  
+
+  .modal-content {
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    -webkit-overflow-scrolling: touch;
+
+  }
+
+  
+
+  /* Swipe gesture hint for navigation */
+
+  .navigation::before {
+
+    content: '';
+
+    position: absolute;
+
+    top: 50%;
+
+    right: -20px;
+
+    transform: translateY(-50%);
+
+    width: 3px;
+
+    height: 60px;
+
+    background: rgba(255, 255, 255, 0.3);
+
+    border-radius: 3px;
+
+    opacity: 0;
+
+    transition: opacity 0.3s ease;
+
+  }
+
+  
+
+  .navigation:hover::before {
+
+    opacity: 1;
+
+  }
+
+  
+
+  /* Notifications */
+
+  .notification-container {
+
+    top: 70px;
+
+    right: 10px;
+
+    left: 10px;
+
+    max-width: none;
+
+  }
+
+  
+
+  /* Better image handling for mobile */
+
+  img {
+
+    max-width: 100%;
+
+    height: auto;
+
+    -webkit-touch-callout: none; /* Prevent callout on iOS */
+
+  }
+
+  
+
+  /* Prevent text selection on mobile for better UX */
+
+  .cardBox .card,
+
+  .navigation ul li a,
+
+  button,
+
+  .btn {
+
+    -webkit-user-select: none;
+
+    -moz-user-select: none;
+
+    -ms-user-select: none;
+
+    user-select: none;
+
+  }
+  
+  /* Override text selection prevention for tables on mobile */
+  table,
+  table th,
+  table td,
+  table tbody,
+  table thead,
+  .recentVehicles table,
+  .details table {
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    user-select: text !important;
+  }
+
+  
+
+  /* Better focus states for accessibility */
+
+  button:focus,
+
+  .btn:focus,
+
+  input:focus,
+
+  select:focus,
+
+  textarea:focus {
+
+    outline: 2px solid var(--blue);
+
+    outline-offset: 2px;
+
+  }
+
+  /* Remove focus outline from table navigation buttons to prevent white outline */
+  .table-switch-btn:focus,
+  .registry-filter-btn:focus {
+    outline: none;
+    box-shadow: 
+      0 6px 20px rgba(211, 47, 47, 0.3),
+      0 0 0 3px rgba(211, 47, 47, 0.2);
+  }
+
+  
+
+  /* Loading states for mobile */
+
+  .loading {
+
+    pointer-events: none;
+
+    opacity: 0.6;
+
+  }
+
+  
+
+  .loading::after {
+
+    content: '';
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 50%;
+
+    width: 20px;
+
+    height: 20px;
+
+    margin: -10px 0 0 -10px;
+
+    border: 2px solid var(--blue);
+
+    border-radius: 50%;
+
+    border-top-color: transparent;
+
+    animation: spin 1s linear infinite;
+
+  }
+
+}
+
+
+
+/* Medium Mobile Devices (481px - 768px) */
+
+@media (min-width: 481px) and (max-width: 768px) {
+
+  /* Universal table styling for medium mobile */
+
+  table,
+
+  .details table,
+
+  .recentVehicles table,
+
+  #truck-images-table {
+
+    display: block;
+
+    overflow-x: auto;
+
+    -webkit-overflow-scrolling: touch;
+
+    white-space: nowrap;
+
+    border-collapse: separate;
+
+    border-spacing: 0;
+
+    min-width: 500px;
+
+    table-layout: auto;
+
+    font-size: 0.85rem;
+
+    border-radius: 8px;
+
+    border: 1px solid rgba(139, 63, 63, 0.2);
+
+  }
+  
+  /* Enhanced responsive design for medium mobile */
+  .cardHeader h2 {
+    font-size: 1.3rem !important;
+  }
+  
+  .cardHeader > div[style*="display: flex"] {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px !important;
+  }
+  
+  .cardHeader > div[style*="display: flex"] > div[style*="display: flex"] {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+  
+  /* Add Vehicle button visibility controlled by auth system */
+  #add-vehicle-btn {
+    display: inline-flex;
+    margin: 10px 0;
+    width: auto;
+  }
+  
+  /* Responsive buttons for medium mobile */
+  .btn, .btn-action, .crud-button {
+    font-size: 0.85rem !important;
+    padding: 8px 14px !important;
+  }
+  
+  /* Responsive search bar */
+  .search label input {
+    font-size: 0.85rem !important;
+    padding: 10px 14px !important;
+  }
+  
+  /* Responsive card layout */
+  .cardBox {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+    gap: 12px !important;
+    padding: 15px !important;
+  }
+  
+  .card {
+    padding: 18px !important;
+  }
+  
+  .card .numbers {
+    font-size: 1.6rem !important;
+  }
+  
+  .card .cardName {
+    font-size: 0.95rem !important;
+  }
+  
+  /* Responsive navigation */
+  .main {
+    width: calc(100% - 70px) !important;
+    left: 70px !important;
+  }
+  
+  .navigation.active ~ .main {
+    left: 280px !important;
+    width: calc(100% - 280px) !important;
+  }
+
+  
+
+  /* Universal table structure */
+
+  table thead,
+
+  table tbody,
+
+  table thead tr,
+
+  table tbody tr,
+
+  .details table thead,
+
+  .details table tbody,
+
+  .details table thead tr,
+
+  .details table tbody tr,
+
+  .recentVehicles table thead,
+
+  .recentVehicles table tbody,
+
+  .recentVehicles table thead tr,
+
+  .recentVehicles table tbody tr,
+
+  #truck-images-table thead,
+
+  #truck-images-table tbody,
+
+  #truck-images-table thead tr,
+
+  #truck-images-table tbody tr {
+
+    display: table;
+
+    width: 100%;
+
+    table-layout: auto;
+
+  }
+
+  
+
+  /* Universal table headers */
+
+  table th,
+
+  table thead td,
+
+  .details table thead td,
+
+  .recentVehicles table thead td,
+
+  #truck-images-table thead tr td {
+
+    padding: 10px 8px;
+
+    font-size: 0.85rem;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    text-align: left;
+
+    vertical-align: middle;
+
+    background: var(--blue-gradient);
+
+    color: var(--white);
+
+    border-bottom: 2px solid var(--blue);
+
+    min-width: 70px;
+
+  }
+
+  
+
+  /* Universal table cells */
+
+  table td,
+
+  .details table td,
+
+  .recentVehicles table td,
+
+  #truck-images-table tbody tr td {
+
+    padding: 10px 8px;
+
+    font-size: 0.85rem;
+
+    white-space: normal;
+
+    word-wrap: break-word;
+    
+    /* Enable text selection for table cells */
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    user-select: text !important;
+
+    text-align: left;
+
+    vertical-align: middle;
+
+    border-bottom: 1px solid rgba(139, 63, 63, 0.1);
+
+    border-right: 1px solid rgba(139, 63, 63, 0.05);
+
+    line-height: 1.3;
+
+    min-width: 70px;
+
+  }
+
+  
+
+  /* Remove last cell border */
+
+  table td:last-child,
+
+  .details table td:last-child,
+
+  .recentVehicles table td:last-child,
+
+  #truck-images-table tbody tr td:last-child {
+
+    border-right: none;
+
+  }
+
+  
+
+  /* Details table specific columns */
+
+  .details table td:nth-child(1) { /* Date column */
+
+    min-width: 90px;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+  }
+
+  
+
+  .details table td:nth-child(2) { /* Plate no column */
+
+    min-width: 80px;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+    font-weight: 600;
+
+  }
+
+  
+
+  .details table td:nth-child(3) { /* Description column */
+
+    min-width: 180px;
+
+    max-width: 250px;
+
+  }
+
+  
+
+  .details table td:nth-child(4) { /* Remarks column */
+
+    min-width: 140px;
+
+    max-width: 200px;
+
+  }
+
+  
+
+  /* RecentVehicles table specific columns */
+
+  .recentVehicles table td:nth-child(1) { /* Plate column */
+
+    min-width: 80px;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+    font-weight: 600;
+
+  }
+
+  
+
+  .recentVehicles table td:nth-child(2) { /* Model column */
+
+    min-width: 120px;
+
+    max-width: 160px;
+
+  }
+
+  
+
+  .recentVehicles table td:nth-child(3) { /* Type column */
+
+    min-width: 90px;
+
+    max-width: 130px;
+
+  }
+
+  
+
+  .recentVehicles table td:nth-child(4) { /* Year column */
+
+    min-width: 60px;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+  }
+
+  
+
+  /* Truck images table specific columns */
+
+  #truck-images-table td:nth-child(1) { /* Select column */
+
+    min-width: 70px;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+  }
+
+  
+
+  #truck-images-table td:nth-child(2) { /* Plate column */
+
+    min-width: 80px;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+    font-weight: 600;
+
+  }
+
+  
+
+  #truck-images-table td:nth-child(3) { /* Image column */
+
+    min-width: 90px;
+
+    text-align: center;
+
+  }
+
+  
+
+  #truck-images-table td:nth-child(4) { /* Actions column */
+
+    min-width: 120px;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+  }
+
+  
+
+  #truck-images-table tbody tr td img {
+
+    max-width: 50px;
+
+    max-height: 50px;
+
+  }
+
+  
+
+  .cardBox {
+
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+
+    padding: 12px;
+
+    grid-gap: 12px;
+
+  }
+
+  
+
+  .cardBox .card {
+
+    padding: 15px;
+
+    flex-direction: column;
+
+    text-align: center;
+
+  }
+
+  
+
+  .cardBox .card .numbers {
+
+    font-size: 1.1rem;
+
+  }
+
+  
+
+  .cardBox .card .iconBx {
+
+    font-size: 1.8rem;
+
+  }
+
+  
+
+  .search {
+
+    width: 250px;
+
+  }
+
+  
+
+  .truck-gallery-grid {
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 15px;
+
+    padding: 15px;
+
+  }
+
+  
+
+  .container-trailer-buttons {
+
+    grid-template-columns: repeat(2, 1fr);
+
+  }
+
+}
+
+
+
+/* Tablets (769px - 991px) */
+
+@media (min-width: 769px) and (max-width: 991px) {
+
+  .navigation {
+
+    left: -300px;
+
+  }
+
+  
+
+  .navigation.active {
+
+    width: 300px;
+
+    left: 0;
+
+  }
+
+  
+
+  .main {
+
+    width: 100%;
+
+    left: 0;
+
+  }
+
+  
+
+  .main.active {
+
+    left: 300px;
+
+  }
+
+  
+
+  .cardBox {
+
+    grid-template-columns: repeat(3, 1fr);
+
+    grid-gap: 15px;
+
+    padding: 15px;
+
+  }
+
+  
+
+  .cardBox .card {
+
+    padding: 20px;
+
+  }
+
+  
+
+  .cardBox .card .numbers {
+
+    font-size: 1.4rem;
+
+  }
+
+  
+
+  .search {
+
+    width: 300px;
+
+  }
+
+  
+
+  .truck-gallery-grid {
+
+    grid-template-columns: repeat(3, 1fr);
+
+  }
+
+  
+
+  #dashboard-vehicles-section {
+
+    grid-template-columns: 1fr;
+
+  }
+
+}
+
+
+
+/* Large Tablets and Small Desktops (992px - 1200px) */
+
+@media (min-width: 992px) and (max-width: 1200px) {
+
+  .cardBox {
+
+    grid-template-columns: repeat(3, 1fr);
+
+  }
+
+  
+
+  .plant-card.active {
+
+    transform: translateY(-1px);
+
+  }
+
+  
+
+  .cardBox .card:hover {
+
+    transform: translateY(-4px) scale(1.01);
+
+  }
+
+  
+
+  .truck-gallery-grid {
+
+    grid-template-columns: repeat(3, 1fr);
+
+  }
+
+  
+
+  .search {
+
+    width: 350px;
+
+  }
+
+}
+
+
+
+/* ====================== TRUCK GALLERY ========================== */
+
+.truck-gallery-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 24px;
+
+  padding: 24px;
+
+  width: 100%;
+
+}
+
+
+
+.truck-card {
+
+  position: relative;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  background: #fff;
+
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.12);
+
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  cursor: pointer;
+
+  display: flex;
+
+  flex-direction: column;
+
+  height: 320px;
+
+}
+
+
+
+.truck-card:hover {
+
+  transform: translateY(-8px) scale(1.02);
+
+  box-shadow: 0 16px 48px rgba(139, 63, 63, 0.25);
+
+}
+
+
+
+.truck-card-image-container {
+
+  flex: 1;
+
+  overflow: hidden;
+
+  position: relative;
+
+}
+
+
+
+.truck-card-image {
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  transition: transform 0.3s ease;
+
+}
+
+
+
+.truck-card:hover .truck-card-image {
+
+  transform: scale(1.05);
+
+}
+
+
+
+/* Hover overlay effect */
+
+.truck-card-image-container::after {
+
+  content: '';
+
+  position: absolute;
+
+  top: 0;
+
+  left: 0;
+
+  right: 0;
+
+  bottom: 0;
+
+  background: rgba(0, 0, 0, 0.7);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  opacity: 0;
+
+  transition: opacity 0.3s ease;
+
+  pointer-events: none;
+
+}
+
+
+
+.truck-card:hover .truck-card-image-container::after {
+
+  opacity: 1;
+
+}
+
+
+
+.truck-card-image-container::before {
+
+  content: 'View Images';
+
+  position: absolute;
+
+  top: 50%;
+
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  text-align: center;
+
+  opacity: 0;
+
+  transition: opacity 0.3s ease;
+
+  pointer-events: none;
+
+  z-index: 2;
+
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+
+}
+
+
+
+.truck-card:hover .truck-card-image-container::before {
+
+  opacity: 1;
+
+}
+
+
+
+.truck-card-plate-section {
+
+  padding: 16px;
+
+  background: #fff;
+
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+}
+
+
+
+.truck-plate-badge {
+
+  background: var(--blue-gradient);
+
+  color: white;
+
+  padding: 10px 20px;
+
+  border-radius: 12px;
+
+  font-weight: 700;
+
+  font-size: 14px;
+
+  text-align: center;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+
+  box-shadow: 0 4px 12px rgba(139, 63, 63, 0.3);
+
+  transition: all 0.3s ease;
+
+}
+
+
+
+.truck-card:hover .truck-plate-badge {
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 16px rgba(139, 63, 63, 0.4);
+
+}
+
+
+
+/* Truck Gallery Modal */
+
+.truck-gallery-modal {
+
+  display: none;
+
+  position: fixed;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  z-index: 10000;
+
+}
+
+
+
+.truck-gallery-modal .modal-overlay {
+
+  position: fixed;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.85);
+
+  backdrop-filter: blur(8px);
+
+  z-index: 1;
+
+  animation: modalOverlayFadeIn 0.3s ease;
+
+}
+
+
+
+@keyframes modalOverlayFadeIn {
+
+  from { 
+
+    opacity: 0;
+
+  }
+
+  to { 
+
+    opacity: 1;
+
+  }
+
+}
+
+
+
+.truck-gallery-modal .modal-content {
+
+  position: relative;
+
+  position: absolute;
+
+  top: 50%;
+
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  background: #fff;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  max-width: 90vw;
+
+  max-height: 90vh;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+  animation: slideUp 0.3s ease;
+
+  z-index: 2;
+
+}
+
+
+
+
+  
+
+
+
+
+
+.truck-gallery-modal .modal-image-container {
+
+  position: relative;
+
+  width: 100%;
+
+  height: 80vh;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: transparent;
+
+}
+
+
+
+.truck-gallery-modal .modal-image-container img {
+
+  max-width: 90vw;
+
+  max-height: 80vh;
+
+  object-fit: contain;
+
+  transition: opacity 0.3s ease, transform 0.3s ease;
+
+  opacity: 1;
+
+  transform: scale(1);
+
+}
+
+
+
+.truck-gallery-modal .modal-nav {
+
+  position: absolute;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 50px;
+
+  height: 50px;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  backdrop-filter: blur(10px);
+
+  border: none;
+
+  border-radius: 50%;
+
+  font-size: 24px;
+
+  font-weight: 300;
+
+  color: #333;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  z-index: 5;
+
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+}
+
+
+
+.truck-gallery-modal .modal-nav:hover {
+
+  background: #fff;
+
+  transform: translateY(-50%) scale(1.1);
+
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+
+}
+
+
+
+.truck-gallery-modal .modal-nav.prev {
+
+  left: 20px;
+
+}
+
+
+
+.truck-gallery-modal .modal-nav.next {
+
+  right: 20px;
+
+}
+
+
+
+/* Initial fade-in animation for images */
+
+.truck-gallery-modal .modal-image-container img {
+
+  max-width: 90vw;
+
+  max-height: 80vh;
+
+  object-fit: contain;
+
+  transition: opacity 0.3s ease, transform 0.3s ease;
+
+  opacity: 1;
+
+  transform: scale(1);
+
+  animation: imageFadeIn 0.5s ease-out;
+
+  /* Ensure no filters or unwanted effects */
+
+  filter: none !important;
+
+  -webkit-filter: none !important;
+
+  mix-blend-mode: normal !important;
+
+  isolation: isolate;
+
+  /* Remove any inherited backgrounds */
+
+  background: transparent !important;
+
+  /* Ensure proper positioning */
+
+  position: relative;
+
+  z-index: 10;
+
+}
+
+
+
+@keyframes imageFadeIn {
+
+  from {
+
+    opacity: 0;
+
+    transform: scale(0.95);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: scale(1);
+
+  }
+
+}
+
+
+
+.truck-gallery-modal .modal-plate-number {
+
+  background: var(--blue-gradient);
+
+  color: white;
+
+  padding: 12px 24px;
+
+  font-weight: 700;
+
+  font-size: 16px;
+
+  text-align: center;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+
+}
+
+
+
+.truck-gallery-modal .modal-image-counter {
+
+  background: rgba(0, 0, 0, 0.05);
+
+  color: #666;
+
+  padding: 8px 16px;
+
+  font-size: 14px;
+
+  text-align: center;
+
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+}
+
+
+
+/* Thumbnail Navigation */
+
+.truck-gallery-modal .modal-thumbnails {
+
+  display: flex;
+
+  gap: 8px;
+
+  padding: 12px 16px;
+
+  background: #f8f8f8;
+
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+  overflow-x: auto;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+}
+
+
+
+.truck-gallery-modal .thumbnail {
+
+  width: 60px;
+
+  height: 60px;
+
+  border-radius: 8px;
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  border: 2px solid transparent;
+
+  transition: all 0.2s ease;
+
+  flex-shrink: 0;
+
+  opacity: 0.7;
+
+}
+
+
+
+.truck-gallery-modal .thumbnail:hover {
+
+  opacity: 1;
+
+  transform: scale(1.05);
+
+}
+
+
+
+.truck-gallery-modal .thumbnail.active {
+
+  border-color: var(--blue);
+
+  opacity: 1;
+
+  box-shadow: 0 0 0 3px rgba(139, 63, 63, 0.2);
+
+}
+
+
+
+.truck-gallery-modal .thumbnail img {
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+}
+
+
+
+/* Animations */
+
+@keyframes fadeIn {
+
+  from { 
+
+    opacity: 0;
+
+    backdrop-filter: blur(0px);
+
+  }
+
+  to { 
+
+    opacity: 1;
+
+    backdrop-filter: blur(8px);
+
+  }
+
+}
+
+
+
+@keyframes slideUp {
+
+  from { 
+
+    opacity: 0;
+
+    transform: translate(-50%, -40%) scale(0.9);
+
+  }
+
+  to { 
+
+    opacity: 1;
+
+    transform: translate(-50%, -50%) scale(1);
+
+  }
+
+}
+
+
+
+@keyframes slideDown {
+
+  from { 
+
+    opacity: 1;
+
+    transform: translate(-50%, -50%) scale(1);
+
+  }
+
+  to { 
+
+    opacity: 0;
+
+    transform: translate(-50%, -40%) scale(0.9);
+
+  }
+
+}
+
+
+
+/* Enhanced modal animations */
+
+.truck-gallery-modal.showing {
+
+  animation: fadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+}
+
+
+
+.truck-gallery-modal.showing .modal-content {
+
+  animation: slideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+}
+
+
+
+.truck-gallery-modal.hiding {
+
+  animation: fadeIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse;
+
+}
+
+
+
+.truck-gallery-modal.hiding .modal-content {
+
+  animation: slideDown 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+}
+
+
+
+/* Responsive Design for Truck Gallery */
+
+@media (max-width: 1200px) {
+
+  .truck-gallery-grid {
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+
+    padding: 20px;
+
+  }
+
+}
+
+
+
+@media (max-width: 768px) {
+
+  .truck-gallery-grid {
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 16px;
+
+    padding: 16px;
+
+  }
+
+  
+
+  .truck-gallery-modal .modal-content {
+
+    max-width: 95vw;
+
+    max-height: 95vh;
+
+  }
+
+  
+
+  .truck-gallery-modal .modal-image-container {
+
+    height: 70vh;
+
+  }
+
+  
+
+  .truck-gallery-modal .modal-image-container img {
+
+    max-width: 95vw;
+
+    max-height: 70vh;
+
+  }
+
+  
+
+  .truck-gallery-modal .modal-nav {
+
+    width: 40px;
+
+    height: 40px;
+
+    font-size: 20px;
+
+  }
+
+  
+
+  .truck-gallery-modal .modal-nav.prev {
+
+    left: 12px;
+
+  }
+
+  
+
+  .truck-gallery-modal .modal-nav.next {
+
+    right: 12px;
+
+  }
+
+}
+
+
+
+@media (max-width: 480px) {
+
+  /* Truck Gallery - ensure single column on mobile */
+
+  .truck-gallery-grid,
+
+  .main .truck-gallery-grid,
+
+  .content-view .truck-gallery-grid {
+
+    grid-template-columns: 1fr !important;
+
+    gap: 12px;
+
+    padding: 12px;
+
+  }
+
+  
+
+  .truck-plate-badge {
+
+    font-size: 12px;
+
+    padding: 6px 12px;
+
+  }
+
+  
+
+  .truck-gallery-modal .modal-content {
+
+    max-width: 98vw;
+
+    max-height: 98vh;
+
+  }
+
+  
+
+  .truck-gallery-modal .modal-image-container {
+
+    height: 60vh;
+
+  }
+
+  
+
+  .truck-gallery-modal .modal-image-container img {
+
+    max-width: 98vw;
+
+    max-height: 60vh;
+
+  }
+
+  
+
+  .truck-gallery-modal .modal-plate-number {
+
+    font-size: 14px;
+
+    padding: 10px 16px;
+
+  }
+
+}
+
+
+
+/* ====================== GPS MODAL STYLES ========================== */
+
+#gps-form .form-group {
+
+  margin-bottom: 20px;
+
+}
+
+
+
+#gps-form label {
+
+  display: block;
+
+  font-weight: 600;
+
+  font-size: 14px;
+
+  color: var(--black1);
+
+  margin-bottom: 8px;
+
+}
+
+
+
+/* ====================== DRIVERS MODAL STYLES ========================== */
+
+#drivers-modal-overlay {
+
+  position: fixed;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  backdrop-filter: blur(4px);
+
+  z-index: 9999;
+
+}
+
+
+
+#drivers-modal {
+
+  position: fixed;
+
+  top: 50%;
+
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  background: white;
+
+  border-radius: 12px;
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+
+  max-width: 1800px;
+
+  width: 95%;
+
+  max-height: 80vh;
+
+  overflow: hidden;
+
+  z-index: 10000;
+
+}
+
+
+
+#drivers-modal .modal-content {
+
+  padding: 0;
+
+}
+
+
+
+#drivers-modal .modal-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 20px 24px;
+
+  border-bottom: 1px solid #eee;
+
+  background: var(--blue-gradient);
+
+  color: white;
+
+}
+
+
+
+#drivers-modal .modal-header h2 {
+
+  margin: 0;
+
+  font-size: 1.3rem;
+
+  font-weight: 600;
+
+}
+
+
+
+#drivers-modal .modal-close {
+
+  background: rgba(255, 255, 255, 0.2);
+
+  border: none;
+
+  border-radius: 50%;
+
+  width: 32px;
+
+  height: 32px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  cursor: pointer;
+
+  font-size: 18px;
+
+  color: white;
+
+  transition: all 0.2s ease;
+
+}
+
+
+
+#drivers-modal .modal-close:hover {
+
+  background: rgba(255, 255, 255, 0.3);
+
+  transform: scale(1.1);
+
+}
+
+
+
+#drivers-modal .modal-body {
+
+  padding: 24px;
+
+  max-height: 60vh;
+
+  overflow-y: auto;
+
+}
+
+
+
+#drivers-modal .modal-body ul {
+
+  list-style: none;
+
+  padding: 0;
+
+  margin: 0;
+
+}
+
+
+
+#drivers-modal .modal-body li {
+
+  padding: 12px 0;
+
+  border-bottom: 1px solid #eee;
+
+  color: var(--black1);
+
+  font-size: 0.95rem;
+
+  transition: background-color 0.2s ease;
+
+}
+
+
+
+#drivers-modal .modal-body li:hover {
+
+  background-color: rgba(139, 63, 63, 0.05);
+
+  padding-left: 8px;
+
+}
+
+
+
+#drivers-modal .modal-body li:last-child {
+
+  border-bottom: none;
+
+}
+
+
+
+.clickable-cell {
+
+  transition: all 0.2s ease;
+
+}
+
+
+
+.clickable-cell:hover {
+
+  background-color: rgba(139, 63, 63, 0.1);
+
+  transform: scale(1.02);
+
+}
+
+
+
+#gps-form input[type="date"],
+
+#gps-form input[type="text"],
+
+#gps-form select,
+
+#gps-form textarea {
+
+  width: 100%;
+
+  padding: 12px;
+
+  border: 2px solid #e0e0e0;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+
+  transition: border-color 0.3s ease;
+
+  font-family: "poppins", sans-serif;
+
+}
+
+
+
+#gps-form input[type="date"]:focus,
+
+#gps-form input[type="text"]:focus,
+
+#gps-form select:focus,
+
+#gps-form textarea:focus {
+
+  outline: none;
+
+  border-color: var(--blue);
+
+  box-shadow: 0 0 0 3px rgba(139, 63, 63, 0.1);
+
+}
+
+
+
+#gps-form textarea {
+
+  resize: vertical;
+
+  min-height: 80px;
+
+}
+
+
+
+.required {
+
+  color: #d32f2f;
+
+  font-weight: 700;
+
+}
+
+
+
+.form-actions {
+
+  display: flex;
+
+  gap: 12px;
+
+  justify-content: flex-end;
+
+  margin-top: 24px;
+
+}
+
+
+
+.btn-submit {
+
+  background: var(--blue-gradient) !important;
+
+  color: white !important;
+
+  border: none !important;
+
+  border-radius: 6px !important;
+
+  padding: 12px 24px !important;
+
+  font-weight: 600 !important;
+
+  cursor: pointer !important;
+
+  transition: all 0.3s ease !important;
+
+  box-shadow: 0 6px 16px rgba(139, 63, 63, 0.4) !important;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  position: relative;
+
+}
+
+
+
+.btn-submit:hover {
+
+  background: var(--blue-gradient-hover) !important;
+
+  box-shadow: 0 8px 24px rgba(139, 63, 63, 0.55) !important;
+
+  transform: translateY(-2px) !important;
+
+}
+
+
+
+.btn-submit:disabled {
+
+  opacity: 0.7;
+
+  cursor: not-allowed;
+
+  transform: none !important;
+
+}
+
+
+
+.btn-cancel {
+
+  background: #f5f5f5 !important;
+
+  color: var(--black1) !important;
+
+  border: 2px solid #e0e0e0 !important;
+
+  border-radius: 6px !important;
+
+  padding: 12px 24px !important;
+
+  font-weight: 600 !important;
+
+  cursor: pointer !important;
+
+  transition: all 0.3s ease !important;
+
+}
+
+
+
+.btn-cancel:hover {
+
+  background: #e0e0e0 !important;
+
+  border-color: #d0d0d0 !important;
+
+}
+
+
+
+.spin {
+
+  animation: spin 1s linear infinite;
+
+}
+
+
+
+@keyframes spin {
+
+  from { transform: rotate(0deg); }
+
+  to { transform: rotate(360deg); }
+
+}
+
+
+
+/* GPS Table Action Buttons */
+
+.gps-action-btn {
+
+  padding: 5px 10px !important;
+
+  background: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%) !important;
+
+  color: white !important;
+
+  border: none !important;
+
+  border-radius: 4px !important;
+
+  cursor: pointer !important;
+
+  font-size: 0.85rem !important;
+
+  font-weight: 600 !important;
+
+  box-shadow: 0 2px 4px rgba(139, 63, 63, 0.3) !important;
+
+  transition: all 0.2s ease !important;
+
+  margin: 0 2px !important;
+
+}
+
+
+
+.gps-action-btn:hover {
+
+  transform: translateY(-1px) !important;
+
+  box-shadow: 0 4px 8px rgba(139, 63, 63, 0.4) !important;
+
+}
+
+
+
+.gps-action-btn.delete {
+
+  background: var(--blue-gradient) !important;
+
+}
+
+
+
+.gps-action-btn.delete:hover {
+
+  box-shadow: 0 4px 8px rgba(139, 63, 63, 0.4) !important;
+
+}
+
+
+
+/* Error Message Styles */
+
+.error-message {
+
+  color: #d32f2f;
+
+  font-size: 12px;
+
+  margin-top: 4px;
+
+  display: none;
+
+  font-weight: 500;
+
+}
+
+
+
+.form-group.error input,
+
+.form-group.error select,
+
+.form-group.error textarea {
+
+  border-color: #d32f2f !important;
+
+}
+
+
+
+.form-group.error .error-message {
+
+  display: block;
+
+}
+
+
+
+/* ====================== TRUCK IMAGES RESPONSIVE GRID ========================== */
+
+.truck-images-display-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+
+  gap: 20px;
+
+  width: 100%;
+
+  padding: 20px 0;
+
+}
+
+
+
+.truck-vehicle-section {
+
+  display: flex;
+
+  flex-direction: row;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  width: 100%;
+
+}
+
+
+
+.truck-images-horizontal {
+
+  display: flex;
+
+  gap: 15px;
+
+  flex-wrap: wrap;
+
+}
+
+
+
+.image-item {
+
+  position: relative;
+
+  width: 180px;
+
+  height: 180px;
+
+  border-radius: 8px;
+
+  overflow: hidden;
+
+  background: #e0e0e0;
+
+  flex-shrink: 0;
+
+}
+
+
+
+.image-item img {
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+
+  transition: transform 0.3s ease;
+
+  cursor: pointer;
+
+}
+
+
+
+.image-item:hover img {
+
+  transform: scale(1.05);
+
+}
+
+
+
+.image-item.empty {
+
+  background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0),
+
+              linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0);
+
+  background-size: 10px 10px;
+
+  background-position: 0 0, 5px 5px;
+
+  border: 2px dashed #ccc;
+
+}
+
+
+
+.truck-plate-number {
+
+  font-size: 1.2rem;
+
+  font-weight: 700;
+
+  color: var(--blue);
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+
+  text-align: center;
+
+  padding: 8px 12px;
+
+  background: linear-gradient(135deg, rgba(139, 63, 63, 0.1) 0%, rgba(201, 84, 84, 0.05) 100%);
+
+  border-radius: 8px;
+
+  border: 2px solid var(--blue);
+
+}
+
+
+
+/* Responsive adjustments for truck images grid */
+
+@media (max-width: 1200px) {
+
+  .truck-images-display-grid {
+
+    grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+
+    gap: 18px;
+
+  }
+
+  
+
+  .truck-vehicle-section {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+  }
+
+  
+
+  .truck-images-horizontal {
+
+    width: 100%;
+
+  }
+
+}
+
+
+
+@media (max-width: 768px) {
+
+  .truck-images-display-grid {
+
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+
+    gap: 15px;
+
+    padding: 15px 0;
+
+  }
+
+  
+
+  .image-item {
+
+    width: 150px;
+
+    height: 150px;
+
+  }
+
+  
+
+  .truck-plate-number {
+
+    font-size: 1.1rem;
+
+    padding: 6px 10px;
+
+  }
+
+}
+
+
+
+@media (max-width: 480px) {
+
+  .truck-images-display-grid {
+
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+
+    padding: 10px 0;
+
+  }
+
+  
+
+  .truck-images-horizontal {
+
+    gap: 8px;
+
+  }
+
+  
+
+  .image-item {
+
+    width: 120px;
+
+    height: 120px;
+
+  }
+
+  
+
+  .truck-plate-number {
+
+    font-size: 1rem;
+
+    padding: 6px 8px;
+
+  }
+
+}
+
+
+
+/* ====================== Truck Images Module ========================== */
+
+#add-truck-images-btn {
+
+  margin-left: auto;
+
+}
+
+
+
+/* Add Vehicle button visibility controlled by auth system */
+#add-vehicle-btn {
+  display: inline-flex;
+  visibility: visible;
+  position: relative;
+  z-index: 10;
+  margin: 10px 0 !important;
+  width: auto !important;
+}
+
+/* Fix button spacing in truck tab header */
+
+.details .cardHeader > div[style*="display: flex"] {
+
+  display: flex !important;
+
+  align-items: center !important;
+
+  justify-content: space-between !important;
+
+  width: 100%;
+
+}
+
+
+
+.details .cardHeader > div > div:first-child {
+
+  display: flex !important;
+
+  gap: 10px !important;
+
+  align-items: center !important;
+
+}
+
+
+
+.details .cardHeader > div > div:last-child {
+
+  display: flex !important;
+
+  gap: 10px !important;
+
+  min-width: 120px !important;
+
+  justify-content: flex-end !important;
+
+  align-items: center !important;
+
+}
+
+
+
+#truck-images-form {
+
+  background: #f9f9f9;
+
+  padding: 15px;
+
+  border-radius: 8px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+
+
+#truck-images-form select {
+
+  width: 100%;
+
+  padding: 8px;
+
+  border: 1px solid #ccc;
+
+  border-radius: 4px;
+
+  font-size: 13px;
+
+  font-family: "poppins", sans-serif;
+
+}
+
+
+
+#image-upload-container {
+
+  transition: all 0.3s ease;
+
+}
+
+
+
+.image-upload-group {
+
+  display: flex;
+
+  flex-direction: column;
+
+}
+
+
+
+.image-preview {
+
+  width: 100%;
+
+  aspect-ratio: 4 / 3;
+
+  background: #e0e0e0;
+
+  border-radius: 4px;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border: 2px dashed #bbb;
+
+  color: #888;
+
+  font-size: 11px;
+
+  transition: all 0.2s ease;
+
+  background-size: cover;
+
+  background-position: center;
+
+  background-repeat: no-repeat;
+
+}
+
+
+
+.image-preview:hover {
+
+  border-color: #8b3f3f;
+
+  background-color: #f0f0f0;
+
+}
+
+
+
+.image-preview.has-image {
+
+  border: none;
+
+  color: transparent;
+
+}
+
+
+
+#truck-images-table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  margin-top: 20px;
+
+  table-layout: auto; /* instead of fixed */
+
+
+
+}
+
+
+
+#truck-images-table td,
+
+#truck-images-table th {
+
+  text-align: left;
+
+}
+
+
+
+#truck-images-table thead {
+
+  background: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%);
+
+  color: white;
+
+}
+
+
+
+#truck-images-table thead tr td {
+
+  padding: 12px; 
+
+  text-align: left;
+
+  font-weight: 600;
+
+  border: none;
+
+}
+
+
+
+#truck-images-table tbody tr {
+
+  border-bottom: 1px solid #ddd;
+
+  transition: background 0.2s ease;
+
+}
+
+
+
+#truck-images-table tbody tr:hover {
+
+  background: #f5f5f5;
+
+}
+
+
+
+#truck-images-table tbody tr td {
+
+  padding: 12px;
+
+  vertical-align: middle;
+
+}
+
+
+
+#truck-images-table tbody tr td img {
+
+  width: 100%;
+
+  flex: 1 1 200px;
+
+  max-width: 100%;
+
+  height: 180px;
+
+  border-radius: 6px;
+
+  object-fit: cover;
+
+  cursor: pointer;
+
+  transition: transform 0.2s ease;
+
+  border-radius: 10px;
+
+}
+
+
+
+#truck-images-table tbody tr td img:hover {
+
+  transform: scale(1.08);
+
+}
+
+
+
+.truck-images-action-buttons {
+
+  display: flex;
+
+  gap: 5px;
+
+}
+
+
+
+.truck-images-action-buttons button {
+
+  padding: 5px 10px;
+
+  background: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%);
+
+  color: white;
+
+  border: none;
+
+  border-radius: 4px;
+
+  cursor: pointer;
+
+  font-size: 0.85rem;
+
+  font-weight: 600;
+
+  box-shadow: 0 2px 4px rgba(139, 63, 63, 0.3);
+
+  transition: all 0.2s ease;
+
+}
+
+
+
+.truck-images-action-buttons button:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 4px 8px rgba(139, 63, 63, 0.5);
+
+}
+
+
+
+/* Image Modal */
+
+.truck-image-modal {
+
+  position: fixed;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.8);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  z-index: 10000;
+
+}
+
+
+
+.truck-image-modal-content {
+
+  position: relative;
+
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 8px;
+
+  max-width: 90%;
+
+  max-height: 90%;
+
+  overflow: auto;
+
+}
+
+
+
+.truck-image-modal-content button {
+
+  position: absolute;
+
+  top: 10px;
+
+  right: 10px;
+
+  background: #c95454;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 50%;
+
+  width: 30px;
+
+  height: 30px;
+
+  cursor: pointer;
+
+  font-size: 18px;
+
+  font-weight: bold;
+
+  transition: all 0.2s ease;
+
+}
+
+
+
+.truck-image-modal-content button:hover {
+
+  background: #8b3f3f;
+
+}
+
+
+
+.truck-image-modal-content img {
+
+  max-width: 100%;
+
+  max-height: 80vh;
+
+  border-radius: 4px;
+
+}
+
+
+
+/* Loading Spinner */
+
+.loading-spinner {
+
+  display: inline-block;
+
+  width: 20px;
+
+  height: 20px;
+
+  border: 3px solid #f3f3f3;
+
+  border-top: 3px solid #8b3f3f;
+
+  border-radius: 50%;
+
+  animation: spin 1s linear infinite;
+
+}
+
+
+
+@keyframes spin {
+
+  0% { transform: rotate(0deg); }
+
+  100% { transform: rotate(360deg); }
+
+}
+
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+  #truck-images-form {
+
+    padding: 15px;
+
+  }
+
+
+
+  #truck-images-form select {
+
+    max-width: 100%;
+
+  }
+
+
+
+  .image-upload-group {
+
+    min-width: 120px;
+
+  }
+
+
+
+  #truck-images-table {
+
+    font-size: 13px;
+
+  }
+
+
+
+  #truck-images-table tbody tr td {
+
+    padding: 8px;
+
+  }
+
+
+
+  #truck-images-table tbody tr td img {
+
+    max-width: 45px;
+
+    max-height: 45px;
+
+  }
+
+
+
+  .truck-images-action-buttons button {
+
+    padding: 4px 8px;
+
+    font-size: 0.8rem;
+
+  }
+
+}
+
+
+
+@media (max-width: 480px) {
+
+  .image-upload-group {
+
+    min-width: 100%;
+
+  }
+
+
+
+  #truck-images-table {
+
+    font-size: 12px;
+
+  }
+
+
+
+  #truck-images-table tbody tr td {
+
+    padding: 6px;
+
+  }
+
+
+
+  #add-truck-images-btn {
+
+    margin-left: 0;
+
+    width: 100%;
+
+  }
+
+}
+
+
+
+/* Legacy responsive styles - kept for compatibility */
+
+@media (max-width: 991px) {
+
+  .details .cardHeader {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+  }
+
+  
+
+  .cardHeader .btn {
+
+    width: 100%;
+
+    text-align: center;
+
+  }
+
+}
+
+
+
+@media (max-width: 768px) {
+
+  .details {
+
+    gap: 20px;
+
+  }
+
+  
+
+  #dashboard-vehicles-section {
+
+    grid-template-columns: 1fr;
+
+    gap: 20px;
+
+  }
+
+  
+
+  .recentOrders {
+
+    overflow-x: auto;
+
+  }
+
+  
+
+  .status.inProgress {
+
+    white-space: nowrap;
+
+  }
+
+  
+
+  .cardBox {
+
+    grid-template-columns: repeat(2, 1fr);
+
+  }
+
+}
+
+
+
+/* Additional mobile optimizations */
+
+@media (max-width: 480px) {
+
+  .cardBox {
+
+    grid-template-columns: repeat(1, 1fr);
+
+  }
+
+  
+
+  .cardBox .card {
+
+    padding: 12px;
+
+  }
+
+  
+
+  .cardBox .card .numbers {
+
+    font-size: 1.2rem;
+
+  }
+
+  
+
+  .cardBox .card .iconBx {
+
+    font-size: 1.8rem;
+
+  }
+
+  
+
+  .cardHeader h2 {
+
+    font-size: 20px;
+
+  }
+
+  
+
+  .user {
+
+    min-width: 40px;
+
+  }
+
+}
+
+
+
+/* ====================== REPAIR MODAL STYLES ========================== */
+
+.modal-overlay {
+
+  position: fixed;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  z-index: 999;
+
+  animation: fadeIn 0.3s ease;
+
+}
+
+
+
+.modal-form {
+
+  position: fixed;
+
+  width: 90%;   
+
+  max-width: 500px; 
+
+  height: auto;    
+
+  top: 50%;
+
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  z-index: 1000;
+
+  animation: slideInUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+}
+
+
+
+@keyframes fadeIn {
+
+  from {
+
+    opacity: 0;
+
+  }
+
+  to {
+
+    opacity: 1;
+
+  }
+
+}
+
+
+
+@keyframes slideInUp {
+
+  from {
+
+    opacity: 0;
+
+    transform: translate(-50%, -48%);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: translate(-50%, -50%);
+
+  }
+
+}
+
+
+
+.modal-content {
+
+  background: var(--white);
+
+  border-radius: 12px;
+
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.05);
+
+  width: 90%;
+
+  max-width: 500px;
+
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+}
+
+
+
+.modal-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 25px;
+
+  border-bottom: 1px solid #f0f0f0;
+
+  background: linear-gradient(135deg, rgba(139, 63, 63, 0.03) 0%, rgba(201, 84, 84, 0.02) 100%);
+
+}
+
+
+
+.modal-header h2 {
+
+  margin: 0;
+
+  font-size: 20px;
+
+  color: var(--black1);
+
+  font-weight: 600;
+
+  flex: 1;
+
+  min-width: 0;
+
+}
+
+
+
+.modal-close {
+
+  background: var(--blue-gradient);
+
+  color: white;
+
+  border: none;
+
+  font-size: 24px;
+
+  font-weight: 300;
+
+  cursor: pointer;
+
+  width: 32px;
+
+  height: 32px;
+
+  border-radius: 50%;
+
+  display: flex !important;
+
+  align-items: center;
+
+  justify-content: center;
+
+  transition: all 0.3s ease;
+
+  box-shadow: 0 2px 8px rgba(139, 63, 63, 0.3);
+
+  position: relative;
+
+  margin-left: auto;
+
+  flex-shrink: 0;
+
+  opacity: 1 !important;
+
+  visibility: visible !important;
+
+}
+
+
+
+.modal-close:hover {
+
+  background: var(--blue-gradient-hover);
+
+  color: white;
+
+  transform: rotate(90deg) scale(1.1);
+
+  box-shadow: 0 6px 16px rgba(139, 63, 63, 0.4);
+
+}
+
+
+
+.modal-form-content {
+
+  padding: 25px;
+
+}
+
+
+
+.form-group {
+
+  margin-bottom: 18px;
+
+}
+
+
+
+.form-group:last-of-type {
+
+  margin-bottom: 25px;
+
+}
+
+
+
+.form-group label {
+
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-weight: 600;
+
+  font-size: 14px;
+
+  color: var(--black1);
+
+}
+
+
+
+.required {
+
+  color: #c95454;
+
+  margin-left: 2px;
+
+}
+
+
+
+.form-group input,
+
+.form-group textarea,
+
+.form-group select {
+
+  width: 100%;
+
+  padding: 11px 14px;
+
+  border: 1.5px solid #ddd;
+
+  border-radius: 6px;
+
+  font-size: 14px;
+
+  font-family: "poppins", sans-serif;
+
+  transition: all 0.3s ease;
+
+  background: #fafafa;
+
+}
+
+
+
+.form-group input:focus,
+
+.form-group textarea:focus,
+
+.form-group select:focus {
+
+  outline: none;
+
+  border-color: var(--blue);
+
+  background: var(--white);
+
+  box-shadow: 0 0 0 3px rgba(139, 63, 63, 0.1);
+
+}
+
+
+
+.form-group input.error,
+
+.form-group textarea.error,
+
+.form-group select.error {
+
+  border-color: #c95454;
+
+  background: rgba(201, 84, 84, 0.05);
+
+}
+
+
+
+.form-group input.error:focus,
+
+.form-group textarea.error:focus,
+
+.form-group select.error:focus {
+
+  box-shadow: 0 0 0 3px rgba(201, 84, 84, 0.15);
+
+}
+
+
+
+.form-group select {
+
+  cursor: pointer;
+
+  appearance: none;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238b3f3f' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+
+  background-repeat: no-repeat;
+
+  background-position: right 12px center;
+
+  padding-right: 35px;
+
+}
+
+
+
+.form-group input:disabled,
+
+.form-group select:disabled {
+
+  background-color: #e8e8e8;
+
+  cursor: not-allowed;
+
+  color: #888;
+
+  border-color: #ccc;
+
+}
+
+
+
+.form-group input:disabled:focus,
+
+.form-group select:disabled:focus {
+
+  box-shadow: none;
+
+}
+
+
+
+.form-group textarea {
+
+  resize: vertical;
+
+  font-family: "poppins", sans-serif;
+
+}
+
+
+
+.form-actions {
+
+  display: flex;
+
+  gap: 12px;
+
+  justify-content: center;
+
+}
+
+.form-actions:has(:only-child) {
+  justify-content: center;
+}
+
+
+
+.btn-submit,
+
+.btn-cancel {
+
+  padding: 11px 24px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  font-family: "poppins", sans-serif;
+
+}
+
+
+
+.btn-submit {
+
+  background: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%);
+
+  color: var(--white);
+
+  flex: 1;
+
+  max-width: 150px;
+
+  box-shadow: 0 2px 8px rgba(139, 63, 63, 0.2);
+
+}
+
+
+
+.btn-submit:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 4px 16px rgba(139, 63, 63, 0.35);
+
+}
+
+
+
+.btn-submit:active {
+
+  transform: translateY(0);
+
+}
+
+
+
+.btn-cancel {
+
+  background: #ffffff;
+
+  color: #333333;
+
+  flex: 1;
+
+  max-width: 100px;
+
+  padding: 12px 28px;
+
+  border: 1px solid #e0e0e0;
+
+  border-radius: 20px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  font-family: "poppins", sans-serif;
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+
+}
+
+
+
+.btn-cancel:hover {
+
+  background: #fafafa;
+
+  border-color: #d0d0d0;
+
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+
+}
+
+.btn-save {
+
+  color: var(--white);
+  display: flex;
+  flex: 1;
+
+  padding: 12px 28px;
+
+  border: none;
+
+  font-size: 14px;
+
+  font-weight: 600; 
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  font-family: "poppins", sans-serif;
+
+  box-shadow: 0 3px 6px rgba(211, 47, 47, 0.3);
+
+}
+
+.btn-save:hover {
+  background: linear-gradient(135deg, #6b2f2f 0%, #d96464 50%, #b85959 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-save:active {
+
+  background: linear-gradient(135deg, #b71c1c 0%, #d32f2f 50%, #c62828 100%);
+
+  transform: translateY(0);
+
+  box-shadow: 0 2px 4px rgba(211, 47, 47, 0.3);
+
+}
+
+
+
+/* ====================== TRUCK IMAGES MODAL STYLES ========================== */
+
+.truck-modal-content {
+
+  max-width: 600px;
+
+  width: 90vw;
+
+}
+
+
+
+.truck-images-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+
+  gap: 16px;
+
+  margin-bottom: 0;
+
+}
+
+
+
+.image-upload-group {
+
+  display: flex;
+
+  flex-direction: column;
+
+}
+
+
+
+.image-preview {
+
+  width: 100%;
+
+  aspect-ratio: 4/3;
+
+  background: #f5f5f5;
+
+  border: 2px dashed #ddd;
+
+  border-radius: 8px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  cursor: pointer;
+
+  font-size: 12px;
+
+  color: var(--black2);
+
+  font-weight: 500;
+
+  transition: all 0.3s ease;
+
+  user-select: none;
+
+}
+
+
+
+.image-preview:hover {
+
+  border-color: var(--blue);
+
+  background: #fafafa;
+
+  color: var(--blue);
+
+}
+
+
+
+.image-preview.has-image {
+
+  border: none;
+
+  color: transparent;
+
+  background-size: cover;
+
+  background-position: center;
+
+  background-repeat: no-repeat;
+
+}
+
+  .modal-content {
+
+    width: 95%;
+
+    max-height: 95vh;
+
+  }
+
+
+
+  .modal-header {
+
+    padding: 20px;
+
+  }
+
+
+
+  .modal-header h2 {
+
+    font-size: 18px;
+
+  }
+
+
+
+  .modal-form-content {
+
+    padding: 20px;
+
+  }
+
+
+
+  .form-actions {
+
+    flex-direction: column;
+
+  }
+
+
+
+.form-actions {
+
+  flex-direction: column;
+
+}
+
+
+
+.btn-submit,
+
+.btn-cancel {
+
+  max-width: 100%;
+
+  flex: 1;
+
+}
+
+
+
+/* =============== Authentication Styles ============== */
+
+.auth-section {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+}
+
+
+
+.auth-status {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+}
+
+
+
+.user-email {
+
+  color: var(--black2);
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  padding: 8px 12px;
+
+  background: var(--gray);
+
+  border-radius: 6px;
+
+  display: none;
+
+}
+
+
+
+.auth-btn {
+
+  padding: 8px 16px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  font-weight: 500;
+
+  font-size: 14px;
+
+  transition: all 0.3s ease;
+
+}
+
+
+
+.login-btn {
+
+  background: var(--blue-gradient);
+
+  color: var(--white);
+
+}
+
+
+
+.login-btn:hover {
+
+  background: var(--blue-gradient-hover);
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+
+}
+
+
+
+.logout-btn {
+
+  background: #dc3545;
+
+  color: var(--white);
+
+}
+
+
+
+.logout-btn:hover {
+
+  background: #c82333;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+
+}
+
+
+
+.admin-only {
+
+  /* Admin controls will be shown/hidden via JavaScript */
+
+  display: none; /* Hidden by default, shown when admin is logged in */
+
+}
+
+
+
+.actions-column {
+
+  /* Action columns will be shown/hidden via JavaScript */
+
+  display: none; /* Hidden by default, shown when admin is logged in */
+
+}
+
+
+
+/* Vehicle Registry Action Buttons - Override ALL button styles with maximum specificity */
+
+#vehicle-table .vehicle-registry-action-btn,
+
+table#vehicle-table button.vehicle-registry-action-btn {
+
+  padding: 5px 10px !important;
+
+  background: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%) !important;
+
+  color: white !important;
+
+  border: none !important;
+
+  border-radius: 4px !important;
+
+  cursor: pointer !important;
+
+  font-size: 0.85rem !important;
+
+  font-weight: 600 !important;
+
+  box-shadow: 0 2px 4px rgba(139, 63, 63, 0.3) !important;
+
+  transition: all 0.2s ease !important;
+
+  margin: 0 2px !important;
+
+  min-height: auto !important;
+
+  min-width: auto !important;
+
+  text-align: center !important;
+
+  line-height: normal !important;
+
+}
+
+
+
+#vehicle-table .vehicle-registry-action-btn:hover,
+
+table#vehicle-table button.vehicle-registry-action-btn:hover {
+
+  transform: translateY(-1px) !important;
+
+  box-shadow: 0 4px 8px rgba(139, 63, 63, 0.4) !important;
+
+}
+
+
+
+#vehicle-table .vehicle-registry-action-btn.delete,
+
+table#vehicle-table button.vehicle-registry-action-btn.delete {
+
+  background: linear-gradient(135deg, #a04949 0%, #c95454 50%, #8b3f3f 100%) !important;
+
+}
+
+
+
+/* Force override any btn class styles */
+
+#vehicle-table .btn.vehicle-registry-action-btn,
+
+table#vehicle-table .btn.vehicle-registry-action-btn {
+
+  background: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%) !important;
+
+  color: white !important;
+
+  box-shadow: 0 2px 4px rgba(139, 63, 63, 0.3) !important;
+
+}
+
+
+
+/* Ultra-specific rule for vehicle actions cell */
+
+#vehicle-table td.vehicle-actions-cell button,
+
+table#vehicle-table td.vehicle-actions-cell button.vehicle-registry-action-btn {
+
+  padding: 5px 10px !important;
+
+  background: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%) !important;
+
+  color: white !important;
+
+  border: none !important;
+
+  border-radius: 4px !important;
+
+  cursor: pointer !important;
+
+  font-size: 0.85rem !important;
+
+  font-weight: 600 !important;
+
+  box-shadow: 0 2px 4px rgba(139, 63, 63, 0.3) !important;
+
+  transition: all 0.2s ease !important;
+
+  margin: 0 2px !important;
+
+  min-height: auto !important;
+
+  min-width: auto !important;
+
+  text-align: center !important;
+
+  line-height: normal !important;
+
+  display: inline-block !important;
+
+}
+
+
+
+#vehicle-table td.vehicle-actions-cell button.delete,
+
+table#vehicle-table td.vehicle-actions-cell button.vehicle-registry-action-btn.delete {
+
+  background: linear-gradient(135deg, #a04949 0%, #c95454 50%, #8b3f3f 100%) !important;
+
+}
+
+
+
+.hidden {
+
+  display: none !important;
+
+}
+
+
+
+/* =============== Truck Gallery Grid Styles ============== */
+
+.truck-gallery-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 20px;
+
+  padding: 20px 0;
+
+}
+
+
+
+.truck-card {
+
+  background: white;
+
+  border-radius: 12px;
+
+  box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+
+  overflow: hidden;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+}
+
+
+
+.truck-card:hover {
+
+  transform: translateY(-4px);
+
+  box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+
+}
+
+
+
+.truck-image-container {
+
+  position: relative;
+
+  height: 200px;
+
+  background: #f5f5f5;
+
+  overflow: hidden;
+
+}
+
+
+
+.truck-main-image {
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  cursor: pointer;
+
+  transition: transform 0.3s ease;
+
+}
+
+
+
+.truck-main-image:hover {
+
+  transform: scale(1.05);
+
+}
+
+
+
+.no-image-placeholder {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  height: 100%;
+
+  color: #999;
+
+  font-size: 16px;
+
+  background: #f9f9f9;
+
+}
+
+
+
+.image-count {
+
+  position: absolute;
+
+  top: 10px;
+
+  right: 10px;
+
+  background: rgba(0,0,0,0.7);
+
+  color: white;
+
+  padding: 4px 8px;
+
+  border-radius: 12px;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+}
+
+
+
+.truck-info {
+
+  padding: 16px;
+
+}
+
+
+
+.truck-info h3 {
+
+  margin: 0 0 8px 0;
+
+  font-size: 18px;
+
+  font-weight: 600;
+
+  color: var(--black1);
+
+}
+
+
+
+.plate-number {
+
+  margin: 0 0 12px 0;
+
+  font-size: 14px;
+
+  color: var(--black2);
+
+  font-weight: 500;
+
+}
+
+
+
+.status-badge {
+
+  display: inline-block;
+
+  padding: 4px 12px;
+
+  border-radius: 16px;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  text-transform: uppercase;
+
+}
+
+
+
+.status-badge.good {
+
+  background: #d4edda;
+
+  color: #155724;
+
+}
+
+
+
+.status-badge.maintenance {
+
+  background: #fff3cd;
+
+  color: #856404;
+
+}
+
+
+
+.status-badge.pending {
+
+  background: #f8d7da;
+
+  color: #721c24;
+
+}
+
+
+
+.truck-actions {
+
+  padding: 0 16px 16px 16px;
+
+  display: flex;
+
+  gap: 8px;
+
+}
+
+
+
+.truck-actions .btn-edit {
+
+  flex: 1;
+
+  padding: 8px 12px;
+
+  background: #007bff;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  transition: background 0.3s ease;
+
+}
+
+
+
+.truck-actions .btn-edit:hover {
+
+  background: #0056b3;
+
+}
+
+
+
+.truck-actions .btn-delete {
+
+  flex: 1;
+
+  padding: 8px 12px;
+
+  background: var(--blue-gradient);
+
+  color: white;
+
+  border: none;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  transition: background 0.3s ease;
+
+}
+
+
+
+.truck-actions .btn-delete:hover {
+
+  background: var(--blue-gradient-hover);
+
+}
+
+
+
+
+
+
+
+.notification-container {
+
+  position: fixed;
+
+  top: 20px;
+
+  right: 20px;
+
+  z-index: 10000;
+
+  max-width: 400px;
+
+  pointer-events: none;
+
+}
+
+
+
+.notification {
+
+  background: white;
+
+  border-radius: 12px;
+
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(139, 63, 63, 0.2);
+
+  margin-bottom: 16px;
+
+  overflow: hidden;
+
+  transform: translateX(100%);
+
+  opacity: 0;
+
+  animation: slideInRight 0.3s ease forwards;
+
+  pointer-events: auto;
+
+  border-left: 4px solid var(--blue);
+
+  backdrop-filter: blur(10px);
+
+}
+
+
+
+@keyframes slideInRight {
+
+  from {
+
+    transform: translateX(100%);
+
+    opacity: 0;
+
+  }
+
+  to {
+
+    transform: translateX(0);
+
+    opacity: 1;
+
+  }
+
+}
+
+
+
+.notification.slide-out {
+
+  animation: slideOutRight 0.3s ease forwards;
+
+}
+
+
+
+@keyframes slideOutRight {
+
+  from {
+
+    transform: translateX(0);
+
+    opacity: 1;
+
+  }
+
+  to {
+
+    transform: translateX(100%);
+
+    opacity: 0;
+
+  }
+
+}
+
+
+
+.notification-header {
+
+  display: flex;
+
+  align-items: center;
+
+  padding: 16px 20px 12px 20px;
+
+  border-bottom: 1px solid rgba(139, 63, 63, 0.1);
+
+}
+
+
+
+.notification-icon {
+
+  width: 24px;
+
+  height: 24px;
+
+  margin-right: 12px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-shrink: 0;
+
+}
+
+
+
+.notification-icon.info {
+
+  background: var(--blue-gradient);
+
+  color: white;
+
+}
+
+
+
+.notification-icon.success {
+
+  background: linear-gradient(135deg, #4caf50, #66bb6a);
+
+  color: white;
+
+}
+
+
+
+.notification-icon.warning {
+
+  background: linear-gradient(135deg, #ff9800, #ffa726);
+
+  color: white;
+
+}
+
+
+
+.notification-icon.error {
+
+  background: linear-gradient(135deg, #f44336, #ef5350);
+
+  color: white;
+
+}
+
+
+
+.notification-icon ion-icon {
+
+  font-size: 14px;
+
+}
+
+
+
+.notification-title {
+
+  font-weight: 600;
+
+  font-size: 16px;
+
+  color: var(--black1);
+
+  margin: 0;
+
+}
+
+
+
+.notification-body {
+
+  padding: 12px 20px 16px 20px;
+
+}
+
+
+
+.notification-message {
+
+  color: var(--black2);
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+  margin: 0 0 16px 0;
+
+}
+
+
+
+.notification-actions {
+
+  display: flex;
+
+  gap: 12px;
+
+  justify-content: flex-end;
+
+}
+
+
+
+.notification-btn {
+
+  padding: 8px 16px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  min-width: 80px;
+
+}
+
+
+
+.notification-btn-primary {
+
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 50%, #a02822 100%);
+
+  color: white;
+
+  border: none;
+
+  border-radius: 6px;
+
+  padding: 8px 16px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+
+  transition: all 0.3s ease;
+
+}
+
+.notification-btn-primary:hover {
+
+  background: linear-gradient(135deg, #c82333 0%, #a02822 50%, #8b1a1a 100%);
+
+  box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+
+  transform: translateY(-1px);
+
+}
+
+.notification-btn-danger {
+
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 50%, #a02822 100%);
+
+  color: white;
+
+  border: none;
+
+  border-radius: 6px;
+
+  padding: 8px 16px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+
+  transition: all 0.3s ease;
+
+}
+
+.notification-btn-danger:hover {
+
+  background: linear-gradient(135deg, #c82333 0%, #a02822 50%, #8b1a1a 100%);
+
+  box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+
+  transform: translateY(-1px);
+
+}
+
+.notification-btn-light {
+
+  background: #ffffff;
+
+  color: #333333;
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.notification-btn-light:hover {
+  background: #f8f9fa;
+  border-color: #cccccc;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+
+.notification-btn-secondary {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 50%, #a02822 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.notification-btn-secondary:hover {
+  background: linear-gradient(135deg, #c82333 0%, #a02822 50%, #8b1a1a 100%);
+  box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+  transform: translateY(-1px);
+}
+
+
+
+.notification-close {
+
+  position: absolute;
+
+  top: 12px;
+
+  right: 12px;
+
+  width: 24px;
+
+  height: 24px;
+
+  background: var(--blue-gradient);
+
+  border: none;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  transition: all 0.2s ease;
+
+  color: white;
+
+  box-shadow: 0 2px 6px rgba(139, 63, 63, 0.3);
+
+}
+
+
+
+.notification-close:hover {
+
+  background: var(--blue-gradient-hover);
+
+  transform: scale(1.1);
+
+  box-shadow: 0 4px 8px rgba(139, 63, 63, 0.4);
+
+}
+
+
+
+.notification-close ion-icon {
+
+  font-size: 14px;
+
+}
+
+
+
+/* Responsive design for notifications */
+
+@media (max-width: 768px) {
+
+  .notification-container {
+
+    top: 10px;
+
+    right: 10px;
+
+    left: 10px;
+
+    max-width: none;
+
+  }
+
+  
+
+  .notification {
+
+    margin-bottom: 12px;
+
+  }
+
+  
+
+  .notification-header {
+
+    padding: 12px 16px 8px 16px;
+
+  }
+
+  
+
+  .notification-body {
+
+    padding: 8px 16px 12px 16px;
+
+  }
+
+  
+
+  .notification-actions {
+
+    flex-direction: column;
+
+    gap: 8px;
+
+  }
+
+  
+
+  .notification-btn {
+
+    width: 100%;
+
+  }
+
+}
+
+
+
+/* Auto-hide notification after 5 seconds */
+
+.notification.auto-hide {
+
+  animation: slideInRight 0.3s ease forwards, slideOutRight 0.3s ease 4.7s forwards;
+
+}
+
+
+
+/* ============ GPS Status Styles ============ */
+
+.status-inactive {
+
+  /* background: linear-gradient(135deg, #f44336, #ef5350); */
+
+  color: #dc3545;
+
+  /* box-shadow: 0 2px 4px rgba(244, 67, 54, 0.3); */
+
+}
+
+
+
+.signal-strength {
+
+  display: flex;
+
+  align-items: flex-end;
+
+  gap: 2px;
+
+  height: 20px;
+
+}
+
+
+
+.signal-bar {
+
+  width: 4px;
+
+  background-color: #e0e0e0;
+
+  border-radius: 1px;
+
+  transition: background-color 0.3s ease;
+
+}
+
+
+
+.signal-bar:nth-child(1) {
+
+  height: 4px;
+
+}
+
+
+
+.signal-bar:nth-child(2) {
+
+  height: 8px;
+
+}
+
+
+
+.signal-bar:nth-child(3) {
+
+  height: 12px;
+
+}
+
+
+
+.signal-bar:nth-child(4) {
+
+  height: 16px;
+
+}
+
+
+
+.signal-bar:nth-child(5) {
+
+  height: 20px;
+
+}
+
+
+
+.signal-bar.filled {
+
+  background: linear-gradient(135deg, #4caf50, #66bb6a);
+
+  box-shadow: 0 1px 2px rgba(76, 175, 80, 0.3);
+
+}
+
+
+
+/* ====================== RFID MODAL STYLES ========================== */
+
+#rfid-modal .modal-content {
+
+  max-width: 800px;
+
+  width: 95%;
+
+}
+
+
+
+#rfid-modal .modal-body {
+
+  padding: 0;
+
+  max-height: 60vh;
+
+  overflow-y: auto;
+
+}
+
+
+
+
+
+
+#rfid-table {
+
+  width: 100%;
+
+  min-width: 1520px;
+
+  border-collapse: collapse;
+
+  font-size: 14px;
+
+}
+
+
+
+/* RFID header: white text on maroon gradient (matches app chrome); layout uses rowspan/colspan in HTML */
+#rfid-view .recentVehicles .table-container #rfid-table thead {
+
+  background: var(--blue-gradient);
+
+}
+
+
+
+#rfid-view .recentVehicles #rfid-table thead td {
+
+  font-weight: 600;
+
+  font-size: 0.82rem;
+
+  padding: 12px 10px;
+
+  text-align: center;
+
+  vertical-align: middle;
+
+  background: var(--blue-gradient);
+
+  color: #fff;
+
+  white-space: nowrap;
+
+  border-right: 1px solid rgba(255, 255, 255, 0.18);
+
+  box-shadow: none;
+
+}
+
+
+
+#rfid-view .recentVehicles #rfid-table thead td:last-child {
+
+  border-right: none;
+
+}
+
+
+
+#rfid-view .recentVehicles #rfid-table thead tr:first-child td:first-child {
+
+  text-align: left;
+
+  padding-left: 14px;
+
+}
+
+
+
+#rfid-view .recentVehicles #rfid-table thead tr:first-child td[rowspan] {
+
+  vertical-align: middle;
+
+}
+
+
+
+#rfid-view .recentVehicles #rfid-table thead tr:first-child td[colspan] {
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+
+}
+
+
+
+#rfid-view .recentVehicles #rfid-table thead tr:nth-child(2) td {
+
+  padding: 9px 8px;
+
+  font-size: 0.76rem;
+
+  font-weight: 600;
+
+  text-align: center;
+
+  border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+
+}
+
+
+
+#rfid-view .recentVehicles #rfid-table tbody td {
+
+  border-bottom: 1px solid rgba(139, 63, 63, 0.15);
+
+  padding: 12px 10px;
+
+  color: var(--black1);
+
+  vertical-align: middle;
+
+  line-height: 1.4;
+
+}
+
+
+
+#rfid-view .recentVehicles #rfid-table tbody td:nth-child(1) {
+
+  text-align: left;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+
+}
+
+
+
+#rfid-view .recentVehicles #rfid-table tbody td:nth-child(n+2):nth-child(-n+15) {
+
+  text-align: center;
+
+  white-space: nowrap;
+
+}
+
+
+
+#rfid-view .recentVehicles #rfid-table tbody td:last-child {
+
+  text-align: center;
+
+  white-space: nowrap;
+
+}
+
+
+
+#rfid-view .recentVehicles #rfid-table tbody td.rfid-table-empty {
+
+  text-align: center;
+
+  font-style: italic;
+
+  color: #666;
+
+  padding: 28px 16px;
+
+}
+
+
+
+#rfid-table tbody tr:hover {
+
+  background-color: rgba(139, 63, 63, 0.05);
+
+}
+
+
+
+#rfid-table tbody tr:nth-child(even) {
+
+  background-color: #f9f9f9;
+
+}
+
+
+
+#rfid-table tbody tr:nth-child(even):hover {
+
+  background-color: rgba(139, 63, 63, 0.08);
+
+}
+
+
+
+.rfid-loading {
+
+  color: var(--black2);
+
+  font-style: italic;
+
+}
+
+
+
+.rfid-no-data {
+
+  color: var(--black2);
+
+  font-style: italic;
+
+}
+
+
+
+/* Responsive design for RFID modal */
+
+@media (max-width: 768px) {
+
+  #rfid-modal .modal-content {
+
+    width: 98%;
+
+    max-height: 90vh;
+
+  }
+
+  
+
+  #rfid-modal .modal-body {
+
+    max-height: 70vh;
+
+  }
+
+  
+
+  #rfid-table {
+
+    font-size: 12px;
+
+  }
+
+  
+
+  #rfid-table thead td,
+
+  #rfid-table td {
+
+    padding: 8px;
+
+  }
+
+}
+
+
+
+/* RFID edit modal: stay closed unless JS opens it (prevents flash / stray display on refresh) */
+
+#rfid-edit-modal-overlay.rfid-edit-modal--hidden,
+
+#rfid-edit-modal.rfid-edit-modal--hidden {
+
+  display: none !important;
+
+  visibility: hidden !important;
+
+  pointer-events: none !important;
+
+}
+
+
+
+#rfid-edit-modal .modal-content {
+
+  max-width: 520px;
+
+  width: 95%;
+
+}
+
+
+
+#rfid-edit-destination-display {
+
+  font-weight: 600;
+
+  color: var(--black1);
+
+  background: rgba(139, 63, 63, 0.04);
+
+  cursor: default;
+
+}
+
+
+
+.rfid-edit-computed-summary-wrap {
+
+  margin-bottom: 0;
+
+}
+
+
+
+.rfid-edit-computed-summary {
+
+  font-size: 13px;
+
+  color: #555;
+
+  line-height: 1.6;
+
+  padding: 10px 12px;
+
+  background: rgba(139, 63, 63, 0.04);
+
+  border-radius: 8px;
+
+  border: 1px solid rgba(139, 63, 63, 0.12);
+
+}
+
+
+
+/* ====================== TIRE SIZE MODAL STYLES ========================== */
+
+#tire-size-modal .modal-content {
+
+  max-width: 900px;
+
+  width: 95%;
+
+}
+
+
+
+#tire-size-modal .modal-body {
+
+  padding: 0;
+
+  max-height: 60vh;
+
+  overflow-y: auto;
+
+}
+
+
+
+
+
+
+#tire-size-table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  font-size: 14px;
+
+}
+
+
+
+#tire-size-table th {
+
+  background: var(--blue-gradient);
+
+  color: white;
+
+  padding: 12px;
+
+  text-align: left;
+
+  font-weight: 600;
+
+  position: sticky;
+
+  top: 0;
+
+  z-index: 10;
+
+  border-top-left-radius: 8px;
+
+  border-top-right-radius: 8px;
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+}
+
+
+
+#tire-size-table td {
+
+  padding: 12px;
+
+  border-bottom: 1px solid #eee;
+
+  color: var(--black1);
+
+}
+
+
+
+#tire-size-table tbody tr:hover {
+
+  background-color: rgba(139, 63, 63, 0.05);
+
+}
+
+
+
+#tire-size-table tbody tr:nth-child(even) {
+
+  background-color: #f9f9f9;
+
+}
+
+
+
+#tire-size-table tbody tr:nth-child(even):hover {
+
+  background-color: rgba(139, 63, 63, 0.08);
+
+}
+
+
+
+.tire-size-loading {
+
+  color: var(--black2);
+
+  font-style: italic;
+
+}
+
+
+
+.tire-size-no-data {
+
+  color: var(--black2);
+
+  font-style: italic;
+
+}
+
+
+
+/* Responsive design for Tire Size modal */
+
+@media (max-width: 768px) {
+
+  #tire-size-modal .modal-content {
+
+    width: 98%;
+
+    max-height: 90vh;
+
+  }
+
+  
+
+  #tire-size-modal .modal-body {
+
+    max-height: 70vh;
+
+  }
+
+  
+
+  #tire-size-table {
+
+    font-size: 12px;
+
+  }
+
+  
+
+  #tire-size-table th,
+
+  #tire-size-table td {
+
+    padding: 8px;
+
+  }
+
+}
+
+
+
+/* ====================== TOOLS MODAL STYLES ========================== */
+
+#tools-modal {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 90vw !important;
+  max-width: 3200px !important;
+}
+
+#tools-modal .modal-content {
+
+  max-width: 3200px;
+
+  width: fit-content;
+
+  margin: 0 auto;
+
+  display: block;
+
+}
+
+
+
+#tools-modal .modal-body {
+  padding: 0;
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+/* ====================== CONTAINER REGISTRY MODAL STYLES ========================== */
+#container-registry-modal {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 80vw !important;
+  max-width: 1000px !important;
+}
+
+#container-registry-modal .modal-content {
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  display: block;
+  overflow: hidden;
+}
+
+#container-registry-modal .modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  max-height: 75vh;
+}
+
+#container-registry-modal .container-registry-table-container {
+  overflow: hidden;
+  width: 100%;
+}
+
+#container-registry-modal #container-registry-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+#container-registry-modal #container-registry-table th,
+#container-registry-modal #container-registry-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+  white-space: normal;
+  overflow: visible;
+  word-wrap: break-word;
+  vertical-align: top;
+}
+
+#container-registry-modal #container-registry-table th:nth-child(1),
+#container-registry-modal #container-registry-table td:nth-child(1) {
+  width: 25%;
+}
+
+#container-registry-modal #container-registry-table th:nth-child(2),
+#container-registry-modal #container-registry-table td:nth-child(2) {
+  width: 40%;
+}
+
+#container-registry-modal #container-registry-table th:nth-child(3),
+#container-registry-modal #container-registry-table td:nth-child(3) {
+  width: 15%;
+}
+
+#container-registry-modal #container-registry-table th:nth-child(4),
+#container-registry-modal #container-registry-table td:nth-child(4) {
+  width: 20%;
+}
+
+@media (max-width: 768px) {
+  #container-registry-modal {
+    width: 98% !important;
+  }
+  
+  #container-registry-modal .modal-content {
+    width: 98%;
+  }
+  
+  #container-registry-modal .modal-body {
+    max-height: 70vh;
+  }
+}
+
+/* ====================== TOOLS MODAL STYLES ========================== */
+
+
+
+
+#tools-table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  font-size: 14px;
+
+}
+
+
+
+#tools-table th {
+
+  background: var(--blue-gradient);
+
+  color: white;
+
+  padding: 12px;
+
+  text-align: left;
+
+  font-weight: 600;
+
+  position: sticky;
+
+  top: 0;
+
+  z-index: 10;
+
+  border-top-left-radius: 8px;
+
+  border-top-right-radius: 8px;
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+}
+
+
+
+#tools-table td {
+
+  padding: 12px;
+
+  border-bottom: 1px solid #eee;
+
+  color: var(--black1);
+
+}
+
+
+
+#tools-table tbody tr:hover {
+
+  background-color: rgba(139, 63, 63, 0.05);
+
+}
+
+
+
+#tools-table tbody tr:nth-child(even) {
+
+  background-color: #f9f9f9;
+
+}
+
+
+
+#tools-table tbody tr:nth-child(even):hover {
+
+  background-color: rgba(139, 63, 63, 0.08);
+
+}
+
+
+
+.tools-loading {
+
+  color: var(--black2);
+
+  font-style: italic;
+
+}
+
+
+
+.tools-no-data {
+
+  color: var(--black2);
+
+  font-style: italic;
+
+}
+
+
+
+/* Tools toggle buttons */
+
+.tools-toggle-btn {
+
+  background: none;
+
+  border: 1px solid #ddd;
+
+  cursor: pointer;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  padding: 6px 10px;
+
+  border-radius: 6px;
+
+  transition: all 0.3s ease;
+
+  min-width: 35px;
+
+  min-height: 35px;
+
+  text-align: center;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+
+}
+
+
+
+.tools-toggle-btn:hover {
+
+  transform: scale(1.1);
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+}
+
+
+
+.tools-toggle-btn.available {
+
+  background: none;
+
+  border-color: #4caf50;
+
+  color: #4caf50;
+
+  text-shadow: 0 0 1px rgba(76, 175, 80, 0.5);
+
+}
+
+
+
+.tools-toggle-btn.available:hover {
+
+  background: none;
+
+  border-color: #45a049;
+
+  color: #45a049;
+
+}
+
+
+
+.tools-toggle-btn.not-available {
+
+  background: none;
+
+  border-color: #f44336;
+
+  color: #f44336;
+
+  text-shadow: 0 0 1px rgba(244, 67, 54, 0.5);
+
+}
+
+
+
+.tools-toggle-btn.not-available:hover {
+
+  background: none;
+
+  border-color: #da190b;
+
+  color: #da190b;
+
+}
+
+
+
+/* Responsive design for Tools modal */
+
+@media (max-width: 768px) {
+
+  #tools-modal .modal-content {
+
+    width: 98%;
+
+    max-height: 90vh;
+
+  }
+
+  
+
+  #tools-modal .modal-body {
+
+    max-height: 70vh;
+
+  }
+
+  
+
+  #tools-table {
+
+    font-size: 12px;
+
+  }
+
+  
+
+  #tools-table th,
+
+  #tools-table td {
+
+    padding: 8px;
+
+  }
+
+  
+
+  .tools-toggle-btn {
+
+    font-size: 12px;
+
+    padding: 2px 4px;
+
+    min-width: 25px;
+
+    min-height: 25px;
+
+  }
+
+}
+
+
+
+/* Button visibility control for vehicle types */
+
+.hidden-button {
+
+  display: none !important;
+
+}
+
+
+/* Prevent text overflow in table cells by default */
+table td {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Special handling for Address column */
+table td:nth-child(2) {
+  max-width: 150px;
+}
+
+/* Registry Filter Buttons */
+.registry-filter-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(139, 63, 63, 0.3);
+}
+
+.registry-filter-btn.active {
+  background: #ffffff !important;
+  color: #d32f2f !important;
+  box-shadow: 
+    0 6px 20px rgba(211, 47, 47, 0.3),
+    0 0 0 3px rgba(211, 47, 47, 0.2),
+}
+
+.registry-filter-btn:not(.active) {
+  background: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%);
+  color: #fff;
+  border: none;
+}
+
+.registry-filter-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(139, 63, 63, 0.4);
+}
+
+.registry-filter-btn:active {
+  transform: translateY(0);
+}
+
+/* Modal Delete Button */
+.modal-delete-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 50%, #a52a2a 100%);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.modal-delete-btn:hover {
+  background: linear-gradient(135deg, #c82333 0%, #a52a2a 50%, #dc3545 100%);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+.modal-delete-btn:active {
+  transform: scale(0.95);
+}
+
+.modal-delete-btn i {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Responsive delete button */
+@media (max-width: 768px) {
+  .modal-delete-btn {
+    width: 40px;
+    height: 40px;
+    bottom: 15px;
+    right: 15px;
+    font-size: 14px;
+  }
+  
+  .modal-delete-btn i {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-delete-btn {
+    width: 35px;
+    height: 35px;
+    bottom: 10px;
+    right: 10px;
+    font-size: 12px;
+  }
+  
+  .modal-delete-btn i {
+    font-size: 10px;
+  }
+}
+
+/* Truck Card Delete Button */
+.truck-card-delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 50%, #a71d2a 100%);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.5);
+  transition: all 0.3s ease;
+  z-index: 10;
+  opacity: 0.95;
+}
+
+.truck-card-delete-btn:hover {
+  background: linear-gradient(135deg, #c82333 0%, #a71d2a 50%, #dc3545 100%);
+  transform: scale(1.15) rotate(5deg);
+  box-shadow: 0 6px 16px rgba(220, 53, 69, 0.6);
+  opacity: 1;
+}
+
+.truck-card-delete-btn:active {
+  transform: scale(0.95) rotate(-5deg);
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.4);
+}
+
+.truck-card-delete-btn:focus {
+  outline: 3px solid #dc3545;
+  outline-offset: 2px;
+}
+
+.truck-card-delete-btn i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-size: 16px;
+  pointer-events: none;
+}
+
+/* Responsive truck card delete button */
+@media (max-width: 768px) {
+  .truck-card-delete-btn {
+    width: 36px;
+    height: 36px;
+    top: 8px;
+    right: 8px;
+    font-size: 14px;
+  }
+
+  .truck-card-delete-btn i {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .truck-card-delete-btn {
+    width: 32px;
+    height: 32px;
+    top: 6px;
+    right: 6px;
+    font-size: 12px;
+  }
+
+  .truck-card-delete-btn i {
+    font-size: 12px;
+  }
+}

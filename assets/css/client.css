@@ -1,0 +1,307 @@
+/* ===================== Client Layout Styles ===================== */
+
+/* Tab Title Styling - Theme Gradient with Shadow */
+.cardHeader h2,
+.modal-header h2 {
+  background: var(--blue-gradient) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  font-weight: 700 !important;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  text-shadow: 2px 2px 4px rgba(139, 63, 63, 0.2) !important;
+  margin: 0 !important;
+  font-size: 1.3rem !important;
+  display: inline-block !important;
+}
+
+
+/* Client Table Header */
+#client-view .recentVehicles table thead td {
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-bottom: 2px solid var(--blue);
+  padding: 12px 10px;
+  text-align: left;
+  vertical-align: middle;
+  background: var(--blue-gradient) !important;
+  color: var(--white) !important;
+  white-space: nowrap;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(139, 63, 63, 0.3);
+}
+
+/* Client Table Container - Ensure proper width containment */
+#client-view .recentVehicles {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+#client-view .recentVehicles table {
+  width: 100% !important;
+  max-width: 100% !important;
+  table-layout: auto !important;
+}
+
+/* Client Table Cells */
+#client-view .recentVehicles table td {
+  border-bottom: 1px solid rgba(139, 63, 63, 0.15);
+  padding: 12px 10px;
+  color: var(--black1);
+  vertical-align: middle;
+  text-align: left;
+  line-height: 1.4;
+  font-size: 0.85rem;
+}
+
+/* Client Table Column Styling - Fixed for 10-column table structure */
+#client-view .details .recentVehicles table td:nth-child(1),
+#client-view .recentVehicles table td:nth-child(1) { /* Destination column */
+  width: 15%;
+  min-width: 100px;
+  white-space: nowrap;
+  text-align: left;
+  font-weight: 600;
+}
+
+#client-view .details .recentVehicles table td:nth-child(2),
+#client-view .recentVehicles table td:nth-child(2) { /* Address column */
+  width: 20%;
+  white-space: normal;
+  text-align: left;
+  word-wrap: break-word;
+  line-height: 1.5;
+}
+
+#client-view .details .recentVehicles table td:nth-child(3),
+#client-view .recentVehicles table td:nth-child(3) { /* Going To column */
+  width: 10%;
+  min-width: 80px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+#client-view .details .recentVehicles table td:nth-child(4),
+#client-view .recentVehicles table td:nth-child(4) { /* Going Back column */
+  width: 10%;
+  min-width: 80px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+#client-view .details .recentVehicles table td:nth-child(5),
+#client-view .recentVehicles table td:nth-child(5) { /* Total Km column */
+  width: 8%;
+  min-width: 70px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+#client-view .details .recentVehicles table td:nth-child(6),
+#client-view .recentVehicles table td:nth-child(6) { /* Ave. Time column */
+  width: 8%;
+  min-width: 70px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+#client-view .details .recentVehicles table td:nth-child(7),
+#client-view .recentVehicles table td:nth-child(7) { /* 4/6w column */
+  width: 7%;
+  min-width: 60px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+#client-view .details .recentVehicles table td:nth-child(8),
+#client-view .recentVehicles table td:nth-child(8) { /* 10w column */
+  width: 7%;
+  min-width: 60px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+#client-view .details .recentVehicles table td:nth-child(9),
+#client-view .recentVehicles table td:nth-child(9) { /* Tractor Head column */
+  width: 10%;
+  min-width: 90px;
+  white-space: nowrap;
+  text-align: center;
+  font-weight: 600;
+}
+
+#client-view .details .recentVehicles table td:nth-child(10),
+#client-view .recentVehicles table td:nth-child(10) { /* Actions column */
+  width: 5%;
+  min-width: 120px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* Client Table Hover Effects */
+#client-view .recentVehicles table tbody tr:hover {
+  background-color: rgba(139, 63, 63, 0.15);
+  transition: background-color 0.2s ease;
+}
+
+#client-view .recentVehicles table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Client Table Card Header */
+#client-view .recentVehicles .cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#client-view .recentVehicles .cardHeader h2 {
+  font-weight: 600;
+  color: var(--blue);
+  font-size: 1.3rem;
+}
+
+/* Client Action Buttons */
+.client-action-btn {
+  padding: 6px 12px;
+  margin: 0 2px;
+  background: var(--blue-gradient);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(139, 63, 63, 0.3);
+}
+
+.client-action-btn:hover {
+  background: var(--blue-gradient-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(139, 63, 63, 0.4);
+}
+
+.client-action-btn.edit {
+  background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+}
+
+.client-action-btn.edit:hover {
+  background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%);
+}
+
+.client-action-btn.delete {
+  background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+}
+
+.client-action-btn.delete:hover {
+  background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+}
+
+/* Status Badge */
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+}
+
+.status-badge.active {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.status-badge.inactive {
+  background: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+  border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+/* Responsive Design for Client View - Updated for 10-column table */
+@media (max-width: 1200px) {
+  #client-view .recentVehicles table td:nth-child(1) { /* Destination column */
+    width: 14%;
+  }
+  
+  #client-view .recentVehicles table td:nth-child(2) { /* Address column */
+    width: 18%;
+  }
+  
+  #client-view .recentVehicles table td:nth-child(9) { /* Tractor Head column */
+    width: 9%;
+  }
+}
+
+@media (max-width: 992px) {
+  #client-view .recentVehicles {
+    padding: 15px;
+  }
+  
+  #client-view .recentVehicles table td:nth-child(1) { /* Destination column */
+    width: 13%;
+  }
+  
+  #client-view .recentVehicles table td:nth-child(2) { /* Address column */
+    width: 17%;
+  }
+  
+  #client-view .recentVehicles table td:nth-child(9) { /* Tractor Head column */
+    width: 8%;
+  }
+  
+  #client-view .recentVehicles table td:nth-child(10) { /* Actions column */
+    width: 6%;
+  }
+}
+
+@media (max-width: 768px) {
+  #client-view .recentVehicles .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  #client-view .recentVehicles table {
+    font-size: 0.8rem;
+  }
+  
+  #client-view .recentVehicles table td {
+    padding: 8px 6px;
+    font-size: 0.8rem;
+  }
+  
+  #client-view .recentVehicles table thead td {
+    padding: 10px 6px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  #client-view .recentVehicles {
+    padding: 10px;
+    overflow-x: auto;
+  }
+  
+  #client-view .recentVehicles table {
+    min-width: 1000px; /* Increased to accommodate 10 columns */
+  }
+  
+  #client-view .recentVehicles table td {
+    padding: 8px 6px;
+    font-size: 0.75rem;
+  }
+  
+  #client-view .recentVehicles table thead td {
+    padding: 8px 6px;
+    font-size: 0.75rem;
+  }
+}

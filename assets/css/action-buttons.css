@@ -1,0 +1,60 @@
+/* Action Button Styles */
+.btn-action {
+  padding: 8px 14px;
+  background: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-right: 4px;
+  min-width: 60px;
+}
+
+.btn-action:hover {
+  background: linear-gradient(135deg, #6b2f2f 0%, #d96464 50%, #b85959 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-action:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-edit {
+  background: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%);
+}
+
+.btn-edit:hover {
+  background: linear-gradient(135deg, #6b2f2f 0%, #d96464 50%, #b85959 100%);
+}
+
+.btn-delete {
+  background: linear-gradient(135deg, rgb(139, 63, 63) 0%, rgb(201, 84, 84) 50%, rgb(160, 73, 73) 100%);
+}
+
+.btn-delete:hover {
+  background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+}
+
+/* Responsive design for action buttons */
+@media (max-width: 768px) {
+  .btn-action {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    min-width: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-action {
+    padding: 4px 6px;
+    font-size: 0.7rem;
+    min-width: 40px;
+    margin-right: 2px;
+  }
+}

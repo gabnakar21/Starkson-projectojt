@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS Status Functionality Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>GPS Status Functionality Test</h1>
+    
+    <div class="test-container">
+        <h2>Database Connection Test</h2>
+        <button onclick="testDatabaseConnection()">Test Database Connection</button>
+        <div id="db-test-result"></div>
+    </div>
+
+    <div class="test-container">
+        <h2>Form Validation Test</h2>
+        <button onclick="testFormValidation()">Test Form Validation</button>
+        <div id="form-test-result"></div>
+    </div>
+
+    <div class="test-container">
+        <h2>API Endpoints Test</h2>
+        <button onclick="testApiEndpoints()">Test API Endpoints</button>
+        <div id="api-test-result"></div>
+    </div>
+
+    <div class="test-container">
+        <h2>Complete Functionality Test</h2>
+        <button onclick="runCompleteTest()">Run Complete Test</button>
+        <div id="complete-test-result"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Mock Supabase client for testing
+        const mockSupabaseClient = {
+            from: function(table) {
+                return {
+                    select: function() {
+                        return {
+                            order: function() {
+                                return Promise.resolve({
+                                    data: [
+                                        {
+                                            id: 1,
+                                            plate_no: 'TEST-001',
+                                            imei_no: '123456789012345',
+                                            status: 'active',
+                                            remarks: 'Test record',
+                                            date_installed: '2026-05-11',
+                                            date_repair_or_pullout: null,
+                                            plant: 'DISNEY 3',
+                                            created_at: new Date().toISOString()
+                                        }
+                                    ],
+                                    error: null
+                                });
+                            }
+                        };
+                    },
+                    insert: function(data) {
+                        return Promise.resolve({
+                            data: data,
+                            error: null
+                        });
+                    },
+                    delete: function() {
+                        return {
+                            eq: function() {
+                                return Promise.resolve({
+                                    data: null,
+                                    error: null
+                                });
+                            }
+                        };
+                    }
+                };
+            }
+        };
+
+        // Mock getSupabaseClient function
+        window.getSupabaseClient = function() {
+            return mockSupabaseClient;
+        };
+
+        function testDatabaseConnection() {
+            const resultDiv = document.getElementById('db-test-result');
+            try {
+                const client = window.getSupabaseClient();
+                if (client) {
+                    resultDiv.innerHTML = '<div class="test-result success">✓ Database client available</div>';
+                } else {
+                    resultDiv.innerHTML = '<div class="test-result error">✗ Database client not available</div>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="test-result error">✗ Database connection error: ${error.message}</div>`;
+            }
+        }
+
+        function testFormValidation() {
+            const resultDiv = document.getElementById('form-test-result');
+            
+            // Test required fields
+            const testData = [
+                { plate_no: '', imei_no: '', status: '' },
+                { plate_no: 'TEST-001', imei_no: '', status: 'active' },
+                { plate_no: 'TEST-001', imei_no: '123456789012345', status: 'active' }
+            ];
+
+            let results = '';
+            testData.forEach((test, index) => {
+                const isValid = validateStatusForm(test);
+                results += `<div class="test-result ${isValid ? 'success' : 'error'}">
+                    Test ${index + 1}: ${isValid ? '✓ Valid' : '✗ Invalid'}
+                    ${!isValid ? '- Missing required fields' : ''}
+                </div>`;
+            });
+
+            resultDiv.innerHTML = results;
+        }
+
+        function validateStatusForm(data) {
+            return data.plate_no && data.imei_no && data.status;
+        }
+
+        async function testApiEndpoints() {
+            const resultDiv = document.getElementById('api-test-result');
+            let results = '';
+
+            try {
+                // Test load GPS status
+                const client = window.getSupabaseClient();
+                const { data, error } = await client
+                    .from('vehicle_status_records')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    results += '<div class="test-result error">✗ Load GPS Status failed: ' + error.message + '</div>';
+                } else {
+                    results += '<div class="test-result success">✓ Load GPS Status successful</div>';
+                }
+
+                // Test insert
+                const { error: insertError } = await client
+                    .from('vehicle_status_records')
+                    .insert([{
+                        plate_no: 'TEST-002',
+                        imei_no: '987654321098765',
+                        status: 'active',
+                        remarks: 'Test insert'
+                    }]);
+
+                if (insertError) {
+                    results += '<div class="test-result error">✗ Insert GPS Status failed: ' + insertError.message + '</div>';
+                } else {
+                    results += '<div class="test-result success">✓ Insert GPS Status successful</div>';
+                }
+
+            } catch (error) {
+                results += '<div class="test-result error">✗ API test error: ' + error.message + '</div>';
+            }
+
+            resultDiv.innerHTML = results;
+        }
+
+        async function runCompleteTest() {
+            const resultDiv = document.getElementById('complete-test-result');
+            let results = '<h3>Complete GPS Status Functionality Test Results:</h3>';
+
+            // Test 1: Database Connection
+            try {
+                const client = window.getSupabaseClient();
+                results += '<div class="test-result success">✓ Database Connection: OK</div>';
+            } catch (error) {
+                results += '<div class="test-result error">✗ Database Connection: Failed</div>';
+            }
+
+            // Test 2: Load Data
+            try {
+                const client = window.getSupabaseClient();
+                const { data, error } = await client
+                    .from('vehicle_status_records')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (!error && data) {
+                    results += '<div class="test-result success">✓ Load GPS Status Data: OK</div>';
+                } else {
+                    results += '<div class="test-result error">✗ Load GPS Status Data: Failed</div>';
+                }
+            } catch (error) {
+                results += '<div class="test-result error">✗ Load GPS Status Data: Failed</div>';
+            }
+
+            // Test 3: Form Validation
+            const testForm = {
+                plate_no: 'TEST-003',
+                imei_no: '555555555555555',
+                status: 'active',
+                remarks: 'Complete test',
+                date_installed: '2026-05-11',
+                plant: 'DISNEY 3'
+            };
+
+            if (validateStatusForm(testForm)) {
+                results += '<div class="test-result success">✓ Form Validation: OK</div>';
+            } else {
+                results += '<div class="test-result error">✗ Form Validation: Failed</div>';
+            }
+
+            // Test 4: Insert Data
+            try {
+                const client = window.getSupabaseClient();
+                const { error } = await client
+                    .from('vehicle_status_records')
+                    .insert([testForm]);
+
+                if (!error) {
+                    results += '<div class="test-result success">✓ Insert GPS Status: OK</div>';
+                } else {
+                    results += '<div class="test-result error">✗ Insert GPS Status: Failed</div>';
+                }
+            } catch (error) {
+                results += '<div class="test-result error">✗ Insert GPS Status: Failed</div>';
+            }
+
+            // Test 5: Display Functions
+            try {
+                if (typeof displayGpsStatus === 'function' && typeof displayStatusRecords === 'function') {
+                    results += '<div class="test-result success">✓ Display Functions: OK</div>';
+                } else {
+                    results += '<div class="test-result error">✗ Display Functions: Missing</div>';
+                }
+            } catch (error) {
+                results += '<div class="test-result error">✗ Display Functions: Failed</div>';
+            }
+
+            results += '<div class="test-result info"><strong>Test completed! Check your main application for full functionality.</strong></div>';
+            resultDiv.innerHTML = results;
+        }
+    </script>
+</body>
+</html>

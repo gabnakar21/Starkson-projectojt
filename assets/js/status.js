@@ -1,0 +1,629 @@
+// ====================== Status View Functions ==========================
+
+// Status state variables
+let currentStatusView = 'trucks'; // 'trucks', 'trailers', 'containers'
+
+// Initialize status when view is shown
+function initializeStatus() {
+  console.log('Status view initialized');
+  
+  // Setup status event listeners
+  setupStatusEventListeners();
+  
+  // Reset to Truck as default active state when entering status tab
+  setTimeout(() => {
+    switchStatusView('trucks');
+  }, 100);
+}
+
+// Setup status event listeners
+function setupStatusEventListeners() {
+  // Truck table button
+  const truckBtn = document.getElementById('truck-table-btn');
+  if (truckBtn) {
+    truckBtn.addEventListener('click', () => {
+      switchStatusView('trucks');
+    });
+  }
+  
+  // Trailer table button
+  const trailerBtn = document.getElementById('trailer-table-btn');
+  if (trailerBtn) {
+    trailerBtn.addEventListener('click', () => {
+      switchStatusView('trailers');
+    });
+  }
+  
+  // Container table button
+  const containerBtn = document.getElementById('container-table-btn');
+  if (containerBtn) {
+    containerBtn.addEventListener('click', () => {
+      switchStatusView('containers');
+    });
+  }
+  
+  // Setup editable placeholder functionality
+  setupEditablePlaceholders();
+}
+
+// Setup editable placeholder functionality for textareas
+function setupEditablePlaceholders() {
+  const editableElements = document.querySelectorAll('.editable-placeholder');
+  
+  editableElements.forEach(element => {
+    const placeholder = element.getAttribute('data-placeholder');
+    
+    // Focus event - select all text if it's the placeholder
+    element.addEventListener('focus', function() {
+      if (this.value === placeholder) {
+        this.select();
+      }
+    });
+    
+    // Click event - select all text if it's the placeholder
+    element.addEventListener('click', function() {
+      if (this.value === placeholder) {
+        this.select();
+      }
+    });
+    
+        
+    // Handle form submission - don't submit placeholder value
+    const form = element.closest('form');
+    if (form) {
+      form.addEventListener('submit', function() {
+        if (element.value === placeholder) {
+          element.value = '';
+        }
+      });
+    }
+  });
+}
+
+// Switch status view
+function switchStatusView(view) {
+  currentStatusView = view;
+  
+  // Update button states
+  const truckBtn = document.getElementById('truck-table-btn');
+  const trailerBtn = document.getElementById('trailer-table-btn');
+  const containerBtn = document.getElementById('container-table-btn');
+  
+  // Remove active class from all buttons
+  [truckBtn, trailerBtn, containerBtn].forEach(btn => {
+    if (btn) btn.classList.remove('active');
+  });
+  
+  // Add active class to selected button
+  switch (view) {
+    case 'trucks':
+      if (truckBtn) truckBtn.classList.add('active');
+      break;
+    case 'trailers':
+      if (trailerBtn) trailerBtn.classList.add('active');
+      break;
+    case 'containers':
+      if (containerBtn) containerBtn.classList.add('active');
+      break;
+  }
+  
+  // Show/hide tables
+  const truckTable = document.getElementById('truck-images-table');
+  const trailerTable = document.getElementById('trailer-images-table');
+  const containerTable = document.getElementById('container-images-table');
+  
+  if (truckTable) truckTable.style.display = 'none';
+  if (trailerTable) trailerTable.style.display = 'none';
+  if (containerTable) containerTable.style.display = 'none';
+  
+  switch (view) {
+    case 'trucks':
+      if (truckTable) truckTable.style.display = 'table';
+      break;
+    case 'trailers':
+      if (trailerTable) trailerTable.style.display = 'table';
+      break;
+    case 'containers':
+      if (containerTable) containerTable.style.display = 'table';
+      break;
+  }
+  
+  // Load appropriate data
+  loadStatusData();
+}
+
+// Load status data
+async function loadStatusData() {
+  if (!window.getSupabaseClient) return;
+  
+  try {
+    switch (currentStatusView) {
+      case 'trucks':
+        await loadVehicleStatus();
+        break;
+      case 'trailers':
+        await loadTrailerStatus();
+        break;
+      case 'containers':
+        await loadContainerStatus();
+        break;
+    }
+    console.log(`Status data loaded for ${currentStatusView}`);
+  } catch (error) {
+    console.error('Error loading status data:', error);
+    if (window.showError) {
+      showError('Failed to load status data: ' + error.message, 'Error');
+    }
+  }
+}
+
+// Load vehicle status
+async function loadVehicleStatus() {
+  const supabaseClient = window.getSupabaseClient();
+  if (!supabaseClient) return;
+  
+  try {
+    const { data: vehicles, error } = await supabaseClient
+      .from('vehicle_registry')
+      .select('*')
+      .order('plate_no', { ascending: true });
+    
+    if (error) throw error;
+    
+    displayVehicleStatus(vehicles || []);
+    
+  } catch (error) {
+    console.error('Error loading vehicle status:', error);
+    throw error;
+  }
+}
+
+// Load trailer status
+async function loadTrailerStatus() {
+  const supabaseClient = window.getSupabaseClient();
+  if (!supabaseClient) return;
+  
+  try {
+    const { data: trailers, error } = await supabaseClient
+      .from('trailer_registry')
+      .select('*')
+      .order('plate_no', { ascending: true });
+    
+    if (error) throw error;
+    
+    displayTrailerStatus(trailers || []);
+    
+  } catch (error) {
+    console.error('Error loading trailer status:', error);
+    throw error;
+  }
+}
+
+// Load container status
+async function loadContainerStatus() {
+  const supabaseClient = window.getSupabaseClient();
+  if (!supabaseClient) return;
+  
+  try {
+    console.log('Fetching container data from database...');
+    // Force fresh data by using .select() with no caching
+    const { data: containers, error } = await supabaseClient
+      .from('containers')
+      .select('id, container_number, chassi_no, color, size, remarks, container_issue, status')
+      .order('container_number', { ascending: true })
+      .limit(1000); // Add limit to ensure fresh data
+    
+    if (error) throw error;
+    
+    console.log('Container data fetched:', containers);
+    console.log('Number of containers:', containers?.length || 0);
+    
+    displayContainerStatus(containers || []);
+    
+  } catch (error) {
+    console.error('Error loading container status:', error);
+    throw error;
+  }
+}
+
+// Display vehicle status
+function displayVehicleStatus(vehicles) {
+  const tableBody = document.querySelector('#truck-images-table tbody');
+  if (!tableBody) return;
+
+  // Check if user is admin
+  const isAdmin = window.authSystem && window.authSystem.isAdmin();
+
+  if (vehicles.length === 0) {
+    const colspan = isAdmin ? 6 : 5;
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="${colspan}" style="text-align: center; padding: 40px; color: #666;">
+          <div>No vehicle status data available</div>
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  const rows = vehicles.map(vehicle => `
+    <tr>
+      <td>${vehicle.plate_no || '-'}</td>
+      <td>${vehicle.make_model || '-'}</td>
+      <td>${vehicle.status || 'Active'}</td>
+      <td>${vehicle.location_plant || '-'}</td>
+      <td>${vehicle.gps_status || 'Inactive'}</td>
+      ${isAdmin ? `<td>
+        <button class="btn-view auth-required" onclick="window.statusModule.viewVehicleDetails('${vehicle.id}')">View</button>
+      </td>` : ''}
+    </tr>
+  `).join('');
+
+  tableBody.innerHTML = rows;
+
+  // Call updateCrudVisibility to ensure all CRUD elements are properly hidden/shown
+  if (window.updateCrudVisibility) {
+    window.updateCrudVisibility();
+  }
+}
+
+// Display trailer status
+function displayTrailerStatus(trailers) {
+  const tableBody = document.querySelector('#trailer-images-table tbody');
+  if (!tableBody) return;
+
+  // Check if user is admin
+  const isAdmin = window.authSystem && window.authSystem.isAdmin();
+
+  if (trailers.length === 0) {
+    const colspan = isAdmin ? 6 : 5;
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="${colspan}" style="text-align: center; padding: 40px; color: #666;">
+          <div>No trailer status data available</div>
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  const rows = trailers.map(trailer => `
+    <tr>
+      <td>${trailer.plate_no || '-'}</td>
+      <td>${trailer.chassis_no || '-'}</td>
+      <td>${trailer.status || 'Active'}</td>
+      <td>${trailer.location_plant || '-'}</td>
+      <td>${trailer.container || '-'}</td>
+      ${isAdmin ? `<td>
+        <button class="btn-view auth-required" onclick="window.statusModule.viewTrailerDetails('${trailer.id}')">View</button>
+      </td>` : ''}
+    </tr>
+  `).join('');
+
+  tableBody.innerHTML = rows;
+
+  // Call updateCrudVisibility to ensure all CRUD elements are properly hidden/shown
+  if (window.updateCrudVisibility) {
+    window.updateCrudVisibility();
+  }
+}
+
+// Helper function to generate styled status with color, bold, and all caps
+function getStyledStatus(status) {
+  const statusText = (status || 'ACTIVE').toString().toUpperCase();
+  
+  // Return dash for ACTIVE status
+  if (statusText === 'ACTIVE') {
+    return '-';
+  }
+  
+  let color = 'green'; // default color
+  
+  switch(statusText) {
+    case 'DOWN':
+      color = 'red';
+      break;
+    case 'OPERATIONAL/HUSTLING':
+      color = 'blue';
+      break;
+    case 'OPERATIONAL':
+      color = 'green';
+      break;
+    default:
+      color = 'green';
+  }
+  
+  return `<span style="color: ${color}; font-weight: bold; text-transform: uppercase;">${statusText}</span>`;
+}
+
+// Display container status
+function displayContainerStatus(containers) {
+  console.log('Displaying container status with data:', containers);
+  
+  const tableBody = document.querySelector('#status-container-table tbody');
+  if (!tableBody) {
+    console.error('Container table body not found!');
+    return;
+  }
+  
+  // Hide/show Actions column header based on user role
+  const isAdmin = window.authSystem && window.authSystem.isAdmin();
+  const headerRow = document.querySelector('#status-container-table thead tr');
+  if (headerRow) {
+    const headerCells = headerRow.querySelectorAll('td');
+    // The Actions column is the last column (8th column)
+    if (headerCells.length >= 8) {
+      headerCells[7].style.display = isAdmin ? '' : 'none';
+    }
+  }
+  
+  if (containers.length === 0) {
+    console.log('No containers to display');
+    const isAdmin = window.authSystem && window.authSystem.isAdmin();
+    const colspan = isAdmin ? 8 : 7; // 8 columns for admin (including Actions), 7 for guest
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="${colspan}" style="text-align: center; padding: 40px; color: #666;">
+          <div>No container status data available</div>
+        </td>
+      </tr>
+    `;
+    return;
+  }
+  
+  const rows = containers.map(container => {
+    console.log('Rendering container:', container);
+    return `
+    <tr>
+      <td>${container.container_number || '-'}</td>
+      <td>${container.chassi_no || '-'}</td>
+      <td style="color: ${container.color === 'Blue' ? 'blue' : container.color === 'Red' ? 'red' : container.color === 'Green' ? 'green' : container.color === 'Yellow' ? 'yellow' : 'inherit'}; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${container.color || '-'}</td>
+      <td>${container.size || '-'}</td>
+      <td>${container.remarks || '-'}</td>
+      <td>${container.container_issue || '-'}</td>
+      <td>${getStyledStatus(container.status)}</td>
+      ${window.authSystem && window.authSystem.isAdmin() ? `
+      <td class="auth-required">
+        <button class="btn-edit" onclick="editContainerStatus('${container.id || ''}', '${container.container_number || ''}', '${container.chassi_no || ''}', '${container.color || ''}', '${container.size || ''}', '${container.remarks || ''}', '${container.container_issue || ''}', '${container.status || ''}')">Edit</button>
+        <button class="btn-delete" onclick="window.statusModule.deleteContainerFromStatus('${container.id || ''}')">Delete</button>
+      </td>` : ''}
+    </tr>
+  `;
+  }).join('');
+
+  console.log('Generated table rows:', rows);
+  console.log('Updating table body HTML...');
+  tableBody.innerHTML = rows;
+  console.log('Table body HTML updated. Current HTML:', tableBody.innerHTML);
+
+  // Call updateCrudVisibility to ensure all CRUD elements are properly hidden/shown
+  if (window.updateCrudVisibility) {
+    window.updateCrudVisibility();
+  }
+}
+
+// Edit container status function
+function editContainerStatus(id, containerNumber, chassiNo, color, size, remarks, containerIssue, status) {
+  // Populate modal fields with container data
+  document.getElementById('status-container-number').value = containerNumber || '';
+  document.getElementById('status-container-chassi').value = chassiNo || '';
+  document.getElementById('status-container-color').value = color || '';
+  document.getElementById('status-container-size').value = size || '';
+  // Handle editable placeholders for remarks and container issue
+  const remarksField = document.getElementById('status-container-remarks');
+  const issueField = document.getElementById('status-container-issue');
+  
+  if (remarks && remarks.trim() !== '') {
+    remarksField.value = remarks;
+  } else {
+    remarksField.value = remarksField.getAttribute('data-placeholder') || '-';
+  }
+  
+  if (containerIssue && containerIssue.trim() !== '') {
+    issueField.value = containerIssue;
+  } else {
+    issueField.value = issueField.getAttribute('data-placeholder') || '-';
+  }
+  document.getElementById('status-container-status').value = status || '';
+  
+  // Store the container ID for saving changes
+  window.currentEditingContainerId = id;
+  
+  // Show the modal
+  const modal = document.getElementById('status-container-modal');
+  const overlay = document.getElementById('status-container-modal-overlay');
+  
+  if (modal) modal.style.display = 'block';
+  if (overlay) overlay.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+// Close status container modal function
+function closeStatusContainerModal() {
+  const modal = document.getElementById('status-container-modal');
+  const overlay = document.getElementById('status-container-modal-overlay');
+  
+  if (modal) modal.style.display = 'none';
+  if (overlay) overlay.style.display = 'none';
+  document.body.style.overflow = 'auto';
+  
+  // Clear the editing container ID
+  window.currentEditingContainerId = null;
+}
+
+// Handle status container form submission
+async function handleStatusContainerFormSubmit(e) {
+  e.preventDefault();
+  
+  if (!window.currentEditingContainerId) {
+    showError('No container selected for editing', 'Error');
+    return;
+  }
+  
+  const supabaseClient = window.getSupabaseClient();
+  if (!supabaseClient) {
+    showError('Database connection not available', 'Error');
+    return;
+  }
+  
+  // Get form values
+  const containerNumber = document.getElementById('status-container-number').value;
+  const chassiNo = document.getElementById('status-container-chassi').value;
+  const color = document.getElementById('status-container-color').value;
+  const size = document.getElementById('status-container-size').value;
+  const remarks = document.getElementById('status-container-remarks').value;
+  const containerIssue = document.getElementById('status-container-issue').value;
+  let status = document.getElementById('status-container-status').value;
+  
+  // Convert empty status to null to satisfy database constraint
+  status = status.trim() === '' ? null : status;
+  
+  try {
+    // Update container data in database
+    const { data, error } = await supabaseClient
+      .from('containers')
+      .update({
+        container_number: containerNumber,
+        chassi_no: chassiNo,
+        color: color,
+        size: size,
+        remarks: remarks,
+        container_issue: containerIssue,
+        status: status,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', window.currentEditingContainerId)
+      .select();
+    
+    if (error) throw error;
+    
+    showSuccess('Container status updated successfully!');
+    closeStatusContainerModal();
+    
+    console.log('Container updated, refreshing tables...');
+    
+    // Force immediate refresh
+    setTimeout(async () => {
+      try {
+        // Switch to containers view if not already there
+        if (currentStatusView !== 'containers') {
+          console.log('Switching to containers view...');
+          switchStatusView('containers');
+        }
+        
+        // Force refresh with multiple attempts
+        console.log('Refreshing container tables...');
+        await refreshContainerTables();
+        
+        // Additional direct refresh call
+        setTimeout(async () => {
+          console.log('Second refresh attempt...');
+          await loadContainerStatus();
+        }, 200);
+        
+      } catch (error) {
+        console.error('Error during refresh:', error);
+      }
+    }, 100);
+    
+  } catch (error) {
+    console.error('Error updating container status:', error);
+    showError('Failed to update container status: ' + error.message, 'Error');
+  }
+}
+
+// View vehicle details
+function viewVehicleDetails(vehicleId) {
+  console.log(`Viewing vehicle details: ${vehicleId}`);
+  // Implementation for viewing vehicle details
+}
+
+// View trailer details
+function viewTrailerDetails(trailerId) {
+  console.log(`Viewing trailer details: ${trailerId}`);
+  // Implementation for viewing trailer details
+}
+
+// View container details
+function viewContainerDetails(containerId) {
+  console.log(`Viewing container details: ${containerId}`);
+  // Implementation for viewing container details
+}
+
+// Refresh container tables function
+async function refreshContainerTables() {
+  console.log('Starting container table refresh...');
+  try {
+    // Refresh Status tab container table
+    console.log('Loading container status...');
+    await loadContainerStatus();
+    console.log('Container status loaded successfully');
+    
+    // Also refresh Vehicle Registry container table if it exists
+    if (typeof loadContainerDataForRegistry === 'function') {
+      console.log('Loading container data for registry...');
+      loadContainerDataForRegistry();
+      console.log('Container data for registry loaded successfully');
+    }
+    
+    console.log('Container tables refreshed successfully');
+  } catch (error) {
+    console.error('Error refreshing container tables:', error);
+    // Try to at least refresh the main container table
+    try {
+      console.log('Attempting fallback refresh...');
+      await loadContainerStatus();
+      console.log('Fallback refresh successful');
+    } catch (fallbackError) {
+      console.error('Fallback refresh also failed:', fallbackError);
+    }
+  }
+}
+
+// Delete container function for Status tab
+async function deleteContainerFromStatus(containerId) {
+  if (!window.authSystem || !window.authSystem.isAdmin()) {
+    showError('Access denied. Admin privileges required.', 'Authentication Error');
+    return;
+  }
+
+  const supabaseClient = window.getSupabaseClient();
+  if (!supabaseClient) {
+    showError('Database connection not available', 'Error');
+    return;
+  }
+
+  try {
+    // Delete container from database
+    const { error } = await supabaseClient
+      .from('containers')
+      .delete()
+      .eq('id', containerId);
+    
+    if (error) throw error;
+    
+    showSuccess('Container deleted successfully!');
+    
+    // Refresh the container tables
+    setTimeout(() => refreshContainerTables(), 100);
+    
+  } catch (error) {
+    console.error('Error deleting container:', error);
+    showError('Failed to delete container: ' + error.message, 'Error');
+  }
+}
+
+// Export functions for use in main.js
+window.statusModule = {
+  initializeStatus,
+  loadStatusData,
+  switchStatusView,
+  loadVehicleStatus,
+  loadTrailerStatus,
+  loadContainerStatus,
+  viewVehicleDetails,
+  viewTrailerDetails,
+  viewContainerDetails,
+  deleteContainerFromStatus,
+  refreshContainerTables
+};
