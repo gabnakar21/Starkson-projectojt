@@ -147,10 +147,16 @@ function openClientModal(clientId = null) {
     return;
   }
   
-  // Reset form
-  const form = document.getElementById('client-form');
-  if (form) {
-    form.reset();
+  // Reset form only if adding new client (no clientId)
+  if (!clientId) {
+    const form = document.getElementById('client-form');
+    if (form) {
+      form.reset();
+    }
+    
+    // Reset modal title to "Add Client"
+    const modalTitle = document.querySelector('#client-modal .modal-header h2');
+    if (modalTitle) modalTitle.textContent = 'Add Client';
   }
   
   // Show modal
@@ -166,7 +172,7 @@ function closeClientModal() {
 }
 
 // Edit client
-function editClient(clientId) {
+async function editClient(clientId) {
   if (!window.authSystem || !window.authSystem.isAdmin()) {
     if (window.showError) {
       showError('Access denied. Admin privileges required.', 'Authentication Error');
@@ -175,7 +181,54 @@ function editClient(clientId) {
   }
   
   console.log(`Editing client: ${clientId}`);
-  // Implementation for editing client
+  
+  try {
+    const supabaseClient = window.getSupabaseClient();
+    const { data: client, error } = await supabaseClient
+      .from('clients')
+      .select('*')
+      .eq('id', clientId)
+      .single();
+    
+    if (error) throw error;
+    
+    if (!client) {
+      if (window.showError) {
+        showError('Client not found', 'Error');
+      }
+      return;
+    }
+    
+    // Open modal and populate form
+    openClientModal(clientId);
+    
+    // Populate form fields
+    const plantSelect = document.getElementById('client-plant');
+    const destinationInput = document.getElementById('client-destination');
+    const addressInput = document.getElementById('client-address');
+    const goingToInput = document.getElementById('client-going-to');
+    const goingBackInput = document.getElementById('client-going-back');
+    const totalKmInput = document.getElementById('client-total-km');
+    const averageTimeInput = document.getElementById('client-average-time');
+    
+    if (plantSelect) plantSelect.value = client.plant || '';
+    if (destinationInput) destinationInput.value = client.destination || '';
+    if (addressInput) addressInput.value = client.address || '';
+    if (goingToInput) goingToInput.value = client.going_to || '';
+    if (goingBackInput) goingBackInput.value = client.going_back || '';
+    if (totalKmInput) totalKmInput.value = client.total_km || '';
+    if (averageTimeInput) averageTimeInput.value = client.average_time || '';
+    
+    // Update modal title
+    const modalTitle = document.querySelector('#client-modal .modal-header h2');
+    if (modalTitle) modalTitle.textContent = 'Edit Client';
+    
+  } catch (error) {
+    console.error('Error loading client for edit:', error);
+    if (window.showError) {
+      showError('Failed to load client data: ' + error.message, 'Error');
+    }
+  }
 }
 
 // Delete client

@@ -472,6 +472,12 @@ localStorage.removeItem('selectedPlant');
 localStorage.removeItem('selectedPlantFilter');
 // Update UI to show all plants
 const cards = document.querySelectorAll('.plant-card');
+// Handle search bar visibility for About Us page
+if (viewName === 'about') {
+document.body.classList.add('about-view-active');
+} else {
+document.body.classList.remove('about-view-active');
+}
 cards.forEach(card => card.classList.remove('active'));
 // Update Show All Plants button states
 updateShowAllButtonsState();
@@ -638,12 +644,58 @@ document.addEventListener('DOMContentLoaded', function() {
 const toggle = document.querySelector('.toggle');
 const navigation = document.querySelector('.navigation');
 const main = document.querySelector('.main');
+const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+
 if (toggle) {
 toggle.addEventListener('click', function() {
+// Check if we're on mobile (screen width <= 768px)
+if (window.innerWidth <= 768) {
+// Mobile navigation toggle
+navigation.classList.toggle('mobile-active');
+main.classList.toggle('mobile-nav-open');
+if (mobileNavOverlay) {
+mobileNavOverlay.classList.toggle('active');
+}
+} else {
+// Desktop navigation toggle (collapse sidebar)
 navigation.classList.toggle('active');
 main.classList.toggle('active');
+}
 });
 }
+
+// Mobile overlay click to close navigation
+if (mobileNavOverlay) {
+mobileNavOverlay.addEventListener('click', function() {
+navigation.classList.remove('mobile-active');
+main.classList.remove('mobile-nav-open');
+mobileNavOverlay.classList.remove('active');
+});
+}
+
+// Handle window resize to reset navigation states and ensure adaptive widths
+window.addEventListener('resize', function() {
+const navigation = document.querySelector('.navigation');
+const main = document.querySelector('.main');
+const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+
+// When switching from mobile to desktop
+if (window.innerWidth > 768) {
+// Remove mobile-specific classes
+if (navigation) navigation.classList.remove('mobile-active');
+if (main) main.classList.remove('mobile-nav-open');
+if (mobileNavOverlay) mobileNavOverlay.classList.remove('active');
+
+// CSS will automatically handle adaptive widths based on media queries
+// No need to manually set widths in JavaScript
+}
+// When switching from desktop to mobile
+else {
+// Remove desktop-specific classes
+if (navigation) navigation.classList.remove('active');
+if (main) main.classList.remove('active');
+}
+});
 // Active link hover + selected
 const navItems = document.querySelectorAll('.navigation li');
 navItems.forEach(item => {
@@ -664,10 +716,22 @@ showView(viewName);
 // Auto-close navigation on mobile after clicking a link
 const navigation = document.querySelector('.navigation');
 const main = document.querySelector('.main');
-// Check if we're on mobile (navigation is active/visible)
+const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+// Check if we're on mobile (screen width <= 768px)
+if (window.innerWidth <= 768) {
+if (navigation && main) {
+navigation.classList.remove('mobile-active');
+main.classList.remove('mobile-nav-open');
+if (mobileNavOverlay) {
+mobileNavOverlay.classList.remove('active');
+}
+}
+} else {
+// Desktop: check if navigation is collapsed
 if (navigation && main && navigation.classList.contains('active')) {
 navigation.classList.remove('active');
 main.classList.remove('active');
+}
 }
 });
 });
@@ -968,6 +1032,19 @@ loadTruckImages(null, selectedTruckImagesType);
 loadRepairs();
 loadVehicleStatus();
 loadGpsData();
+loadClientData();
+loadTrailerData();
+loadContainerDataForRegistry(null, window.authSystem && window.authSystem.isAdmin());
+loadStatusTrailerData();
+loadContainerData();
+// Refresh Repair section tables without plant filter
+const repairViewElShowAll = document.getElementById('repair-view');
+if (repairViewElShowAll && repairViewElShowAll.classList.contains('active') && typeof setRepairFilter === 'function') {
+// Get current repair filter type from active button
+const activeRepairBtnShowAll = document.querySelector('#repair-view .registry-filter-btn.active');
+const currentFilterShowAll = activeRepairBtnShowAll ? activeRepairBtnShowAll.dataset.filter : 'truck';
+setRepairFilter(currentFilterShowAll);
+}
 const rfidViewElShowAll = document.getElementById('rfid-view');
 if (rfidViewElShowAll && rfidViewElShowAll.classList.contains('active') && window.rfidModule && typeof window.rfidModule.loadRfidDashboard === 'function') {
 window.rfidModule.loadRfidDashboard();
@@ -1118,6 +1195,20 @@ loadVehicles(plant);
 loadTruckImages(plant, selectedTruckImagesType);
 loadVehicleStatus(); // Also reload vehicle status with new filter
 loadGpsData(); // Also reload GPS data with new filter
+loadRepairs(); // Also reload repair data with new filter
+loadClientData(); // Also reload client data with new filter
+loadTrailerData(); // Also reload trailer data with new filter
+loadContainerDataForRegistry(plant, window.authSystem && window.authSystem.isAdmin()); // Also reload container data with new filter
+loadStatusTrailerData(); // Also reload Status section trailer data with new filter
+loadContainerData(); // Also reload Status section container data with new filter
+// Refresh Repair section tables with new plant filter
+const repairViewEl = document.getElementById('repair-view');
+if (repairViewEl && repairViewEl.classList.contains('active') && typeof setRepairFilter === 'function') {
+// Get current repair filter type from active button
+const activeRepairBtn = document.querySelector('#repair-view .registry-filter-btn.active');
+const currentFilter = activeRepairBtn ? activeRepairBtn.dataset.filter : 'truck';
+setRepairFilter(currentFilter);
+}
 const rfidViewEl = document.getElementById('rfid-view');
 if (rfidViewEl && rfidViewEl.classList.contains('active') && window.rfidModule && typeof window.rfidModule.loadRfidDashboard === 'function') {
 window.rfidModule.loadRfidDashboard();
@@ -1879,6 +1970,8 @@ if (window.updateCrudVisibility) {
 // Load container data for repair section
 async function loadContainerDataForRepair(plantFilter) {
     try {
+        // Use selectedPlantFilter if plantFilter is not provided
+        const effectiveFilter = plantFilter !== undefined ? plantFilter : selectedPlantFilter;
         // Load container data from containers table - only Down status
         let query = supabaseClient
             .from('containers')
@@ -1886,8 +1979,8 @@ async function loadContainerDataForRepair(plantFilter) {
             .or('status.eq.Down,status.eq.DOWN,status.eq.down')
             .order('container', { ascending: true });
         // Apply plant filter if specified
-        if (plantFilter) {
-            query = query.eq('plant', plantFilter);
+        if (effectiveFilter) {
+            query = query.eq('plant', effectiveFilter);
         }
         const { data: containerData, error: containerError } = await query;
             
@@ -2241,17 +2334,25 @@ return;
 }
 try {
 // Get all vehicles from vehicle_registry
-const { data: vehicles, error: vehicleError } = await supabaseClient
+let vehicleQuery = supabaseClient
 .from('vehicle_registry')
 .select('*')
 .order('plate', { ascending: true });
+if (selectedPlantFilter) {
+vehicleQuery = vehicleQuery.eq('plant', selectedPlantFilter);
+}
+const { data: vehicles, error: vehicleError } = await vehicleQuery;
 if (vehicleError) throw vehicleError;
 
 // Get all trailers from trailer_registry
-const { data: trailers, error: trailerError } = await supabaseClient
+let trailerQuery = supabaseClient
 .from('trailer_registry')
 .select('*')
 .order('plate_no', { ascending: true });
+if (selectedPlantFilter) {
+trailerQuery = trailerQuery.eq('location_plant', selectedPlantFilter);
+}
+const { data: trailers, error: trailerError } = await trailerQuery;
 if (trailerError) throw trailerError;
 
 // Get all driver statuses
@@ -3343,7 +3444,7 @@ function filterRepairTable(vehicleType) {
     const isAdmin = window.authSystem && window.authSystem.isAdmin();
 
     // Use vehicle status data from Status section
-    const selectedPlant = plantStateManager.getSelectedPlant();
+    const selectedPlant = selectedPlantFilter;
 
     // Filter vehicles by selected plant, Down status, and vehicle type
     let filteredVehicles = selectedPlant
@@ -3386,7 +3487,7 @@ function filterRepairTable(vehicleType) {
                        (sizeField.includes('ft') && vehicleTypeField !== 'truck' && vehicleTypeField !== 'container');
             } else if (vehicleType === 'container') {
                 // For containers, load from containers table instead of vehicleStatusRecords
-                loadContainerDataForRepair(selectedPlant);
+                loadContainerDataForRepair(selectedPlantFilter);
                 return; // Exit early since we handle containers separately
             }
             return true;
@@ -3432,7 +3533,7 @@ function filterRepairTable(vehicleType) {
         targetTbody.innerHTML = `
             <tr>
                 <td colspan="${colspan}" style="text-align: center; padding: 20px; color: #666;">
-                    No ${vehicleType} vehicles found for ${selectedPlant ? plantStateManager.getPlantDisplayName(selectedPlant) : 'the selected plant'}.
+                    No ${vehicleType} vehicles found for ${selectedPlantFilter ? selectedPlantFilter : 'the selected plant'}.
                 </td>
             </tr>
         `;
@@ -8513,10 +8614,14 @@ try {
 try {
 return await supabaseWithAuth(async () => {
 // Fetch both client data and diesel data
-const { data: clients, error: clientError } = await supabaseClient
+let clientQuery = supabaseClient
 .from('clients')
 .select('*')
 .order('created_at', { ascending: false });
+if (selectedPlantFilter) {
+clientQuery = clientQuery.eq('plant', selectedPlantFilter);
+}
+const { data: clients, error: clientError } = await clientQuery;
 const { data: dieselData, error: dieselError } = await supabaseClient
 .from('diesel_records_ave')
 .select('*');
@@ -8530,10 +8635,14 @@ displayClients(clients, dieselData);
 } catch (authError) {
 console.warn('Auth wrapper failed for load, trying direct:', authError);
 // Fallback to direct query without auth wrapper
-const { data: clients, error: clientError } = await supabaseClient
+let clientQuery = supabaseClient
 .from('clients')
 .select('*')
 .order('destination', { ascending: true });
+if (selectedPlantFilter) {
+clientQuery = clientQuery.eq('plant', selectedPlantFilter);
+}
+const { data: clients, error: clientError } = await clientQuery;
 const { data: dieselData, error: dieselError } = await supabaseClient
 .from('diesel_records_ave')
 .select('*');
@@ -8662,12 +8771,16 @@ const { data: client, error } = await supabaseClient
 .single();
 if (error) throw error;
 // Populate form with client data
+document.getElementById('client-plant').value = client.plant || '';
 document.getElementById('client-destination').value = client.destination || '';
 document.getElementById('client-address').value = client.address || '';
 document.getElementById('client-going-to').value = client.going_to || '';
 document.getElementById('client-going-back').value = client.going_back || '';
 document.getElementById('client-total-km').value = client.total_km || '';
 document.getElementById('client-average-time').value = client.average_time || '';
+// Change modal title to Edit Client
+const modalTitle = document.querySelector('#client-modal .modal-header h2');
+if (modalTitle) modalTitle.textContent = 'Edit Client';
 // Change form to edit mode
 const form = document.getElementById('client-form');
 const submitBtn = form.querySelector('button[type="submit"]');
@@ -8693,6 +8806,7 @@ if (!supabaseClient) {
 throw new Error('Supabase not initialized');
 }
 try {
+const plant = document.getElementById('client-plant').value.trim();
 const destination = document.getElementById('client-destination').value.trim();
 const address = document.getElementById('client-address').value.trim();
 const goingTo = document.getElementById('client-going-to').value.trim();
@@ -8700,7 +8814,7 @@ const goingBack = document.getElementById('client-going-back').value.trim();
 const totalKm = document.getElementById('client-total-km').value.trim();
 const averageTime = document.getElementById('client-average-time').value.trim();
 // Validate required fields
-if (!destination || !address || !averageTime) {
+if (!plant || !destination || !address || !averageTime) {
 showWarning('Please fill in all required fields', 'Validation Error');
 return;
 }
@@ -8708,6 +8822,7 @@ return await supabaseWithAuth(async () => {
 const { data, error } = await supabaseClient
 .from('clients')
 .update({
+plant,
 destination,
 address,
 going_to: goingTo,
@@ -9826,20 +9941,7 @@ return;
 try {
 // Check for duplicates only when adding new trailer (not editing)
 if (!editingTrailerId) {
-// Check if plate_no already exists
-const { data: existingPlate, error: plateError } = await supabaseClient
-.from('trailer_registry')
-.select('id')
-.eq('plate_no', plateNo)
-.limit(1);
-
-if (plateError) throw plateError;
-if (existingPlate && existingPlate.length > 0) {
-showError('Trailer with this Plate No. already exists!', 'Duplicate Error');
-return;
-}
-
-// Check if chassis_no already exists
+// Check if chassis_no already exists (chassis must be unique)
 const { data: existingChassis, error: chassisError } = await supabaseClient
 .from('trailer_registry')
 .select('id')
@@ -10536,24 +10638,36 @@ if (aveTableBody) {
 aveTableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Loading diesel records...</td></tr>';
 }
 // Fetch diesel data and client data from Supabase
-const { data: minData, error: minError } = await supabaseWithAuth(async () => {
-return await supabaseClient
+let minQuery = supabaseClient
 .from('diesel_records_min')
 .select('*')
 .order('created_at', { ascending: false });
+if (selectedPlantFilter) {
+minQuery = minQuery.eq('plant', selectedPlantFilter);
+}
+const { data: minData, error: minError } = await supabaseWithAuth(async () => {
+return await minQuery;
 });
-const { data: aveData, error: aveError } = await supabaseWithAuth(async () => {
-return await supabaseClient
+let aveQuery = supabaseClient
 .from('diesel_records_ave')
 .select('*')
 .order('created_at', { ascending: false });
+if (selectedPlantFilter) {
+aveQuery = aveQuery.eq('plant', selectedPlantFilter);
+}
+const { data: aveData, error: aveError } = await supabaseWithAuth(async () => {
+return await aveQuery;
 });
 // Fetch client data to get address information
-const { data: clientData, error: clientError } = await supabaseWithAuth(async () => {
-return await supabaseClient
+let clientQuery = supabaseClient
 .from('clients')
 .select('destination, address')
 .order('created_at', { ascending: false });
+if (selectedPlantFilter) {
+clientQuery = clientQuery.eq('plant', selectedPlantFilter);
+}
+const { data: clientData, error: clientError } = await supabaseWithAuth(async () => {
+return await clientQuery;
 });
 // Create a map of destination to address for quick lookup
 const destinationAddressMap = {};

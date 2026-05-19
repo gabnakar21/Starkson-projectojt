@@ -46,33 +46,42 @@ async function loadDashboardStatistics() {
   if (!supabaseClient) return;
   
   try {
-    // Get vehicle count
-    const { count: vehicleCount, error: vehicleError } = await supabaseClient
+    // Get vehicle count - try vehicle_registry first, fallback to vehicles
+    let vehicleCount = 0;
+    const { data: vehicles, error: vehicleError } = await supabaseClient
       .from('vehicle_registry')
-      .select('id', { count: 'exact', head: true });
+      .select('*');
     
     if (!vehicleError) {
-      updateDashboardStat('vehicle-count', vehicleCount || 0);
+      vehicleCount = vehicles?.length || 0;
+    } else {
+      // Fallback to vehicles table
+      console.warn('vehicle_registry error, trying vehicles table:', vehicleError);
+      const { data: fallbackVehicles, error: fallbackError } = await supabaseClient
+        .from('vehicles')
+        .select('*');
+      if (!fallbackError) {
+        vehicleCount = fallbackVehicles?.length || 0;
+      }
     }
+    updateDashboardStat('vehicle-count', vehicleCount);
     
     // Get trailer count
-    const { count: trailerCount, error: trailerError } = await supabaseClient
+    let trailerCount = 0;
+    const { data: trailers, error: trailerError } = await supabaseClient
       .from('trailer_registry')
-      .select('id', { count: 'exact', head: true });
+      .select('*');
     
     if (!trailerError) {
-      updateDashboardStat('trailer-count', trailerCount || 0);
+      trailerCount = trailers?.length || 0;
+    } else {
+      console.warn('trailer_registry error:', trailerError);
     }
+    updateDashboardStat('trailer-count', trailerCount);
     
-    // Get active GPS count
-    const { count: gpsActiveCount, error: gpsError } = await supabaseClient
-      .from('vehicle_registry')
-      .select('id', { count: 'exact', head: true })
-      .eq('gps_status', 'Active');
-    
-    if (!gpsError) {
-      updateDashboardStat('gps-active-count', gpsActiveCount || 0);
-    }
+    // Get active GPS count - removed since gps_status column doesn't exist
+    // Setting to 0 for now until the column is added to the database
+    updateDashboardStat('gps-active-count', 0);
     
   } catch (error) {
     console.error('Error loading dashboard statistics:', error);

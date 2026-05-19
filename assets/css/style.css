@@ -384,6 +384,74 @@ table tbody tr:hover,
   transition: background-color 0.2s ease;
 }
 
+/* Universal first column bold styling for all tables */
+table td:nth-child(1),
+.recentVehicles table td:nth-child(1),
+.details table td:nth-child(1),
+#or-table td:nth-child(1),
+#trailer-or-table td:nth-child(1),
+#dashboard-vehicle-table td:nth-child(1),
+#status-table td:nth-child(1),
+#trailer-table td:nth-child(1),
+#status-container-table td:nth-child(1),
+#status-table-2 td:nth-child(1),
+#trailer-cr-table td:nth-child(1),
+#vehicle-details-table td:nth-child(1),
+#rfid-account-table td:nth-child(1),
+#tire-size-table td:nth-child(1),
+#trailer-registry-table td:nth-child(1),
+#container-registry-table td:nth-child(1),
+#tools-table td:nth-child(1),
+#repair-truck-table td:nth-child(1),
+#repair-trailer-table td:nth-child(1),
+#repair-container-table td:nth-child(1),
+#vehicle-table td:nth-child(1),
+#registry-trailer-table td:nth-child(1),
+#container-table td:nth-child(1),
+#status-summary-table td:nth-child(1),
+#gps-status-table td:nth-child(1),
+#client-table td:nth-child(1),
+#rfid-table td:nth-child(1),
+#diesel-min-table td:nth-child(1),
+#diesel-ave-table td:nth-child(1) {
+  font-weight: 600 !important;
+  font-family: "poppins", sans-serif !important;
+}
+
+/* Universal normal font weight for other columns */
+table td:not(:nth-child(1)),
+.recentVehicles table td:not(:nth-child(1)),
+.details table td:not(:nth-child(1)),
+#or-table td:not(:nth-child(1)),
+#trailer-or-table td:not(:nth-child(1)),
+#dashboard-vehicle-table td:not(:nth-child(1)),
+#status-table td:not(:nth-child(1)),
+#trailer-table td:not(:nth-child(1)),
+#status-container-table td:not(:nth-child(1)),
+#status-table-2 td:not(:nth-child(1)),
+#trailer-cr-table td:not(:nth-child(1)),
+#vehicle-details-table td:not(:nth-child(1)),
+#rfid-account-table td:not(:nth-child(1)),
+#tire-size-table td:not(:nth-child(1)),
+#trailer-registry-table td:not(:nth-child(1)),
+#container-registry-table td:not(:nth-child(1)),
+#tools-table td:not(:nth-child(1)),
+#repair-truck-table td:not(:nth-child(1)),
+#repair-trailer-table td:not(:nth-child(1)),
+#repair-container-table td:not(:nth-child(1)),
+#vehicle-table td:not(:nth-child(1)),
+#registry-trailer-table td:not(:nth-child(1)),
+#container-table td:not(:nth-child(1)),
+#status-summary-table td:not(:nth-child(1)),
+#gps-status-table td:not(:nth-child(1)),
+#client-table td:not(:nth-child(1)),
+#rfid-table td:not(:nth-child(1)),
+#diesel-min-table td:not(:nth-child(1)),
+#diesel-ave-table td:not(:nth-child(1)) {
+  font-weight: 400 !important;
+  font-family: "poppins", sans-serif !important;
+}
+
 /* =============== Navigation ================ */
 
 .navigation {
@@ -398,10 +466,76 @@ table tbody tr:hover,
 
   border-left: 10px solid var(--blue);
 
-  transition: 0.5s;
+  transition: width 0.5s ease, left 0.3s ease;
 
   overflow: hidden;
 
+}
+
+/* Adaptive sidebar widths based on screen size */
+@media (min-width: 1201px) {
+  .navigation {
+    width: 300px;
+  }
+
+  .main {
+    width: calc(100% - 300px);
+    left: 300px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  .navigation {
+    width: 250px;
+  }
+
+  .main {
+    width: calc(100% - 250px);
+    left: 250px;
+  }
+
+  /* Adjust collapsed state for this breakpoint */
+  .navigation.active {
+    width: 70px;
+  }
+
+  .main.active {
+    width: calc(100% - 70px);
+    left: 70px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 991px) {
+  .navigation {
+    width: 200px;
+  }
+
+  .main {
+    width: calc(100% - 200px);
+    left: 200px;
+  }
+
+  /* Adjust collapsed state for this breakpoint */
+  .navigation.active {
+    width: 60px;
+  }
+
+  .main.active {
+    width: calc(100% - 60px);
+    left: 60px;
+  }
+
+  /* Adjust logo size for smaller sidebar */
+  .navigation ul li:nth-child(1) .icon {
+    width: 100% !important;
+    height: 60px !important;
+    padding: 0 5px !important;
+  }
+
+  .navigation ul li:nth-child(1) .icon img {
+    max-width: 180px !important;
+    max-height: 50px !important;
+  }
 }
 
 .navigation.active {
@@ -436,6 +570,43 @@ table tbody tr:hover,
 .navigation.active ul li:nth-child(1) .icon img {
   max-width: 50px !important;
   max-height: 50px !important;
+}
+
+/* Adaptive collapsed states for different breakpoints */
+@media (min-width: 992px) and (max-width: 1200px) {
+  .navigation.active ul li:nth-child(1) .icon {
+    width: 60px !important;
+    height: 60px !important;
+  }
+
+  .navigation.active ul li:nth-child(1) .icon img {
+    max-width: 45px !important;
+    max-height: 45px !important;
+  }
+
+  .navigation.active ul li a .icon {
+    min-width: 50px !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 991px) {
+  .navigation.active ul li:nth-child(1) .icon {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  .navigation.active ul li:nth-child(1) .icon img {
+    max-width: 40px !important;
+    max-height: 40px !important;
+  }
+
+  .navigation.active ul li a .icon {
+    min-width: 45px !important;
+  }
+
+  .navigation.active ul li:hover a .title {
+    left: 65px !important;
+  }
 }
 
 /* Tooltip functionality for collapsed sidebar */
@@ -517,7 +688,7 @@ table tbody tr:hover,
 
 .navigation ul li:nth-child(1) {
 
-  margin-bottom: 40px;
+  margin-bottom: 25px;
 
   pointer-events: none;
 
@@ -533,7 +704,7 @@ table tbody tr:hover,
 
   width: 100% !important;
 
-  height: 80px !important;
+  height: 60px !important;
 
   padding: 0 10px !important;
 
@@ -543,7 +714,7 @@ table tbody tr:hover,
 
   justify-content: center !important;
 
-  line-height: 80px !important;
+  line-height: 60px !important;
 
 }
 
@@ -609,11 +780,11 @@ table tbody tr:hover,
 
   display: block;
 
-  min-width: 60px;
+  min-width: 55px;
 
-  height: 60px;
+  height: 55px;
 
-  line-height: 60px;
+  line-height: 55px;
 
   text-align: center;
 
@@ -623,7 +794,7 @@ table tbody tr:hover,
 
 .navigation ul li a .icon ion-icon {
 
-  font-size: 1.75rem;
+  font-size: 1.5rem;
 
 }
 
@@ -637,9 +808,9 @@ table tbody tr:hover,
 
   padding: 0 10px;
 
-  height: 60px;
+  height: 55px;
 
-  line-height: 60px;
+  line-height: 55px;
 
   text-align: start;
 
@@ -725,7 +896,7 @@ table tbody tr:hover,
 
   background: var(--white);
 
-  transition: 0.5s;
+  transition: width 0.5s ease, left 0.5s ease;
 
 }
 
@@ -10115,5 +10286,734 @@ table td:nth-child(2) {
 
   .truck-card-delete-btn i {
     font-size: 12px;
+  }
+}
+
+/* ============== About Us Section Styles ============== */
+
+.about-container {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%);
+  border-radius: 12px;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.about-header h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.about-subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.about-section {
+  background: white;
+  padding: 30px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #c95454;
+}
+
+.about-section h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #8b3f3f;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.about-section p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.about-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.about-list li {
+  padding: 10px 0 10px 30px;
+  position: relative;
+  font-size: 15px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.about-list li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #c95454;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+
+/* Responsive Design for About Us */
+
+@media (max-width: 768px) {
+  .about-container {
+    padding: 20px;
+  }
+
+  .about-header {
+    padding: 30px 20px;
+  }
+
+  .about-header h1 {
+    font-size: 28px;
+  }
+
+  .about-subtitle {
+    font-size: 16px;
+  }
+
+  .about-section {
+    padding: 20px;
+  }
+
+  .about-section h2 {
+    font-size: 20px;
+  }
+
+  .about-section p {
+    font-size: 14px;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-item {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-header h1 {
+    font-size: 24px;
+  }
+
+  .about-subtitle {
+    font-size: 14px;
+  }
+
+  .about-section h2 {
+    font-size: 18px;
+  }
+
+  .about-section p {
+    font-size: 13px;
+  }
+
+  .contact-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+}
+
+/* Hide search bar on About Us page */
+body.about-view-active .topbar .search {
+  display: none;
+}
+
+/* ==================== COMPREHENSIVE RESPONSIVE DESIGN ==================== */
+
+/* Mobile Navigation Overlay */
+@media (max-width: 768px) {
+  .navigation {
+    position: fixed;
+    left: -300px;
+    z-index: 1000;
+    transition: left 0.3s ease;
+  }
+
+  .navigation.mobile-active {
+    left: 0;
+  }
+
+  .main {
+    width: 100% !important;
+    left: 0 !important;
+  }
+
+  .main.mobile-nav-open {
+    position: fixed;
+    width: 100%;
+    left: 0;
+  }
+
+  /* Mobile overlay */
+  .mobile-nav-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  .mobile-nav-overlay.active {
+    display: block;
+  }
+
+  /* Adjust toggle button for mobile */
+  .toggle {
+    font-size: 2rem;
+  }
+
+  /* Search bar on mobile */
+  .search {
+    width: 150px;
+  }
+
+  .search label input {
+    font-size: 10px;
+    padding: 5px 15px 5px 30px;
+  }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+  .navigation {
+    width: 280px;
+  }
+
+  .search {
+    width: 120px;
+  }
+
+  .toggle {
+    width: 50px;
+    height: 50px;
+    font-size: 1.8rem;
+  }
+}
+
+/* Card Layout Responsive */
+@media (max-width: 1200px) {
+  .cardBox {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .content-view .cardBox {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .cardBox {
+    grid-template-columns: 1fr;
+  }
+
+  .content-view .cardBox {
+    grid-template-columns: 1fr;
+  }
+
+  /* Dashboard specific layout */
+  #dashboard-vehicles-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Table Responsive - Universal */
+@media (max-width: 768px) {
+  .recentVehicles,
+  .details .recentVehicles,
+  .content-view .details .recentVehicles {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .recentVehicles table,
+  .details table,
+  .content-view .details .recentVehicles table {
+    min-width: 600px;
+  }
+
+  /* Table headers */
+  .recentVehicles table thead td,
+  .details table thead td,
+  .content-view .details .recentVehicles table thead td {
+    font-size: 0.75rem;
+    padding: 8px 6px;
+  }
+
+  /* Table cells */
+  .recentVehicles table td,
+  .details table td,
+  .content-view .details .recentVehicles table td {
+    font-size: 0.75rem;
+    padding: 8px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .recentVehicles table,
+  .details table,
+  .content-view .details .recentVehicles table {
+    min-width: 500px;
+  }
+
+  .recentVehicles table thead td,
+  .details table thead td,
+  .content-view .details .recentVehicles table thead td {
+    font-size: 0.7rem;
+    padding: 6px 4px;
+  }
+
+  .recentVehicles table td,
+  .details table td,
+  .content-view .details .recentVehicles table td {
+    font-size: 0.7rem;
+    padding: 6px 4px;
+  }
+}
+
+/* Button Groups Responsive */
+@media (max-width: 768px) {
+  .cardHeader > div[style*="display: flex"] {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+
+  .cardHeader > div[style*="display: flex"] > div[style*="display: flex"] {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+
+  .registry-filter-btn,
+  .btn-filter,
+  .container-trailer-btn {
+    width: 100%;
+    text-align: center;
+    padding: 10px 12px !important;
+    font-size: 0.85rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .registry-filter-btn,
+  .btn-filter,
+  .container-trailer-btn {
+    padding: 8px 10px !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Modal Responsive */
+@media (max-width: 768px) {
+  .modal-form,
+  .modal-content {
+    width: 95% !important;
+    max-width: 95% !important;
+    margin: 5% auto !important;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-header {
+    padding: 15px;
+  }
+
+  .modal-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .modal-form-content {
+    padding: 15px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-submit,
+  .btn-cancel {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-form,
+  .modal-content {
+    width: 98% !important;
+    max-width: 98% !important;
+    margin: 2% auto !important;
+  }
+
+  .modal-header h2 {
+    font-size: 1rem;
+  }
+
+  .modal-form-content {
+    padding: 12px;
+  }
+}
+
+/* Form Responsive */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .form-row .form-group {
+    min-width: 100%;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-group label {
+    font-size: 0.8rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+}
+
+/* Container Trailer Buttons Grid */
+@media (max-width: 768px) {
+  .container-trailer-buttons {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    padding: 15px 0 !important;
+  }
+
+  .container-trailer-btn {
+    padding: 12px 15px !important;
+    font-size: 0.85rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .container-trailer-buttons {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  .container-trailer-btn {
+    padding: 10px 12px !important;
+    font-size: 0.8rem !important;
+  }
+}
+
+/* Typography Responsive */
+@media (max-width: 768px) {
+  .cardHeader h2 {
+    font-size: 1.2rem;
+  }
+
+  .cardBox .card .numbers {
+    font-size: 1.2rem;
+  }
+
+  .cardBox .card .cardName {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardHeader h2 {
+    font-size: 1rem;
+  }
+
+  .cardBox .card .numbers {
+    font-size: 1rem;
+  }
+
+  .cardBox .card .cardName {
+    font-size: 0.75rem;
+  }
+}
+
+/* Filter Section Responsive */
+@media (max-width: 768px) {
+  .content-view .filter-section {
+    padding: 0 15px 10px;
+    text-align: center;
+  }
+
+  .filter-section {
+    text-align: center;
+  }
+}
+
+/* Dashboard Vehicle Table Responsive */
+@media (max-width: 768px) {
+  #dashboard-vehicle-table {
+    font-size: 0.8rem;
+  }
+
+  #dashboard-vehicle-table thead td {
+    padding: 8px 6px;
+    font-size: 0.75rem;
+  }
+
+  #dashboard-vehicle-table td {
+    padding: 8px 6px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Status Table Buttons Responsive */
+@media (max-width: 768px) {
+  .cardHeader > div[style*="display: flex"] > div[style*="display: flex"] {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .registry-filter-btn {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .registry-filter-btn {
+    flex: 1 1 100%;
+    min-width: auto;
+  }
+}
+
+/* Go to Top Button Responsive */
+@media (max-width: 768px) {
+  #goToTopBtn {
+    width: 45px;
+    height: 45px;
+    bottom: 15px;
+    right: 15px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  #goToTopBtn {
+    width: 40px;
+    height: 40px;
+    bottom: 10px;
+    right: 10px;
+    font-size: 14px;
+  }
+}
+
+/* Content View Padding Responsive */
+@media (max-width: 768px) {
+  .content-view {
+    padding: 15px;
+  }
+
+  .content-view .cardBox {
+    padding: 10px;
+    grid-gap: 10px;
+  }
+
+  .content-view .details {
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-view {
+    padding: 10px;
+  }
+
+  .content-view .cardBox {
+    padding: 8px;
+    grid-gap: 8px;
+  }
+}
+
+/* Truck Gallery Responsive */
+@media (max-width: 768px) {
+  .truck-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .truck-gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+/* Truck Images Display Grid Responsive */
+@media (max-width: 768px) {
+  .truck-images-display-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .truck-images-display-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+/* Image Upload Group Responsive */
+@media (max-width: 768px) {
+  .truck-images-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .image-upload-group {
+    min-height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .truck-images-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .image-upload-group {
+    min-height: 100px;
+  }
+}
+
+/* Notification Container Responsive */
+@media (max-width: 768px) {
+  .notification-container {
+    left: 10px;
+    right: 10px;
+    width: auto;
+  }
+}
+
+/* Modal Table Responsive */
+@media (max-width: 768px) {
+  .modal-content table {
+    font-size: 0.8rem;
+  }
+
+  .modal-content table thead td {
+    padding: 8px 6px;
+    font-size: 0.75rem;
+  }
+
+  .modal-content table td {
+    padding: 8px 6px;
+    font-size: 0.75rem;
+  }
+
+  .modal-content .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content table {
+    font-size: 0.75rem;
+  }
+
+  .modal-content table thead td {
+    padding: 6px 4px;
+    font-size: 0.7rem;
+  }
+
+  .modal-content table td {
+    padding: 6px 4px;
+    font-size: 0.7rem;
+  }
+}
+
+/* Action Buttons Responsive */
+@media (max-width: 768px) {
+  .action-btn {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .action-btn {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+  }
+}
+
+/* Search Bar Responsive */
+@media (max-width: 768px) {
+  .search {
+    width: 140px;
+  }
+
+  .search label input {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .search {
+    width: 100px;
+  }
+
+  .search label input {
+    font-size: 0.8rem;
   }
 }

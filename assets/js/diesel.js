@@ -211,8 +211,47 @@ async function saveDieselData(event) {
     const tableType = modal?.dataset.tableType || 'min';
     const recordId = modal?.dataset.recordId;
     
+    // Determine table name based on tableType
+    const tableName = tableType === 'min' ? 'diesel_records_min' : 'diesel_records_ave';
+    
+    // Prepare data object
+    const dieselData = {
+      destination: document.getElementById('diesel-destination')?.value || '',
+      four_w_six_w: document.getElementById('diesel-4w-6w')?.value || null,
+      eight_w: document.getElementById('diesel-8w')?.value || null,
+      ten_w: document.getElementById('diesel-10w')?.value || null,
+      twelve_w: document.getElementById('diesel-12w')?.value || null,
+      tractor_head: document.getElementById('diesel-tractor-head')?.value || null
+    };
+    
     // Process and save data
-    console.log(`Saving diesel data to ${tableType} table`);
+    console.log(`Saving diesel data to ${tableType} table`, dieselData);
+    
+    let error;
+    if (recordId) {
+      // Update existing record
+      const { error: updateError } = await supabaseClient
+        .from(tableName)
+        .update(dieselData)
+        .eq('id', recordId);
+      error = updateError;
+      console.log('Updating diesel record:', recordId);
+    } else {
+      // Insert new record
+      const today = new Date().toISOString().split('T')[0];
+      dieselData.date = today;
+      
+      const { error: insertError } = await supabaseClient
+        .from(tableName)
+        .insert([dieselData]);
+      error = insertError;
+      console.log('Inserting new diesel record');
+    }
+    
+    if (error) {
+      console.error('Database error:', error);
+      throw error;
+    }
     
     // Close modal and refresh data
     closeDieselModal();
