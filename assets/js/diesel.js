@@ -86,7 +86,7 @@ async function loadDieselData(tableType = 'min') {
 }
 
 // Open diesel modal for adding/editing records
-async function openDieselModal(tableType = 'min', recordId = null) {
+async function openDieselModal(tableType = 'min', recordId = null, destination = null) {
   // Check if user is admin
   if (!window.authSystem || !window.authSystem.isAdmin()) {
     if (window.showError) {
@@ -120,6 +120,13 @@ async function openDieselModal(tableType = 'min', recordId = null) {
   // If editing, load record data
   if (recordId) {
     await loadDieselRecordForEdit(recordId, tableType);
+  } else if (destination) {
+    // If no record ID but destination is provided, pre-fill destination field
+    console.log('Pre-filling destination with:', destination);
+    const destinationInput = document.getElementById('diesel-destination');
+    if (destinationInput) {
+      destinationInput.value = destination;
+    }
   }
   
   // Show modal
@@ -168,6 +175,7 @@ async function loadDieselRecordForEdit(recordId, tableType) {
     }
     
     if (data) {
+      console.log('Diesel record data from database:', data);
       // Populate form fields
       const destinationInput = document.getElementById('diesel-destination');
       const fourWSixWInput = document.getElementById('diesel-4w-6w');
@@ -270,10 +278,10 @@ async function saveDieselData(event) {
 }
 
 // Edit diesel record
-async function editDieselRecord(id, tableType, event) {
+async function editDieselRecord(id, tableType, event, destination = null) {
   if (event) event.preventDefault();
   
-  await openDieselModal(tableType, id);
+  await openDieselModal(tableType, id, destination);
 }
 
 // Delete diesel record

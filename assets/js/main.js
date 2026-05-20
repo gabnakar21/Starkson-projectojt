@@ -8552,6 +8552,7 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 status = diffDays >= 0 ? 'Active' : 'Expired';
 }
 return {
+chassis_no: trailer.chassis_no || 'N/A',
 plate: trailer.plate_no || 'N/A',
 vehicle_type: trailer.trailer_type || 'Trailer',
 registration_date: trailer.cr_registered || 'N/A',
@@ -8581,13 +8582,14 @@ const formatDate = (dateString) => {
 };
 
 row.innerHTML = `
+<td>${or.chassis_no}</td>
 <td>${or.plate}</td>
 <td>${or.vehicle_type}</td>
 <td>${formatDate(or.registration_date)}</td>
 <td>${formatDate(or.expiration_date)}</td>
 <td><span class="${statusClass}">${or.status}</span></td>
 <td style="text-align: center;">
-${or.or_image_url ? 
+${or.or_image_url ?
   `<i class="fas fa-file-pdf" onclick="openPdfInTab('${or.plate}', '${or.or_image_url}', 'OR')" style="font-size: 20px; color: #dc3545; cursor: pointer; margin-right: 8px;" title="View O/R Document"></i>` :
   `-`
 }
@@ -8596,7 +8598,7 @@ ${or.or_image_url ?
 });
 } catch (error) {
 console.error('Error loading trailer O/R data:', error);
-tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px;">Error loading data</td></tr>';
+tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Error loading data</td></tr>';
 }
 }
 // Load Client data
@@ -10694,19 +10696,10 @@ if (minTableBody) {
 if (clientData && clientData.length > 0) {
 minTableBody.innerHTML = clientData.map(client => {
 // Find corresponding diesel record for this destination
-// Try multiple matching strategies to handle incorrect destination data
 let dieselRecord = null;
 if (minData) {
-// First try exact match
+// Only use exact match
 dieselRecord = minData.find(record => record.destination === client.destination);
-// If no exact match, try to find by index or other methods
-if (!dieselRecord) {
-// Try to match by position in array (if destinations are in same order)
-const clientIndex = clientData.indexOf(client);
-if (clientIndex >= 0 && minData[clientIndex]) {
-dieselRecord = minData[clientIndex];
-}
-}
 }
 return `
 <tr>
@@ -10717,7 +10710,7 @@ return `
 <td>${dieselRecord ? (dieselRecord.twelve_w || '-') : '-'}</td>
 <td>${dieselRecord ? (dieselRecord.tractor_head || '-') : '-'}</td>
 <td class="auth-required">
-<button class="action-btn" onclick="editDieselRecord('${dieselRecord ? dieselRecord.id : client.destination}', 'min', event)">Edit</button>
+<button class="action-btn" onclick="editDieselRecord('${dieselRecord ? dieselRecord.id : ''}', 'min', event, '${client.destination}')">Edit</button>
 </td>
 </tr>
 `;
@@ -10731,19 +10724,10 @@ if (aveTableBody) {
 if (clientData && clientData.length > 0) {
 aveTableBody.innerHTML = clientData.map(client => {
 // Find corresponding diesel record for this destination
-// Try multiple matching strategies to handle incorrect destination data
 let dieselRecord = null;
 if (aveData) {
-// First try exact match
+// Only use exact match
 dieselRecord = aveData.find(record => record.destination === client.destination);
-// If no exact match, try to find by index or other methods
-if (!dieselRecord) {
-// Try to match by position in array (if destinations are in same order)
-const clientIndex = clientData.indexOf(client);
-if (clientIndex >= 0 && aveData[clientIndex]) {
-dieselRecord = aveData[clientIndex];
-}
-}
 }
 return `
 <tr>
@@ -10754,7 +10738,7 @@ return `
 <td>${dieselRecord ? (dieselRecord.twelve_w || '-') : '-'}</td>
 <td>${dieselRecord ? (dieselRecord.tractor_head || '-') : '-'}</td>
 <td class="auth-required">
-<button class="action-btn" onclick="editDieselRecord('${dieselRecord ? dieselRecord.id : client.destination}', 'ave', event)">Edit</button>
+<button class="action-btn" onclick="editDieselRecord('${dieselRecord ? dieselRecord.id : ''}', 'ave', event, '${client.destination}')">Edit</button>
 </td>
 </tr>
 `;

@@ -220,7 +220,7 @@ async function editClient(clientId) {
     if (averageTimeInput) averageTimeInput.value = client.average_time || '';
     
     // Update modal title
-    const modalTitle = document.querySelector('#client-modal .modal-header h2');
+    const modalTitle = document.getElementById('client-modal-title');
     if (modalTitle) modalTitle.textContent = 'Edit Client';
     
   } catch (error) {
