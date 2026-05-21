@@ -4547,11 +4547,11 @@ if (selectedTruckImagesType === 'trailer') {
 try {
 const { data: trailers, error } = await supabaseClient
 .from('trailer_registry')
-.select('plate_no')
-.order('plate_no', { ascending: true });
+.select('chassis_no')
+.order('chassis_no', { ascending: true });
 if (!error && trailers) {
-options = trailers.map(t => t.plate_no);
-placeholderText = '-- Select a trailer plate --';
+options = trailers.map(t => t.chassis_no);
+placeholderText = '-- Select a chassis number --';
 }
 } catch (err) {
 console.error('Error loading trailers:', err);
@@ -5393,7 +5393,7 @@ const modalTitle = document.getElementById('truck-images-modal-title');
 const selectLabel = document.getElementById('truck-images-select-label');
 if (selectedTruckImagesType === 'trailer') {
 modalTitle.textContent = 'Add Trailer Images';
-selectLabel.innerHTML = 'Select Trailer Plate <span class="required">*</span>';
+selectLabel.innerHTML = 'Select Chassis No. <span class="required">*</span>';
 } else if (selectedTruckImagesType === 'container') {
 modalTitle.textContent = 'Add Container Images';
 selectLabel.innerHTML = 'Select Container <span class="required">*</span>';
