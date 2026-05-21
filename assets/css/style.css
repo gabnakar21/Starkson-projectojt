@@ -5358,9 +5358,17 @@ input[readonly] {
 
   overflow: hidden;
 
-  max-width: 90vw;
+  width: 90vw;
+
+  height: 90vh;
+
+  max-width: 1200px;
 
   max-height: 90vh;
+
+  display: flex;
+
+  flex-direction: column;
 
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 
@@ -5385,7 +5393,7 @@ input[readonly] {
 
   width: 100%;
 
-  height: 80vh;
+  flex: 1;
 
   display: flex;
 
@@ -5395,15 +5403,23 @@ input[readonly] {
 
   background: transparent;
 
+  padding: 10px;
+
+  min-height: 0;
+
 }
 
 
 
 .truck-gallery-modal .modal-image-container img {
 
-  max-width: 90vw;
+  max-width: 100%;
 
-  max-height: 80vh;
+  max-height: 100%;
+
+  width: auto;
+
+  height: auto;
 
   object-fit: contain;
 
@@ -5493,18 +5509,6 @@ input[readonly] {
 
 .truck-gallery-modal .modal-image-container img {
 
-  max-width: 90vw;
-
-  max-height: 80vh;
-
-  object-fit: contain;
-
-  transition: opacity 0.3s ease, transform 0.3s ease;
-
-  opacity: 1;
-
-  transform: scale(1);
-
   animation: imageFadeIn 0.5s ease-out;
 
   /* Ensure no filters or unwanted effects */
@@ -5559,17 +5563,19 @@ input[readonly] {
 
   color: white;
 
-  padding: 12px 24px;
+  padding: 10px 20px;
 
   font-weight: 700;
 
-  font-size: 16px;
+  font-size: 14px;
 
   text-align: center;
 
   text-transform: uppercase;
 
   letter-spacing: 1px;
+
+  flex-shrink: 0;
 
 }
 
@@ -5581,13 +5587,15 @@ input[readonly] {
 
   color: #666;
 
-  padding: 8px 16px;
+  padding: 6px 16px;
 
-  font-size: 14px;
+  font-size: 12px;
 
   text-align: center;
 
   border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+  flex-shrink: 0;
 
 }
 
@@ -5601,7 +5609,7 @@ input[readonly] {
 
   gap: 8px;
 
-  padding: 12px 16px;
+  padding: 10px 16px;
 
   background: #f8f8f8;
 
@@ -5613,15 +5621,19 @@ input[readonly] {
 
   flex-wrap: wrap;
 
+  flex-shrink: 0;
+
+  max-height: 100px;
+
 }
 
 
 
 .truck-gallery-modal .thumbnail {
 
-  width: 60px;
+  width: 50px;
 
-  height: 60px;
+  height: 50px;
 
   border-radius: 8px;
 
@@ -5811,9 +5823,13 @@ input[readonly] {
 
   .truck-gallery-modal .modal-content {
 
-    max-width: 95vw;
+    width: 95vw;
 
-    max-height: 95vh;
+    height: 95vh;
+
+    max-width: none;
+
+    border-radius: 15px;
 
   }
 
@@ -5821,7 +5837,7 @@ input[readonly] {
 
   .truck-gallery-modal .modal-image-container {
 
-    height: 70vh;
+    padding: 5px;
 
   }
 
@@ -5829,9 +5845,9 @@ input[readonly] {
 
   .truck-gallery-modal .modal-image-container img {
 
-    max-width: 95vw;
+    max-width: 100%;
 
-    max-height: 70vh;
+    max-height: 100%;
 
   }
 
@@ -5899,9 +5915,15 @@ input[readonly] {
 
   .truck-gallery-modal .modal-content {
 
-    max-width: 98vw;
+    width: 100vw;
 
-    max-height: 98vh;
+    height: 100vh;
+
+    max-width: none;
+
+    max-height: 100vh;
+
+    border-radius: 0;
 
   }
 
@@ -5909,7 +5931,7 @@ input[readonly] {
 
   .truck-gallery-modal .modal-image-container {
 
-    height: 60vh;
+    padding: 5px;
 
   }
 
@@ -5917,9 +5939,31 @@ input[readonly] {
 
   .truck-gallery-modal .modal-image-container img {
 
-    max-width: 98vw;
+    max-width: 100%;
 
-    max-height: 60vh;
+    max-height: 100%;
+
+  }
+
+  
+
+  .truck-gallery-modal .modal-thumbnails {
+
+    padding: 6px 10px;
+
+    max-height: 70px;
+
+    gap: 6px;
+
+  }
+
+  
+
+  .truck-gallery-modal .thumbnail {
+
+    width: 40px;
+
+    height: 40px;
 
   }
 
@@ -5927,9 +5971,35 @@ input[readonly] {
 
   .truck-gallery-modal .modal-plate-number {
 
-    font-size: 14px;
+    font-size: 11px;
 
-    padding: 10px 16px;
+    padding: 6px 12px;
+
+  }
+
+  
+
+  .truck-gallery-modal .modal-image-counter {
+
+    font-size: 10px;
+
+    padding: 4px 10px;
+
+  }
+
+  
+
+  .truck-gallery-modal .modal-header h2 {
+
+    font-size: 18px;
+
+  }
+
+  
+
+  .truck-gallery-modal .modal-close {
+
+    font-size: 28px;
 
   }
 

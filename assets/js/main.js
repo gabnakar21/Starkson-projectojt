@@ -2919,6 +2919,12 @@ const vehicleForm = document.getElementById('vehicle-form');
 
 const vehicleSubmitBtn = document.getElementById('vehicle-submit-btn');
 
+// Scroll modal content to top before closing
+const modalContent = vehicleModal ? vehicleModal.querySelector('.modal-content') : null;
+if (modalContent) {
+  modalContent.scrollTop = 0;
+}
+
 if (vehicleModal) vehicleModal.style.display = 'none';
 
 if (vehicleModalOverlay) vehicleModalOverlay.style.display = 'none';
