@@ -111,14 +111,17 @@ function switchStatusView(view) {
   const truckTable = document.getElementById('truck-images-table');
   const trailerTable = document.getElementById('trailer-images-table');
   const containerTable = document.getElementById('container-images-table');
+  const summaryTable = document.getElementById('vehicle-status-summary-table');
   
   if (truckTable) truckTable.style.display = 'none';
   if (trailerTable) trailerTable.style.display = 'none';
   if (containerTable) containerTable.style.display = 'none';
+  if (summaryTable) summaryTable.closest('.recentVehicles').style.display = 'none';
   
   switch (view) {
     case 'trucks':
       if (truckTable) truckTable.style.display = 'table';
+      if (summaryTable) summaryTable.closest('.recentVehicles').style.display = 'block';
       break;
     case 'trailers':
       if (trailerTable) trailerTable.style.display = 'table';
@@ -140,6 +143,7 @@ async function loadStatusData() {
     switch (currentStatusView) {
       case 'trucks':
         await loadVehicleStatus();
+        await loadVehicleStatusSummary();
         break;
       case 'trailers':
         await loadTrailerStatus();
@@ -176,6 +180,195 @@ async function loadVehicleStatus() {
     console.error('Error loading vehicle status:', error);
     throw error;
   }
+}
+
+// Load vehicle status summary
+async function loadVehicleStatusSummary() {
+  try {
+    console.log('Loading vehicle status summary from status truck table data...');
+    
+    // Use vehicleStatusRecords from main.js (contains merged data from vehicle_registry + drivers_status)
+    let vehicles = [];
+    if (typeof window.vehicleStatusRecords !== 'undefined' && window.vehicleStatusRecords) {
+      vehicles = window.vehicleStatusRecords;
+      console.log('Using vehicleStatusRecords from main.js:', vehicles.length, 'vehicles');
+    } else {
+      console.warn('vehicleStatusRecords not found in window, fetching from database...');
+      // Fallback: fetch from database if vehicleStatusRecords is not available
+      const supabaseClient = window.getSupabaseClient();
+      if (!supabaseClient) {
+        console.error('Supabase client not available');
+        return;
+      }
+      
+      const { data: dbVehicles, error } = await supabaseClient
+        .from('vehicle_registry')
+        .select('*');
+      
+      if (error) {
+        console.error('Error fetching vehicle data:', error);
+        throw error;
+      }
+      
+      vehicles = dbVehicles || [];
+      console.log('Vehicle data fetched from database:', vehicles.length, 'vehicles');
+    }
+    
+    // Filter out trailers to show only truck data
+    const truckOnlyData = vehicles.filter(vehicle => {
+      const vehicleType = (vehicle.vehicle_type || '').toLowerCase().trim();
+      const size = (vehicle.size || '').toLowerCase().trim();
+      return !vehicleType.includes('trailer') && !size.includes('trailer');
+    });
+    
+    console.log('Truck-only data after filtering:', truckOnlyData.length, 'vehicles');
+    displayVehicleStatusSummary(truckOnlyData);
+    
+  } catch (error) {
+    console.error('Error loading vehicle status summary:', error);
+    throw error;
+  }
+}
+
+// Display vehicle status summary
+function displayVehicleStatusSummary(vehicles) {
+  console.log('Processing vehicle status summary with', vehicles.length, 'vehicles');
+  console.log('Sample vehicle data:', vehicles.slice(0, 3));
+  
+  // Initialize counters
+  const counts = {
+    operational: { truckHead: 0, wheeler12: 0, wheeler10: 0, wheeler8: 0, wheeler6: 0, wheeler4: 0 },
+    hustling: { truckHead: 0, wheeler12: 0, wheeler10: 0, wheeler8: 0, wheeler6: 0, wheeler4: 0 },
+    down: { truckHead: 0, wheeler12: 0, wheeler10: 0, wheeler8: 0, wheeler6: 0, wheeler4: 0 },
+    totallyDown: { truckHead: 0, wheeler12: 0, wheeler10: 0, wheeler8: 0, wheeler6: 0, wheeler4: 0 }
+  };
+  
+  let processedCount = 0;
+  let skippedCount = 0;
+  
+  // Count vehicles by type and status
+  vehicles.forEach(vehicle => {
+    const status = (vehicle.status || '').toLowerCase();
+    // Use size column from both vehicle_registry and trailer_registry
+    const size = (vehicle.size || '').toLowerCase();
+    
+    console.log('Processing vehicle:', {
+      plate: vehicle.plate_no || vehicle.plate,
+      status: status,
+      size: size,
+      source: vehicle.source
+    });
+    
+    // Only process vehicles that have a status
+    if (!status || status === '' || status === 'null' || status === 'undefined' || status === 'n/a') {
+      console.log('Skipping vehicle with no status:', vehicle.plate_no || vehicle.plate);
+      skippedCount++;
+      return;
+    }
+    
+    processedCount++;
+    
+    // Determine status category
+    let statusCategory;
+    if (status.includes('totally down') || status.includes('totallydown')) {
+      statusCategory = 'totallyDown';
+    } else if (status.includes('operational/hustling') || status.includes('hustling')) {
+      statusCategory = 'hustling';
+    } else if (status.includes('down')) {
+      statusCategory = 'down';
+    } else if (status.includes('operational')) {
+      statusCategory = 'operational';
+    } else {
+      statusCategory = 'operational'; // Default to operational
+    }
+    
+    // Determine vehicle type based on size column
+    if (size.includes('truck head') || size.includes('truckhead')) {
+      counts[statusCategory].truckHead++;
+    } else if (size.includes('12') || size.includes('12wheeler')) {
+      counts[statusCategory].wheeler12++;
+    } else if (size.includes('10') || size.includes('10wheeler')) {
+      counts[statusCategory].wheeler10++;
+    } else if (size.includes('8') || size.includes('8wheeler')) {
+      counts[statusCategory].wheeler8++;
+    } else if (size.includes('6') || size.includes('6wheeler')) {
+      counts[statusCategory].wheeler6++;
+    } else if (size.includes('4') || size.includes('4wheeler')) {
+      counts[statusCategory].wheeler4++;
+    } else {
+      // If size doesn't match any category, count as Truck Head by default
+      counts[statusCategory].truckHead++;
+    }
+  });
+  
+  console.log('Processed:', processedCount, 'vehicles');
+  console.log('Skipped:', skippedCount, 'vehicles (no status)');
+  console.log('Counts calculated:', counts);
+  
+  // Calculate totals
+  const operationalTotal = counts.operational.truckHead + counts.operational.wheeler12 + 
+                          counts.operational.wheeler10 + counts.operational.wheeler8 + 
+                          counts.operational.wheeler6 + counts.operational.wheeler4;
+  const hustlingTotal = counts.hustling.truckHead + counts.hustling.wheeler12 + 
+                       counts.hustling.wheeler10 + counts.hustling.wheeler8 + 
+                       counts.hustling.wheeler6 + counts.hustling.wheeler4;
+  const downTotal = counts.down.truckHead + counts.down.wheeler12 + 
+                  counts.down.wheeler10 + counts.down.wheeler8 + 
+                  counts.down.wheeler6 + counts.down.wheeler4;
+  const totallyDownTotal = counts.totallyDown.truckHead + counts.totallyDown.wheeler12 + 
+                          counts.totallyDown.wheeler10 + counts.totallyDown.wheeler8 + 
+                          counts.totallyDown.wheeler6 + counts.totallyDown.wheeler4;
+  
+  const grandTotalTruckHead = counts.operational.truckHead + counts.hustling.truckHead + counts.down.truckHead + counts.totallyDown.truckHead;
+  const grandTotal12 = counts.operational.wheeler12 + counts.hustling.wheeler12 + counts.down.wheeler12 + counts.totallyDown.wheeler12;
+  const grandTotal10 = counts.operational.wheeler10 + counts.hustling.wheeler10 + counts.down.wheeler10 + counts.totallyDown.wheeler10;
+  const grandTotal8 = counts.operational.wheeler8 + counts.hustling.wheeler8 + counts.down.wheeler8 + counts.totallyDown.wheeler8;
+  const grandTotal6 = counts.operational.wheeler6 + counts.hustling.wheeler6 + counts.down.wheeler6 + counts.totallyDown.wheeler6;
+  const grandTotal4 = counts.operational.wheeler4 + counts.hustling.wheeler4 + counts.down.wheeler4 + counts.totallyDown.wheeler4;
+  const grandTotal = operationalTotal + hustlingTotal + downTotal + totallyDownTotal;
+  
+  // Update table cells
+  document.getElementById('summary-truckhead-operational').textContent = counts.operational.truckHead;
+  document.getElementById('summary-12wheeler-operational').textContent = counts.operational.wheeler12;
+  document.getElementById('summary-10wheeler-operational').textContent = counts.operational.wheeler10;
+  document.getElementById('summary-8wheeler-operational').textContent = counts.operational.wheeler8;
+  document.getElementById('summary-6wheeler-operational').textContent = counts.operational.wheeler6;
+  document.getElementById('summary-4wheeler-operational').textContent = counts.operational.wheeler4;
+  document.getElementById('summary-total-operational').textContent = operationalTotal;
+  
+  document.getElementById('summary-truckhead-hustling').textContent = counts.hustling.truckHead;
+  document.getElementById('summary-12wheeler-hustling').textContent = counts.hustling.wheeler12;
+  document.getElementById('summary-10wheeler-hustling').textContent = counts.hustling.wheeler10;
+  document.getElementById('summary-8wheeler-hustling').textContent = counts.hustling.wheeler8;
+  document.getElementById('summary-6wheeler-hustling').textContent = counts.hustling.wheeler6;
+  document.getElementById('summary-4wheeler-hustling').textContent = counts.hustling.wheeler4;
+  document.getElementById('summary-total-hustling').textContent = hustlingTotal;
+  
+  document.getElementById('summary-truckhead-down').textContent = counts.down.truckHead;
+  document.getElementById('summary-12wheeler-down').textContent = counts.down.wheeler12;
+  document.getElementById('summary-10wheeler-down').textContent = counts.down.wheeler10;
+  document.getElementById('summary-8wheeler-down').textContent = counts.down.wheeler8;
+  document.getElementById('summary-6wheeler-down').textContent = counts.down.wheeler6;
+  document.getElementById('summary-4wheeler-down').textContent = counts.down.wheeler4;
+  document.getElementById('summary-total-down').textContent = downTotal;
+  
+  document.getElementById('summary-truckhead-totallydown').textContent = counts.totallyDown.truckHead;
+  document.getElementById('summary-12wheeler-totallydown').textContent = counts.totallyDown.wheeler12;
+  document.getElementById('summary-10wheeler-totallydown').textContent = counts.totallyDown.wheeler10;
+  document.getElementById('summary-8wheeler-totallydown').textContent = counts.totallyDown.wheeler8;
+  document.getElementById('summary-6wheeler-totallydown').textContent = counts.totallyDown.wheeler6;
+  document.getElementById('summary-4wheeler-totallydown').textContent = counts.totallyDown.wheeler4;
+  document.getElementById('summary-total-totallydown').textContent = totallyDownTotal;
+  
+  document.getElementById('summary-grand-truckhead').textContent = grandTotalTruckHead;
+  document.getElementById('summary-grand-12wheeler').textContent = grandTotal12;
+  document.getElementById('summary-grand-10wheeler').textContent = grandTotal10;
+  document.getElementById('summary-grand-8wheeler').textContent = grandTotal8;
+  document.getElementById('summary-grand-6wheeler').textContent = grandTotal6;
+  document.getElementById('summary-grand-4wheeler').textContent = grandTotal4;
+  document.getElementById('summary-grand-total').textContent = grandTotal;
+  
+  console.log('Summary table updated successfully');
 }
 
 // Load trailer status
@@ -291,7 +484,7 @@ function displayTrailerStatus(trailers) {
     <tr>
       <td>${trailer.plate_no || '-'}</td>
       <td>${trailer.chassis_no || '-'}</td>
-      <td>${trailer.status || 'Active'}</td>
+      <td>${getStyledStatus(trailer.status)}</td>
       <td>${trailer.location_plant || '-'}</td>
       <td>${trailer.container || '-'}</td>
       ${isAdmin ? `<td>
@@ -319,18 +512,17 @@ function getStyledStatus(status) {
   
   let color = 'green'; // default color
   
-  switch(statusText) {
-    case 'DOWN':
-      color = 'red';
-      break;
-    case 'OPERATIONAL/HUSTLING':
-      color = 'blue';
-      break;
-    case 'OPERATIONAL':
-      color = 'green';
-      break;
-    default:
-      color = 'green';
+  // Check for totally down first (before other checks)
+  if (statusText.includes('TOTALLY DOWN') || statusText.includes('TOTALLYDOWN')) {
+    color = 'brown';
+  } else if (statusText === 'DOWN') {
+    color = 'red';
+  } else if (statusText === 'OPERATIONAL/HUSTLING') {
+    color = 'blue';
+  } else if (statusText === 'OPERATIONAL') {
+    color = 'green';
+  } else {
+    color = 'green';
   }
   
   return `<span style="color: ${color}; font-weight: bold; text-transform: uppercase;">${statusText}</span>`;
@@ -621,6 +813,7 @@ window.statusModule = {
   loadVehicleStatus,
   loadTrailerStatus,
   loadContainerStatus,
+  loadVehicleStatusSummary,
   viewVehicleDetails,
   viewTrailerDetails,
   viewContainerDetails,

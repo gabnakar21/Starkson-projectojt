@@ -836,7 +836,7 @@
 
                             <td>Plate No.</td>
 
-                            <td>Vehicle Type</td>
+                            <td>Size</td>
 
                             <td>Model</td>
 
@@ -855,6 +855,79 @@
                         <tbody></tbody>
 
                       </table>
+
+                      <!-- Vehicle Status Summary Table -->
+                      <div class="recentVehicles" style="margin-top: 30px;">
+                        <div class="cardHeader">
+                          <h2>Vehicle Status Summary</h2>
+                        </div>
+                        <table id="vehicle-status-summary-table" style="width:100%; border-collapse: collapse;">
+                          <thead>
+                            <tr>
+                              <td>Status</td>
+                              <td>Truck Head</td>
+                              <td>12Wheeler</td>
+                              <td>10Wheeler</td>
+                              <td>8Wheeler</td>
+                              <td>6Wheeler</td>
+                              <td>4Wheeler</td>
+                              <td>Total</td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td style="color: green; font-weight: bold;">Operational</td>
+                              <td id="summary-truckhead-operational">0</td>
+                              <td id="summary-12wheeler-operational">0</td>
+                              <td id="summary-10wheeler-operational">0</td>
+                              <td id="summary-8wheeler-operational">0</td>
+                              <td id="summary-6wheeler-operational">0</td>
+                              <td id="summary-4wheeler-operational">0</td>
+                              <td id="summary-total-operational">0</td>
+                            </tr>
+                            <tr>
+                              <td style="color: orange; font-weight: bold;">Operational/Hustling</td>
+                              <td id="summary-truckhead-hustling">0</td>
+                              <td id="summary-12wheeler-hustling">0</td>
+                              <td id="summary-10wheeler-hustling">0</td>
+                              <td id="summary-8wheeler-hustling">0</td>
+                              <td id="summary-6wheeler-hustling">0</td>
+                              <td id="summary-4wheeler-hustling">0</td>
+                              <td id="summary-total-hustling">0</td>
+                            </tr>
+                            <tr>
+                              <td style="color: red; font-weight: bold;">Down</td>
+                              <td id="summary-truckhead-down">0</td>
+                              <td id="summary-12wheeler-down">0</td>
+                              <td id="summary-10wheeler-down">0</td>
+                              <td id="summary-8wheeler-down">0</td>
+                              <td id="summary-6wheeler-down">0</td>
+                              <td id="summary-4wheeler-down">0</td>
+                              <td id="summary-total-down">0</td>
+                            </tr>
+                            <tr>
+                              <td style="color: brown; font-weight: bold;">Totally Down</td>
+                              <td id="summary-truckhead-totallydown">0</td>
+                              <td id="summary-12wheeler-totallydown">0</td>
+                              <td id="summary-10wheeler-totallydown">0</td>
+                              <td id="summary-8wheeler-totallydown">0</td>
+                              <td id="summary-6wheeler-totallydown">0</td>
+                              <td id="summary-4wheeler-totallydown">0</td>
+                              <td id="summary-total-totallydown">0</td>
+                            </tr>
+                            <tr style="font-weight: bold; background-color: #f0f0f0;">
+                              <td>Grand Total</td>
+                              <td id="summary-grand-truckhead">0</td>
+                              <td id="summary-grand-12wheeler">0</td>
+                              <td id="summary-grand-10wheeler">0</td>
+                              <td id="summary-grand-8wheeler">0</td>
+                              <td id="summary-grand-6wheeler">0</td>
+                              <td id="summary-grand-4wheeler">0</td>
+                              <td id="summary-grand-total">0</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
 
                       <!-- Trailer Table (Initially Hidden) -->
 
@@ -1173,6 +1246,8 @@
                         <option value="OPERATIONAL/HUSTLING">OPERATIONAL/HUSTLING</option>
 
                         <option value="DOWN">DOWN</option>
+
+                        <option value="TOTALLY DOWN">TOTALLY DOWN</option>
 
                       </select>
 
@@ -2178,7 +2253,23 @@
 
                                     <label for="size">Size <span class="required">*</span></label>
 
-                                    <input id="size" type="text" placeholder="Enter vehicle size" required />
+                                    <select id="size" required>
+
+                                        <option value="">Select Size</option>
+
+                                        <option value="truck head">truck head</option>
+
+                                        <option value="12 wheeler">12 wheeler</option>
+
+                                        <option value="10 wheeler">10 wheeler</option>
+
+                                        <option value="8 wheeler">8 wheeler</option>
+
+                                        <option value="6 wheeler">6 wheeler</option>
+
+                                        <option value="4 wheeler">4 wheeler</option>
+
+                                    </select>
 
                                 </div>
 
@@ -3052,6 +3143,8 @@
 
                                         <option value="DOWN">DOWN</option>
 
+                                        <option value="TOTALLY DOWN">TOTALLY DOWN</option>
+
                                     </select>
 
                                 </div>
@@ -3223,6 +3316,8 @@
                                         <option value="OPERATIONAL/HUSTLING">OPERATIONAL/HUSTLING</option>
 
                                         <option value="DOWN">DOWN</option>
+
+                                        <option value="TOTALLY DOWN">TOTALLY DOWN</option>
 
                                     </select>
 
@@ -4203,6 +4298,8 @@
                             <option value="OPERATIONAL/HUSTLING">OPERATIONAL/HUSTLING</option>
 
                             <option value="DOWN">DOWN</option>
+
+                            <option value="TOTALLY DOWN">TOTALLY DOWN</option>
 
                         </select>
 

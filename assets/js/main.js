@@ -999,6 +999,7 @@ let editingVehiclePlate = null;
 let allVehicles = [];
 let selectedPlantFilter = null; // Default to All Plants
 let currentRegistryFilter = 'truck'; // Default registry filter
+let currentStatusFilter = 'truck'; // Default status filter
 // Legacy function for backward compatibility
 clearPlantFilter = showAllPlants;
 // Unified Show All Plants function with proper error handling and logging
@@ -1461,7 +1462,11 @@ const plateInput = document.getElementById('plate');
 plateInput.value = vehicle.plate;
 // plateInput.disabled = true; // Disable plate field during edit - REMOVED to allow editing
 document.getElementById('model').value = vehicle.model || '';
-document.getElementById('size').value = vehicle.size || '';
+// Normalize size value to match dropdown options
+const sizeValue = (vehicle.size || '').trim().toLowerCase();
+const sizeOptions = ['truck head', '12 wheeler', '10 wheeler', '8 wheeler', '6 wheeler', '4 wheeler'];
+const matchedSize = sizeOptions.find(opt => opt.toLowerCase() === sizeValue);
+document.getElementById('size').value = matchedSize || '';
 document.getElementById('year_model').value = vehicle.year_model || '';
 document.getElementById('plant').value = vehicle.plant || '';
 // Engine & Vehicle Details
@@ -2016,7 +2021,8 @@ async function loadContainerDataForRepair(plantFilter) {
                 'OPERATIONAL/HUSTLING': 'blue',
                 'DOWN': 'red',
                 'Down': 'red',
-                'down': 'red'
+                'down': 'red',
+                'TOTALLY DOWN': 'brown'
             }[container.status] || 'black';
 
             // Apply color styling to container text based on container color field
@@ -2323,6 +2329,9 @@ closeContainerModal();
 // ============ Vehicle Status Functions ============
 let vehicleStatusRecords = [];
 let editingStatusPlate = null;
+
+// Expose vehicleStatusRecords to window for use in other modules
+window.vehicleStatusRecords = vehicleStatusRecords;
 // Load vehicle status records with driver and status
 async function loadVehicleStatus() {
 return new Promise(async (resolve, reject) => {
@@ -2394,6 +2403,9 @@ let mergedData = [...vehicleMergedData, ...trailerMergedData];
 
 vehicleStatusRecords = mergedData;
 
+// Update window.vehicleStatusRecords for use in other modules
+window.vehicleStatusRecords = vehicleStatusRecords;
+
 // Only display data if we're not in Status view (to avoid overriding filtered views)
 if (!document.getElementById('status-view').classList.contains('active')) {
 displayVehicleStatus(vehicleStatusRecords);
@@ -2448,12 +2460,13 @@ const vehicleRows = vehicleRecords.map(vehicle => {
 const statusColor = {
 'OPERATIONAL': 'green',
 'OPERATIONAL/HUSTLING': 'blue',
-'DOWN': 'red'
+'DOWN': 'red',
+'TOTALLY DOWN': 'brown'
 }[vehicle.status] || 'black';
 return `
 <tr>
 <td>${vehicle.plate || 'N/A'}</td>
-<td>${vehicle.vehicle_type || vehicle.size || 'N/A'}</td>
+<td>${vehicle.size || 'N/A'}</td>
 <td>${vehicle.model || 'N/A'}</td>
 <td>${vehicle.driver || 'N/A'}</td>
 <td>${vehicle.truck_issue || '-'}</td>
@@ -3553,7 +3566,8 @@ function filterRepairTable(vehicleType) {
                     'OPERATIONAL/HUSTLING': 'blue',
                     'DOWN': 'red',
                     'Down': 'red',
-                    'down': 'red'
+                    'down': 'red',
+                    'TOTALLY DOWN': 'brown'
                 }[vehicle.status] || 'black';
 
                 return `
@@ -3576,7 +3590,8 @@ function filterRepairTable(vehicleType) {
                     'OPERATIONAL/HUSTLING': 'blue',
                     'DOWN': 'red',
                     'Down': 'red',
-                    'down': 'red'
+                    'down': 'red',
+                    'TOTALLY DOWN': 'brown'
                 }[vehicle.status] || 'black';
 
                 return `
@@ -3599,7 +3614,8 @@ function filterRepairTable(vehicleType) {
                     'OPERATIONAL/HUSTLING': 'blue',
                     'DOWN': 'red',
                     'Down': 'red',
-                    'down': 'red'
+                    'down': 'red',
+                    'TOTALLY DOWN': 'brown'
                 }[vehicle.status] || 'black';
 
                 // Format date to "Month Day Year" format
@@ -4823,6 +4839,9 @@ loadVehicles();
 
 // Function to set status filter and update UI
 function setStatusFilter(filterType) {
+// Track current status filter
+currentStatusFilter = filterType;
+
 // Track last selected parent button (truck or trailer)
 if (filterType === 'truck' || filterType === 'trailer') {
 lastSelectedParentButton = filterType;
@@ -4930,6 +4949,27 @@ document.getElementById('plate').disabled = false; // Ensure plate field is enab
 clearVehicleFormErrors();
 vehicleSubmitBtn.textContent = 'Save Vehicle';
 editingVehiclePlate = null;
+
+// Show/hide size dropdown based on status filter
+const sizeField = document.getElementById('size').parentElement;
+if (sizeField) {
+// Check if we're in status section and current filter is truck
+const isStatusSection = document.querySelector('#status-view.active');
+if (isStatusSection && currentStatusFilter === 'truck') {
+sizeField.style.display = 'block';
+document.getElementById('size').required = true;
+} else if (isStatusSection) {
+// Hide size dropdown for non-truck types in status section
+sizeField.style.display = 'none';
+document.getElementById('size').required = false;
+document.getElementById('size').value = '';
+} else {
+// Show size dropdown for registry section
+sizeField.style.display = 'block';
+document.getElementById('size').required = true;
+}
+}
+
 vehicleModal.style.display = 'block';
 vehicleModalOverlay.style.display = 'block';
 document.body.style.overflow = 'hidden';
@@ -7613,6 +7653,8 @@ const trailerCrTable = document.getElementById('trailer-cr-table');
 
 const trailerOrTable = document.getElementById('trailer-or-table');
 
+const summaryTable = document.getElementById('vehicle-status-summary-table');
+
 // Get C/R and O/R buttons
 
 const crBtn = document.getElementById('cr-table-btn');
@@ -7634,6 +7676,8 @@ if (orTable) orTable.style.display = 'none';
 if (trailerCrTable) trailerCrTable.style.display = 'none';
 
 if (trailerOrTable) trailerOrTable.style.display = 'none';
+
+if (summaryTable) summaryTable.closest('.recentVehicles').style.display = 'none';
 
 // Track vehicle type and control C/R and O/R button visibility
 
@@ -7709,7 +7753,17 @@ switch (tableType) {
 case 'truck':
 if (truckTable) {
 truckTable.style.display = '';
+// Load fresh data from database before displaying
+loadVehicleStatus().then(() => {
 loadTruckData();
+}).catch(err => {
+console.error('Error loading vehicle status:', err);
+});
+}
+if (summaryTable) summaryTable.closest('.recentVehicles').style.display = 'block';
+// Load vehicle status summary
+if (typeof window.statusModule !== 'undefined' && typeof window.statusModule.loadVehicleStatusSummary === 'function') {
+window.statusModule.loadVehicleStatusSummary();
 }
 break;
 case 'trailer':
@@ -9021,18 +9075,17 @@ function getStyledStatus(status) {
   
   let color = 'green'; // default color
   
-  switch(statusText) {
-    case 'DOWN':
-      color = 'red';
-      break;
-    case 'OPERATIONAL/HUSTLING':
-      color = 'blue';
-      break;
-    case 'OPERATIONAL':
-      color = 'green';
-      break;
-    default:
-      color = 'green';
+  // Check for totally down first (before other checks)
+  if (statusText.includes('TOTALLY DOWN') || statusText.includes('TOTALLYDOWN')) {
+    color = 'brown';
+  } else if (statusText === 'DOWN') {
+    color = 'red';
+  } else if (statusText === 'OPERATIONAL/HUSTLING') {
+    color = 'blue';
+  } else if (statusText === 'OPERATIONAL') {
+    color = 'green';
+  } else {
+    color = 'green';
   }
   
   return `<span style="color: ${color}; font-weight: bold; text-transform: uppercase;">${statusText}</span>`;
