@@ -2569,7 +2569,7 @@ const { data: vehicleStatus, error: vehicleError } = await supabaseClient
 .from('vehicle_status')
 .select('registered_date, expiration_date')
 .eq('plate', plate)
-.single();
+.maybeSingle();
 
 // Debug logging
 console.log('Driver Status Data:', driverStatus);
@@ -3115,6 +3115,10 @@ const { error } = await supabaseClient
 if (error) throw error;
 }
 await loadVehicleStatus();
+// Refresh Vehicle Status Summary
+if (typeof window.statusModule !== 'undefined' && typeof window.statusModule.loadVehicleStatusSummary === 'function') {
+  await window.statusModule.loadVehicleStatusSummary();
+}
 closeStatusModal();
 showSuccess('Vehicle status saved successfully!', 'Success');
 } catch (err) {
@@ -3278,6 +3282,10 @@ if (vehicleInsertError) throw vehicleInsertError;
 }
 // Reload data to refresh tables
 await loadVehicleStatus();
+// Refresh Vehicle Status Summary
+if (typeof window.statusModule !== 'undefined' && typeof window.statusModule.loadVehicleStatusSummary === 'function') {
+  await window.statusModule.loadVehicleStatusSummary();
+}
 // Only refresh O/R table if vehicle_status data was actually changed
 if (Object.keys(vehicleStatusData).length > 0 && 
     (vehicleStatusData.registered_date || vehicleStatusData.expiration_date)) {
