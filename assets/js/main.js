@@ -1031,13 +1031,21 @@ cards.forEach(card => card.classList.remove('active'));
 loadVehicles(null);
 loadTruckImages(null, selectedTruckImagesType);
 loadRepairs();
-loadVehicleStatus();
 loadGpsData();
 loadClientData();
 loadTrailerData();
 loadContainerDataForRegistry(null, window.authSystem && window.authSystem.isAdmin());
 loadStatusTrailerData();
 loadContainerData();
+// Reload vehicle status without plant filter and wait for it to complete
+loadVehicleStatus().then(() => {
+  // Refresh Vehicle Status Summary without plant filter (show all) after vehicle status is loaded
+  if (typeof window.statusModule !== 'undefined' && typeof window.statusModule.loadVehicleStatusSummary === 'function') {
+    window.statusModule.loadVehicleStatusSummary(null);
+  }
+}).catch(err => {
+  console.error('Error loading vehicle status for summary:', err);
+});
 // Refresh Repair section tables without plant filter
 const repairViewElShowAll = document.getElementById('repair-view');
 if (repairViewElShowAll && repairViewElShowAll.classList.contains('active') && typeof setRepairFilter === 'function') {
@@ -1182,7 +1190,7 @@ if (plantFilterTimeout) {
 
 clearTimeout(plantFilterTimeout);
 }
-// Debounce the filter operation to prevent rapid clicks
+// Debounce the filter operation to prevent rapid clicks (reduced to 50ms for faster response)
 plantFilterTimeout = setTimeout(() => {
 selectedPlantFilter = plant;
 // IMPORTANT: Also update the plant state manager for status tab
@@ -1194,7 +1202,15 @@ cards.forEach(card => card.classList.toggle('active', card.dataset.plant === pla
 // Reload data with filter
 loadVehicles(plant);
 loadTruckImages(plant, selectedTruckImagesType);
-loadVehicleStatus(); // Also reload vehicle status with new filter
+// Reload vehicle status with new filter and wait for it to complete
+loadVehicleStatus().then(() => {
+  // Refresh Vehicle Status Summary with plant filter after vehicle status is loaded
+  if (typeof window.statusModule !== 'undefined' && typeof window.statusModule.loadVehicleStatusSummary === 'function') {
+    window.statusModule.loadVehicleStatusSummary(plant);
+  }
+}).catch(err => {
+  console.error('Error loading vehicle status for summary:', err);
+});
 loadGpsData(); // Also reload GPS data with new filter
 loadRepairs(); // Also reload repair data with new filter
 loadClientData(); // Also reload client data with new filter
@@ -1202,9 +1218,8 @@ loadTrailerData(); // Also reload trailer data with new filter
 loadContainerDataForRegistry(plant, window.authSystem && window.authSystem.isAdmin()); // Also reload container data with new filter
 loadStatusTrailerData(); // Also reload Status section trailer data with new filter
 loadContainerData(); // Also reload Status section container data with new filter
-// Refresh Repair section tables with new plant filter
-const repairViewEl = document.getElementById('repair-view');
-if (repairViewEl && repairViewEl.classList.contains('active') && typeof setRepairFilter === 'function') {
+// Refresh Repair section tables with new plant filter (always refresh, not just when active)
+if (typeof setRepairFilter === 'function') {
 // Get current repair filter type from active button
 const activeRepairBtn = document.querySelector('#repair-view .registry-filter-btn.active');
 const currentFilter = activeRepairBtn ? activeRepairBtn.dataset.filter : 'truck';
@@ -1216,7 +1231,7 @@ window.rfidModule.loadRfidDashboard();
 }
 // Log user action
 logUserAction('apply_plant_filter', { plant, timestamp: new Date().toISOString() });
-}, 100); // 100ms debounce
+}, 50); // 50ms debounce for faster response
 } catch (error) {
 console.error('Error in applyPlantFilter:', error);
 }
@@ -1972,6 +1987,86 @@ if (window.updateCrudVisibility) {
     window.updateCrudVisibility();
 }
 }
+// Load trailer data for repair section
+async function loadTrailerDataForRepair(plantFilter) {
+    try {
+        // Use selectedPlantFilter if plantFilter is not provided
+        const effectiveFilter = plantFilter !== undefined ? plantFilter : selectedPlantFilter;
+        // Load trailer data from trailer_registry table - only Down status
+        let query = supabaseClient
+            .from('trailer_registry')
+            .select('*')
+            .or('status.eq.Down,status.eq.DOWN,status.eq.down')
+            .order('plate_no', { ascending: true });
+        // Apply plant filter if specified (trailer_registry uses location_plant column)
+        if (effectiveFilter) {
+            query = query.eq('location_plant', effectiveFilter);
+        }
+        const { data: trailerData, error: trailerError } = await query;
+
+        if (trailerError) {
+            console.error('Error loading trailers for repair:', trailerError);
+            return;
+        }
+
+        // Get the trailer table body
+        const trailerTbody = document.querySelector('#repair-trailer-table tbody');
+        if (!trailerTbody) return;
+
+        // Filter trailers by plant if specified
+        let filteredTrailers = trailerData || [];
+
+        // Show empty state if no records
+        if (filteredTrailers.length === 0) {
+            trailerTbody.innerHTML = `
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 20px; color: #666;">
+                        No Trailer Vehicles Found For The Selected Plant.
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        // Populate trailer table with trailer-specific format
+        trailerTbody.innerHTML = filteredTrailers.map(trailer => {
+            // Map status values to colors for consistency
+            const statusColor = {
+                'OPERATIONAL': 'green',
+                'OPERATIONAL/HUSTLING': 'blue',
+                'DOWN': 'red',
+                'Down': 'red',
+                'down': 'red',
+                'TOTALLY DOWN': 'brown'
+            }[trailer.status] || 'black';
+
+            return `
+                <tr>
+                    <td>${trailer.plate_no || '-'}</td>
+                    <td>${trailer.chassis_no || '-'}</td>
+                    <td>${trailer.trailer_type || '-'}</td>
+                    <td>${trailer.trailer_issue || '-'}</td>
+                    <td>${trailer.date_reported || '-'}</td>
+                    <td><span style="color: ${statusColor}; font-weight: 600;">${trailer.status || 'Active'}</span></td>
+                </tr>
+            `;
+        }).join('');
+
+    } catch (error) {
+        console.error('Error in loadTrailerDataForRepair:', error);
+        const trailerTbody = document.querySelector('#repair-trailer-table tbody');
+        if (trailerTbody) {
+            trailerTbody.innerHTML = `
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 20px; color: #666;">
+                        Error loading trailer data.
+                    </td>
+                </tr>
+            `;
+        }
+    }
+}
+
 // Load container data for repair section
 async function loadContainerDataForRepair(plantFilter) {
     try {
@@ -3117,7 +3212,7 @@ if (error) throw error;
 await loadVehicleStatus();
 // Refresh Vehicle Status Summary
 if (typeof window.statusModule !== 'undefined' && typeof window.statusModule.loadVehicleStatusSummary === 'function') {
-  await window.statusModule.loadVehicleStatusSummary();
+  await window.statusModule.loadVehicleStatusSummary(selectedPlantFilter);
 }
 closeStatusModal();
 showSuccess('Vehicle status saved successfully!', 'Success');
@@ -3284,7 +3379,7 @@ if (vehicleInsertError) throw vehicleInsertError;
 await loadVehicleStatus();
 // Refresh Vehicle Status Summary
 if (typeof window.statusModule !== 'undefined' && typeof window.statusModule.loadVehicleStatusSummary === 'function') {
-  await window.statusModule.loadVehicleStatusSummary();
+  await window.statusModule.loadVehicleStatusSummary(selectedPlantFilter);
 }
 // Only refresh O/R table if vehicle_status data was actually changed
 if (Object.keys(vehicleStatusData).length > 0 && 
@@ -3428,7 +3523,7 @@ showConfirm('Are you sure you want to delete this repair report?', 'Confirm Dele
 
 // Function to set repair filter and update UI
 function setRepairFilter(filterType) {
-// Update button states
+// Update button states immediately
 const buttons = document.querySelectorAll('#repair-view .registry-filter-btn');
 buttons.forEach(btn => {
 btn.classList.remove('active');
@@ -3449,7 +3544,7 @@ repairTitle.textContent = 'Vehicle Repair Report';
 }
 }
 
-// Trigger existing filterRepairTable function
+// Trigger existing filterRepairTable function immediately (no delay)
 filterRepairTable(filterType);
 }
 
@@ -3496,45 +3591,46 @@ function filterRepairTable(vehicleType) {
             vehicle.status === 'Unavailable'
         );
 
+    // Show/hide appropriate tables BEFORE loading data
+    if (vehicleType === 'trailer') {
+        truckTable.style.display = 'none';
+        trailerTable.style.display = 'table';
+        containerTable.style.display = 'none';
+        // Show loading state immediately
+        trailerTbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: #666;">Loading...</td></tr>';
+        // For trailers, load from trailer_registry table instead of vehicleStatusRecords
+        loadTrailerDataForRepair(selectedPlantFilter);
+        return; // Exit early since we handle trailers separately
+    } else if (vehicleType === 'container') {
+        truckTable.style.display = 'none';
+        trailerTable.style.display = 'none';
+        containerTable.style.display = 'table';
+        // Show loading state immediately
+        containerTbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: #666;">Loading...</td></tr>';
+        // For containers, load from containers table instead of vehicleStatusRecords
+        loadContainerDataForRepair(selectedPlantFilter);
+        return; // Exit early since we handle containers separately
+    } else {
+        truckTable.style.display = 'table';
+        trailerTable.style.display = 'none';
+        containerTable.style.display = 'none';
+    }
+
     // Further filter by vehicle type (skip filtering for 'all')
     if (vehicleType !== 'all') {
         filteredVehicles = filteredVehicles.filter(vehicle => {
             // Prioritize vehicle_type field for categorization
             const vehicleTypeField = (vehicle.vehicle_type || '').toLowerCase();
             const sizeField = (vehicle.size || '').toLowerCase();
-            
+
             // Map vehicle type to filter criteria based on actual vehicle_type field
             if (vehicleType === 'truck') {
                 // Trucks: vehicle_type must be 'truck' (case-insensitive) OR not 'trailer'/'container'
-                return vehicleTypeField === 'truck' || 
+                return vehicleTypeField === 'truck' ||
                       (vehicleTypeField !== 'trailer' && vehicleTypeField !== 'container' && !sizeField.includes('ft'));
-            } else if (vehicleType === 'trailer') {
-                // Trailers: vehicle_type must be 'trailer' or contain 'ft' in size
-                return vehicleTypeField === 'trailer' || 
-                       (sizeField.includes('ft') && vehicleTypeField !== 'truck' && vehicleTypeField !== 'container');
-            } else if (vehicleType === 'container') {
-                // For containers, load from containers table instead of vehicleStatusRecords
-                loadContainerDataForRepair(selectedPlantFilter);
-                return; // Exit early since we handle containers separately
             }
             return true;
         });
-    }
-
-    // Show/hide appropriate tables
-    if (vehicleType === 'trailer') {
-        truckTable.style.display = 'none';
-        trailerTable.style.display = 'table';
-        containerTable.style.display = 'none';
-    } else if (vehicleType === 'container') {
-        truckTable.style.display = 'none';
-        trailerTable.style.display = 'none';
-        containerTable.style.display = 'table';
-        return; // Exit early since containers are handled by loadContainerDataForRepair
-    } else {
-        truckTable.style.display = 'table';
-        trailerTable.style.display = 'none';
-        containerTable.style.display = 'none';
     }
 
     // Clear all table bodies
@@ -5775,9 +5871,9 @@ async function loadRfidAccountModalData() {
     filteredVehicles.forEach(vehicle => {
       const row = document.createElement('tr');
       row.innerHTML = `
-        <td style="font-weight: 600; color: var(--black1);">${vehicle.plate || '-'}</td>
-        <td>${vehicle.autosweep || '-'}</td>
-        <td>${vehicle.easytrip || '-'}</td>
+        <td style="font-weight: 600; color: var(--black1); text-align: center;">${vehicle.plate || '-'}</td>
+        <td style="text-align: center;">${vehicle.autosweep || '-'}</td>
+        <td style="text-align: center;">${vehicle.easytrip || '-'}</td>
       `;
       tableBody.appendChild(row);
     });
@@ -7771,7 +7867,7 @@ console.error('Error loading vehicle status:', err);
 if (summaryTable) summaryTable.closest('.recentVehicles').style.display = 'block';
 // Load vehicle status summary
 if (typeof window.statusModule !== 'undefined' && typeof window.statusModule.loadVehicleStatusSummary === 'function') {
-window.statusModule.loadVehicleStatusSummary();
+window.statusModule.loadVehicleStatusSummary(selectedPlantFilter);
 }
 break;
 case 'trailer':

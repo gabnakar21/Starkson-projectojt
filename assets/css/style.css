@@ -9518,6 +9518,19 @@ table#vehicle-table td.vehicle-actions-cell button.vehicle-registry-action-btn.d
 
 }
 
+/* Main RFID view table column colors */
+#rfid-table tbody td:nth-child(n+4):nth-child(-n+5),
+#rfid-table tbody td:nth-child(n+7):nth-child(-n+11) {
+  color: #29cc00 !important;
+  font-size: 0.9rem;
+}
+
+#rfid-table tbody td:nth-child(n+6):nth-child(-n+7),
+#rfid-table tbody td:nth-child(n+12):nth-child(-n+15) {
+  color: #ff8800 !important;
+  font-size: 0.9rem;
+}
+
 
 
 /* Responsive design for RFID modal */

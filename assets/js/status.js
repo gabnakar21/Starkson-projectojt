@@ -183,9 +183,10 @@ async function loadVehicleStatus() {
 }
 
 // Load vehicle status summary
-async function loadVehicleStatusSummary() {
+async function loadVehicleStatusSummary(plantFilter = null) {
   try {
     console.log('Loading vehicle status summary from status truck table data...');
+    console.log('Plant filter:', plantFilter);
     
     // Use vehicleStatusRecords from main.js (contains merged data from vehicle_registry + drivers_status)
     let vehicles = [];
@@ -212,6 +213,16 @@ async function loadVehicleStatusSummary() {
       
       vehicles = dbVehicles || [];
       console.log('Vehicle data fetched from database:', vehicles.length, 'vehicles');
+    }
+    
+    // Apply plant filter if specified
+    if (plantFilter) {
+      vehicles = vehicles.filter(vehicle => {
+        const vehiclePlant = (vehicle.plant || '').toLowerCase().trim();
+        const filterPlant = plantFilter.toLowerCase().trim();
+        return vehiclePlant === filterPlant;
+      });
+      console.log('Vehicles after plant filter:', vehicles.length, 'vehicles');
     }
     
     // Filter out trailers to show only truck data
