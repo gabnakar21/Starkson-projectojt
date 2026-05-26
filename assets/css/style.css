@@ -1311,6 +1311,29 @@ table td:not(:nth-child(1)),
 
 }
 
+.plant-card .plant-count {
+
+  font-size: 1.2rem;
+
+  font-weight: 700;
+
+  color: black;
+
+  position: absolute;
+
+  right: 20px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+}
+
+.cardBox .card:hover .plant-count {
+
+  color: var(--white);
+
+}
 
 
 /* ================== Order Details List ============== */
@@ -1342,6 +1365,8 @@ table td:not(:nth-child(1)),
   grid-template-columns: 2.5fr 1.0fr;
 
   grid-gap: 20px;
+
+  align-items: start;
 
 }
 
@@ -10532,6 +10557,9 @@ body.about-view-active .topbar .search {
     left: -300px;
     z-index: 1000;
     transition: left 0.3s ease;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .navigation.mobile-active {
@@ -10570,9 +10598,15 @@ body.about-view-active .topbar .search {
     font-size: 2rem;
   }
 
-  /* Search bar on mobile */
+  /* Search bar on mobile - move to right */
+  .topbar {
+    justify-content: space-between;
+  }
+
   .search {
     width: 150px;
+    margin-left: auto;
+    order: 3;
   }
 
   .search label input {
@@ -10589,6 +10623,8 @@ body.about-view-active .topbar .search {
 
   .search {
     width: 120px;
+    margin-left: auto;
+    order: 3;
   }
 
   .toggle {
@@ -11071,6 +11107,7 @@ body.about-view-active .topbar .search {
   .action-btn {
     padding: 5px 10px;
     font-size: 0.75rem;
+    min-height: 40px;
   }
 }
 
@@ -11078,6 +11115,657 @@ body.about-view-active .topbar .search {
   .action-btn {
     padding: 4px 8px;
     font-size: 0.7rem;
+    min-height: 36px;
+  }
+}
+
+/* ==================== ADDITIONAL RESPONSIVE ENHANCEMENTS ==================== */
+
+/* Universal Touch Targets */
+@media (max-width: 768px) {
+  button,
+  .btn,
+  input[type="submit"],
+  input[type="button"],
+  a[role="button"],
+  .nav-link {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  select,
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="password"],
+  textarea {
+    min-height: 44px;
+    font-size: 16px; /* Prevent iOS zoom */
+  }
+}
+
+/* Dashboard Section Responsive */
+@media (max-width: 768px) {
+  #dashboard-vehicles-section {
+    grid-template-columns: 1fr !important;
+  }
+
+  .container-trailer-buttons {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .container-trailer-btn {
+    padding: 12px 16px !important;
+    font-size: 13px !important;
+    min-height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container-trailer-buttons {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  .container-trailer-btn {
+    padding: 10px 14px !important;
+    font-size: 12px !important;
+    min-height: 44px;
+  }
+}
+
+/* Filter Buttons Responsive */
+@media (max-width: 768px) {
+  .registry-filter-btn,
+  .btn-filter,
+  .table-switch-btn {
+    padding: 10px 16px !important;
+    font-size: 0.85rem !important;
+    min-height: 44px;
+  }
+
+  .cardHeader > div[style*="display: flex"] {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+
+  .cardHeader > div[style*="display: flex"] > div[style*="display: flex"] {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .registry-filter-btn,
+  .btn-filter,
+  .table-switch-btn {
+    padding: 8px 12px !important;
+    font-size: 0.75rem !important;
+    min-height: 40px;
+  }
+}
+
+/* Status Summary Table Responsive */
+@media (max-width: 768px) {
+  #vehicle-status-summary-table {
+    font-size: 0.75rem;
+  }
+
+  #vehicle-status-summary-table td {
+    padding: 8px 4px;
+    min-width: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  #vehicle-status-summary-table {
+    font-size: 0.7rem;
+  }
+
+  #vehicle-status-summary-table td {
+    padding: 6px 3px;
+    min-width: 40px;
+  }
+}
+
+/* Topbar Responsive */
+@media (max-width: 768px) {
+  .topbar {
+    padding: 0 10px;
+    height: 56px;
+  }
+
+  .toggle {
+    width: 50px;
+    height: 50px;
+    font-size: 1.8rem;
+  }
+
+  .search {
+    width: 140px;
+  }
+
+  .search label input {
+    font-size: 12px;
+    padding: 8px 15px 8px 35px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    padding: 0 8px;
+    height: 52px;
+  }
+
+  .toggle {
+    width: 44px;
+    height: 44px;
+    font-size: 1.6rem;
+  }
+
+  .search {
+    width: 100px;
+  }
+
+  .search label input {
+    font-size: 11px;
+    padding: 6px 12px 6px 30px;
+    height: 32px;
+  }
+
+  .search label .fas {
+    font-size: 1rem;
+    left: 12px;
+  }
+}
+
+/* Content View Padding Responsive */
+@media (max-width: 768px) {
+  .content-view {
+    padding: 15px;
+  }
+
+  .content-view .cardBox {
+    padding: 10px;
+    grid-gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-view {
+    padding: 10px;
+  }
+
+  .content-view .cardBox {
+    padding: 8px;
+    grid-gap: 8px;
+  }
+}
+
+/* Card Responsive Improvements */
+@media (max-width: 768px) {
+  .cardBox .card {
+    padding: 15px;
+    min-height: 80px;
+  }
+
+  .cardBox .card .numbers {
+    font-size: 1.3rem;
+  }
+
+  .cardBox .card .cardName {
+    font-size: 0.85rem;
+  }
+
+  .plant-card .plant-count {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardBox .card {
+    padding: 12px;
+    min-height: 70px;
+  }
+
+  .cardBox .card .numbers {
+    font-size: 1.2rem;
+  }
+
+  .cardBox .card .cardName {
+    font-size: 0.8rem;
+  }
+
+  .plant-card .plant-count {
+    font-size: 0.9rem;
+  }
+}
+
+/* Recent Vehicles Section Responsive */
+@media (max-width: 768px) {
+  .recentVehicles {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .recentVehicles .cardHeader h2 {
+    font-size: 1.2rem;
+  }
+
+  .recentVehicles table thead td {
+    padding: 10px 8px;
+    font-size: 0.8rem;
+  }
+
+  .recentVehicles table td {
+    padding: 10px 8px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .recentVehicles {
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .recentVehicles .cardHeader h2 {
+    font-size: 1rem;
+  }
+
+  .recentVehicles table thead td {
+    padding: 8px 6px;
+    font-size: 0.75rem;
+  }
+
+  .recentVehicles table td {
+    padding: 8px 6px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Form Responsive Improvements */
+@media (max-width: 768px) {
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .form-actions button {
+    width: 100%;
+    min-height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-group {
+    margin-bottom: 12px;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .form-actions button {
+    min-height: 44px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Modal Responsive Enhancements */
+@media (max-width: 768px) {
+  .modal-form,
+  .modal-content {
+    width: 95% !important;
+    max-width: none !important;
+    margin: 10px auto !important;
+    max-height: 90vh;
+  }
+
+  .modal-header {
+    padding: 15px;
+  }
+
+  .modal-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .modal-close {
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
+  }
+
+  .modal-body {
+    padding: 15px;
+    max-height: calc(90vh - 120px);
+  }
+
+  .modal-footer {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-form,
+  .modal-content {
+    width: 98% !important;
+    margin: 5px auto !important;
+    max-height: 95vh;
+  }
+
+  .modal-header {
+    padding: 12px;
+  }
+
+  .modal-header h2 {
+    font-size: 1rem;
+  }
+
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    font-size: 1.3rem;
+  }
+
+  .modal-body {
+    padding: 12px;
+    max-height: calc(95vh - 100px);
+  }
+
+  .modal-footer {
+    padding: 12px;
+  }
+}
+
+/* Navigation Link Responsive */
+@media (max-width: 768px) {
+  .navigation ul li a {
+    padding: 15px 10px;
+  }
+
+  .navigation ul li a .icon {
+    min-width: 50px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.3rem;
+  }
+
+  .navigation ul li a .title {
+    font-size: 1rem;
+    height: 50px;
+    line-height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navigation ul li a {
+    padding: 12px 8px;
+  }
+
+  .navigation ul li a .icon {
+    min-width: 45px;
+    height: 45px;
+    line-height: 45px;
+    font-size: 1.2rem;
+  }
+
+  .navigation ul li a .title {
+    font-size: 0.9rem;
+    height: 45px;
+    line-height: 45px;
+  }
+}
+
+/* Go to Top Button Responsive */
+@media (max-width: 768px) {
+  #goToTopBtn {
+    width: 45px;
+    height: 45px;
+    bottom: 15px;
+    right: 15px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  #goToTopBtn {
+    width: 40px;
+    height: 40px;
+    bottom: 10px;
+    right: 10px;
+    font-size: 14px;
+  }
+}
+
+/* Vehicle Status Summary Responsive */
+@media (max-width: 768px) {
+  .status-row {
+    font-size: 0.8rem;
+  }
+
+  .status-row td {
+    padding: 8px 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .status-row {
+    font-size: 0.75rem;
+  }
+
+  .status-row td {
+    padding: 6px 3px;
+  }
+}
+
+/* Truck Gallery Responsive Enhancements */
+@media (max-width: 768px) {
+  .truck-card {
+    min-height: 200px;
+  }
+
+  .truck-card-image {
+    min-height: 150px;
+  }
+
+  .truck-card-info {
+    padding: 10px;
+  }
+
+  .truck-card-plate {
+    font-size: 1rem;
+  }
+
+  .truck-card-type {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .truck-card {
+    min-height: 180px;
+  }
+
+  .truck-card-image {
+    min-height: 130px;
+  }
+
+  .truck-card-info {
+    padding: 8px;
+  }
+
+  .truck-card-plate {
+    font-size: 0.9rem;
+  }
+
+  .truck-card-type {
+    font-size: 0.8rem;
+  }
+}
+
+/* Loading States Responsive */
+@media (max-width: 768px) {
+  .loading,
+  .tools-loading,
+  .rfid-loading,
+  .tire-loading {
+    font-size: 0.9rem;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loading,
+  .tools-loading,
+  .rfid-loading,
+  .tire-loading {
+    font-size: 0.85rem;
+    padding: 15px;
+  }
+}
+
+/* No Data Messages Responsive */
+@media (max-width: 768px) {
+  .no-data,
+  .tools-no-data,
+  .rfid-no-data,
+  .tire-no-data {
+    font-size: 0.9rem;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .no-data,
+  .tools-no-data,
+  .rfid-no-data,
+  .tire-no-data {
+    font-size: 0.85rem;
+    padding: 15px;
+  }
+}
+
+/* Scrollbar Styling for Mobile */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #c95454;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a04949;
+  }
+}
+
+/* Prevent Text Selection on Mobile for Better Touch Experience */
+@media (max-width: 768px) {
+  .cardBox .card,
+  .navigation ul li a,
+  button,
+  .btn {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+}
+
+/* Ensure Proper Z-Index on Mobile */
+@media (max-width: 768px) {
+  .navigation {
+    z-index: 1000;
+  }
+
+  .mobile-nav-overlay {
+    z-index: 999;
+  }
+
+  .modal-form,
+  .modal-content {
+    z-index: 1001;
+  }
+
+  .modal-overlay {
+    z-index: 1000;
+  }
+}
+
+/* Landscape Mode Improvements */
+@media (max-width: 768px) and (orientation: landscape) {
+  .navigation {
+    width: 250px !important;
+  }
+
+  .modal-form,
+  .modal-content {
+    max-height: 85vh;
+  }
+
+  .modal-body {
+    max-height: calc(85vh - 100px);
+  }
+}
+
+/* Safe Area Support for Notched Devices */
+@supports (padding: max(0px)) {
+  @media (max-width: 768px) {
+    .content-view {
+      padding-left: max(15px, env(safe-area-inset-left));
+      padding-right: max(15px, env(safe-area-inset-right));
+    }
+
+    .topbar {
+      padding-left: max(10px, env(safe-area-inset-left));
+      padding-right: max(10px, env(safe-area-inset-right));
+    }
+
+    .modal-form,
+    .modal-content {
+      margin-left: max(10px, env(safe-area-inset-left));
+      margin-right: max(10px, env(safe-area-inset-right));
+    }
   }
 }
 
@@ -11100,4 +11788,33 @@ body.about-view-active .topbar .search {
   .search label input {
     font-size: 0.8rem;
   }
+}
+
+/* Vehicle Status Summary Table - Clickable Status Rows */
+#vehicle-status-summary-table .status-row.clickable {
+  transition: background-color 0.2s ease;
+}
+
+#vehicle-status-summary-table .status-row.clickable:hover {
+  background-color: #f5f5f5;
+}
+
+#vehicle-status-summary-table .status-row.clickable td:first-child {
+  position: relative;
+}
+
+#vehicle-status-summary-table .status-row.clickable td:first-child::after {
+  content: '🔍';
+  margin-left: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+#vehicle-status-summary-table .status-row.clickable:hover td:first-child::after {
+  opacity: 1;
+}
+
+/* Vehicle Status Summary Table - Grand Total Row */
+#vehicle-status-summary-table tr:last-child td {
+  font-weight: bold !important;
 }

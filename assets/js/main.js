@@ -483,6 +483,44 @@ cards.forEach(card => card.classList.remove('active'));
 updateShowAllButtonsState();
 // Keep tables in sync with latest saved data whenever user switches tabs.
 if (supabaseClient) {
+// Get the active filter button for the current view to determine tab type
+const viewElement = document.getElementById(`${viewName}-view`);
+let currentFilterType = 'truck'; // Default to truck
+if (viewElement) {
+  const activeFilterBtn = viewElement.querySelector('.registry-filter-btn.active');
+  if (activeFilterBtn) {
+    currentFilterType = activeFilterBtn.dataset.filter;
+  }
+}
+// Update plant counts for the current view with tab type
+loadPlantCounts(viewName, currentFilterType);
+// Update plant card UI to show active state based on current tab's filter
+if (viewElement) {
+  // Get the appropriate plant filter based on tab type
+  let currentPlantFilter = null;
+  switch(currentFilterType) {
+    case 'truck':
+      currentPlantFilter = truckPlantFilter;
+      break;
+    case 'trailer':
+      currentPlantFilter = trailerPlantFilter;
+      break;
+    case 'container':
+      currentPlantFilter = containerPlantFilter;
+      break;
+    default:
+      currentPlantFilter = truckPlantFilter;
+  }
+  
+  // Update plant card UI to show active state
+  const cards = viewElement.querySelectorAll('.plant-card');
+  cards.forEach(card => {
+    card.classList.remove('active');
+    if (currentPlantFilter && card.dataset.plant === currentPlantFilter) {
+      card.classList.add('active');
+    }
+  });
+}
 // Initialize dashboard module if dashboard view
 if (viewName === 'dashboard') {
 if (window.dashboardModule && typeof window.dashboardModule.initializeDashboard === 'function') {
@@ -803,11 +841,14 @@ if (supabaseClient) {
 loadVehicles();
 loadVehicleStatus(); // Load vehicle status on page load
 loadGpsData(); // Load GPS data on page load
+loadPlantCounts('dashboard'); // Load plant counts on page load
 // Load plate options after Supabase is ready
 setTimeout(() => {
 loadPlateOptions();
 loadRepairs();
 loadTruckImages(selectedPlantFilter);
+// Update container and trailer count badges from correct database tables
+updateContainerTrailerCounts();
 }, 1000);
 // Reload GPS data after auth system is fully initialized to ensure Actions column shows correctly
 setTimeout(() => {
@@ -820,6 +861,7 @@ if (supabaseClient) {
 loadVehicles();
 loadVehicleStatus();
 loadGpsData();
+loadPlantCounts('dashboard'); // Load plant counts on page load
 setTimeout(() => {
 loadPlateOptions();
 loadRepairs();
@@ -829,6 +871,200 @@ loadTruckImages(selectedPlantFilter);
 }
 }, 100);
 });
+// ============ Plant Count Functions ============
+async function loadPlantCounts(view = 'dashboard', tabType = 'truck') {
+  if (!supabaseClient) {
+    console.error('Supabase not initialized');
+    return;
+  }
+  try {
+    let plantCounts = {};
+    
+    // Count based on current view and tab type from database
+    switch(view) {
+      case 'dashboard':
+        // Count vehicles from vehicle_registry based on tab type
+        if (tabType === 'truck') {
+          const { data: vehicles, error: vehiclesError } = await supabaseWithAuth(async () => {
+            return supabaseClient.from('vehicle_registry').select('plant');
+          });
+          if (!vehiclesError && vehicles) {
+            vehicles.forEach(vehicle => {
+              const plant = vehicle.plant || 'UNASSIGNED';
+              plantCounts[plant] = (plantCounts[plant] || 0) + 1;
+            });
+          }
+        }
+        break;
+        
+      case 'status':
+        // Count based on tab type
+        if (tabType === 'truck') {
+          const { data: statusVehicles, error: statusError } = await supabaseWithAuth(async () => {
+            return supabaseClient.from('vehicle_registry').select('plant');
+          });
+          if (!statusError && statusVehicles) {
+            statusVehicles.forEach(vehicle => {
+              const plant = vehicle.plant || 'UNASSIGNED';
+              plantCounts[plant] = (plantCounts[plant] || 0) + 1;
+            });
+          }
+        } else if (tabType === 'trailer') {
+          const { data: trailers, error: trailersError } = await supabaseWithAuth(async () => {
+            return supabaseClient.from('trailer_registry').select('location_plant');
+          });
+          if (!trailersError && trailers) {
+            trailers.forEach(trailer => {
+              const plant = trailer.location_plant || 'UNASSIGNED';
+              plantCounts[plant] = (plantCounts[plant] || 0) + 1;
+            });
+          }
+        } else if (tabType === 'container') {
+          const { data: containers, error: containersError } = await supabaseWithAuth(async () => {
+            return supabaseClient.from('containers').select('plant');
+          });
+          if (!containersError && containers) {
+            containers.forEach(container => {
+              const plant = container.plant || 'UNASSIGNED';
+              plantCounts[plant] = (plantCounts[plant] || 0) + 1;
+            });
+          }
+        }
+        break;
+        
+      case 'repair':
+        // Count based on tab type
+        if (tabType === 'truck') {
+          const { data: repairVehicles, error: repairError } = await supabaseWithAuth(async () => {
+            return supabaseClient.from('vehicle_registry').select('plant');
+          });
+          if (!repairError && repairVehicles) {
+            repairVehicles.forEach(vehicle => {
+              const plant = vehicle.plant || 'UNASSIGNED';
+              plantCounts[plant] = (plantCounts[plant] || 0) + 1;
+            });
+          }
+        } else if (tabType === 'trailer') {
+          const { data: repairTrailers, error: repairTrailersError } = await supabaseWithAuth(async () => {
+            return supabaseClient.from('trailer_registry').select('location_plant');
+          });
+          if (!repairTrailersError && repairTrailers) {
+            repairTrailers.forEach(trailer => {
+              const plant = trailer.location_plant || 'UNASSIGNED';
+              plantCounts[plant] = (plantCounts[plant] || 0) + 1;
+            });
+          }
+        } else if (tabType === 'container') {
+          const { data: repairContainers, error: repairContainersError } = await supabaseWithAuth(async () => {
+            return supabaseClient.from('containers').select('plant');
+          });
+          if (!repairContainersError && repairContainers) {
+            repairContainers.forEach(container => {
+              const plant = container.plant || 'UNASSIGNED';
+              plantCounts[plant] = (plantCounts[plant] || 0) + 1;
+            });
+          }
+        }
+        break;
+        
+      case 'registry':
+        // Count based on tab type
+        if (tabType === 'truck') {
+          const { data: regVehicles, error: regVehiclesError } = await supabaseWithAuth(async () => {
+            return supabaseClient.from('vehicle_registry').select('plant');
+          });
+          if (!regVehiclesError && regVehicles) {
+            regVehicles.forEach(vehicle => {
+              const plant = vehicle.plant || 'UNASSIGNED';
+              plantCounts[plant] = (plantCounts[plant] || 0) + 1;
+            });
+          }
+        } else if (tabType === 'trailer') {
+          const { data: regTrailers, error: regTrailersError } = await supabaseWithAuth(async () => {
+            return supabaseClient.from('trailer_registry').select('location_plant');
+          });
+          if (!regTrailersError && regTrailers) {
+            regTrailers.forEach(trailer => {
+              const plant = trailer.location_plant || 'UNASSIGNED';
+              plantCounts[plant] = (plantCounts[plant] || 0) + 1;
+            });
+          }
+        } else if (tabType === 'container') {
+          const { data: containers, error: containersError } = await supabaseWithAuth(async () => {
+            return supabaseClient.from('containers').select('plant');
+          });
+          if (!containersError && containers) {
+            containers.forEach(container => {
+              const plant = container.plant || 'UNASSIGNED';
+              plantCounts[plant] = (plantCounts[plant] || 0) + 1;
+            });
+          }
+        }
+        break;
+        
+      case 'trucks':
+        // Count based on tab type
+        if (tabType === 'truck') {
+          const { data: truckVehicles, error: truckVehiclesError } = await supabaseWithAuth(async () => {
+            return supabaseClient.from('vehicle_registry').select('plant');
+          });
+          if (!truckVehiclesError && truckVehicles) {
+            truckVehicles.forEach(vehicle => {
+              const plant = vehicle.plant || 'UNASSIGNED';
+              plantCounts[plant] = (plantCounts[plant] || 0) + 1;
+            });
+          }
+        } else if (tabType === 'trailer') {
+          const { data: truckTrailers, error: truckTrailersError } = await supabaseWithAuth(async () => {
+            return supabaseClient.from('trailer_registry').select('location_plant');
+          });
+          if (!truckTrailersError && truckTrailers) {
+            truckTrailers.forEach(trailer => {
+              const plant = trailer.location_plant || 'UNASSIGNED';
+              plantCounts[plant] = (plantCounts[plant] || 0) + 1;
+            });
+          }
+        } else if (tabType === 'container') {
+          const { data: truckContainers, error: truckContainersError } = await supabaseWithAuth(async () => {
+            return supabaseClient.from('containers').select('plant');
+          });
+          if (!truckContainersError && truckContainers) {
+            truckContainers.forEach(container => {
+              const plant = container.plant || 'UNASSIGNED';
+              plantCounts[plant] = (plantCounts[plant] || 0) + 1;
+            });
+          }
+        }
+        break;
+        
+      default:
+        // Default to vehicle_registry count
+        const { data: defaultVehicles, error: defaultError } = await supabaseWithAuth(async () => {
+          return supabaseClient.from('vehicle_registry').select('plant');
+        });
+        if (!defaultError && defaultVehicles) {
+          defaultVehicles.forEach(vehicle => {
+            const plant = vehicle.plant || 'UNASSIGNED';
+            plantCounts[plant] = (plantCounts[plant] || 0) + 1;
+          });
+        }
+    }
+    
+    // Update plant-count elements
+    const plantCards = document.querySelectorAll('.plant-card');
+    plantCards.forEach(card => {
+      const plant = card.dataset.plant;
+      const countElement = card.querySelector('.plant-count');
+      if (countElement && plant) {
+        countElement.textContent = (plantCounts[plant] || 0) + ' unit';
+      }
+    });
+    
+  } catch (error) {
+    console.error('Error loading plant counts:', error);
+  }
+}
+
 // ============ Vehicle Functions ============
 async function loadVehicles(plantFilter = selectedPlantFilter) {
 if (!supabaseClient) {
@@ -998,6 +1234,10 @@ console.error('Retry loading vehicles without plant filter failed:', retryErr);
 let editingVehiclePlate = null;
 let allVehicles = [];
 let selectedPlantFilter = null; // Default to All Plants
+// Separate plant filters for each tab type
+let truckPlantFilter = null; // Truck tab plant filter
+let trailerPlantFilter = null; // Trailer tab plant filter
+let containerPlantFilter = null; // Container tab plant filter
 let currentRegistryFilter = 'truck'; // Default registry filter
 let currentStatusFilter = 'truck'; // Default status filter
 // Legacy function for backward compatibility
@@ -1018,6 +1258,10 @@ clearTimeout(showAllPlantsTimeout);
 showAllPlantsTimeout = setTimeout(() => {
 // Log user action for AI/chat tracking
 logUserAction('show_all_plants', { timestamp: new Date().toISOString() });
+// Clear all tab-specific filters
+truckPlantFilter = null;
+trailerPlantFilter = null;
+containerPlantFilter = null;
 // Clear filter using plant state manager
 selectedPlantFilter = null;
 plantStateManager.setSelectedPlant(null);
@@ -1030,6 +1274,18 @@ cards.forEach(card => card.classList.remove('active'));
 // Reload all data without plant filter
 loadVehicles(null);
 loadTruckImages(null, selectedTruckImagesType);
+// Update plant counts for current view with tab type
+const activeViewShowAll = document.querySelector('.content-view.active');
+if (activeViewShowAll) {
+  const viewNameShowAll = activeViewShowAll.id.replace('-view', '');
+  // Get the active filter button for the current view to determine tab type
+  const activeFilterBtnShowAll = activeViewShowAll.querySelector('.registry-filter-btn.active');
+  let currentFilterTypeShowAll = 'truck'; // Default to truck
+  if (activeFilterBtnShowAll) {
+    currentFilterTypeShowAll = activeFilterBtnShowAll.dataset.filter;
+  }
+  loadPlantCounts(viewNameShowAll, currentFilterTypeShowAll);
+}
 loadRepairs();
 loadGpsData();
 loadClientData();
@@ -1037,6 +1293,8 @@ loadTrailerData();
 loadContainerDataForRegistry(null, window.authSystem && window.authSystem.isAdmin());
 loadStatusTrailerData();
 loadContainerData();
+// Update container and trailer count badges
+updateContainerTrailerCounts();
 // Reload vehicle status without plant filter and wait for it to complete
 loadVehicleStatus().then(() => {
   // Refresh Vehicle Status Summary without plant filter (show all) after vehicle status is loaded
@@ -1192,6 +1450,36 @@ clearTimeout(plantFilterTimeout);
 }
 // Debounce the filter operation to prevent rapid clicks (reduced to 50ms for faster response)
 plantFilterTimeout = setTimeout(() => {
+// Determine which tab is currently active and set the appropriate filter
+const activeView = document.querySelector('.content-view.active');
+let currentFilterType = 'truck'; // Default to truck
+
+if (activeView) {
+  const viewName = activeView.id.replace('-view', '');
+  
+  // Get the active filter button for the current view
+  const activeFilterBtn = activeView.querySelector('.registry-filter-btn.active');
+  if (activeFilterBtn) {
+    currentFilterType = activeFilterBtn.dataset.filter;
+  }
+  
+  // Set the tab-specific plant filter
+  switch(currentFilterType) {
+    case 'truck':
+      truckPlantFilter = plant;
+      break;
+    case 'trailer':
+      trailerPlantFilter = plant;
+      break;
+    case 'container':
+      containerPlantFilter = plant;
+      break;
+    default:
+      truckPlantFilter = plant;
+  }
+}
+
+// Update global filter for backward compatibility
 selectedPlantFilter = plant;
 // IMPORTANT: Also update the plant state manager for status tab
 plantStateManager.setSelectedPlant(plant);
@@ -1202,6 +1490,17 @@ cards.forEach(card => card.classList.toggle('active', card.dataset.plant === pla
 // Reload data with filter
 loadVehicles(plant);
 loadTruckImages(plant, selectedTruckImagesType);
+// Update plant counts for current view with tab type
+if (activeView) {
+  const viewName = activeView.id.replace('-view', '');
+  // Get the active filter button for the current view to determine tab type
+  const activeFilterBtn = activeView.querySelector('.registry-filter-btn.active');
+  let currentFilterType = 'truck'; // Default to truck
+  if (activeFilterBtn) {
+    currentFilterType = activeFilterBtn.dataset.filter;
+  }
+  loadPlantCounts(viewName, currentFilterType);
+}
 // Reload vehicle status with new filter and wait for it to complete
 loadVehicleStatus().then(() => {
   // Refresh Vehicle Status Summary with plant filter after vehicle status is loaded
@@ -2154,6 +2453,51 @@ async function loadContainerDataForRepair(plantFilter) {
     }
 }
 
+// Update container count badge
+function updateContainerCountBadge(count) {
+const containerCountBadge = document.getElementById('container-count-badge');
+if (containerCountBadge) {
+containerCountBadge.textContent = count;
+}
+}
+// Update trailer count badge
+function updateTrailerCountBadge(count) {
+const trailerCountBadge = document.getElementById('trailer-count-badge');
+if (trailerCountBadge) {
+trailerCountBadge.textContent = count;
+}
+}
+// Fetch and update container and trailer counts
+async function updateContainerTrailerCounts() {
+try {
+if (!supabaseClient) {
+console.error('Supabase client not initialized');
+return;
+}
+// Fetch container count from containers table
+const { data: containerData, error: containerError } = await supabaseClient
+.from('containers')
+.select('id');
+if (containerError) {
+console.error('Error fetching container count:', containerError);
+} else {
+updateContainerCountBadge(containerData ? containerData.length : 0);
+console.log('Container count updated:', containerData ? containerData.length : 0);
+}
+// Fetch trailer count from trailer_registry table
+const { data: trailerData, error: trailerError } = await supabaseClient
+.from('trailer_registry')
+.select('id');
+if (trailerError) {
+console.error('Error fetching trailer count:', trailerError);
+} else {
+updateTrailerCountBadge(trailerData ? trailerData.length : 0);
+console.log('Trailer count updated:', trailerData ? trailerData.length : 0);
+}
+} catch (error) {
+console.error('Error updating counts:', error);
+}
+}
 // Load container data separately for the registry
 async function loadContainerDataForRegistry(plantFilter, isAdmin) {
 try {
@@ -2171,6 +2515,8 @@ if (containerError) {
 console.error('Error loading containers:', containerError);
 return;
 }
+// Update container count badge
+updateContainerCountBadge(containerData ? containerData.length : 0);
 if (!containerData || containerData.length === 0) {
 const tbody = document.querySelector('#container-table tbody');
 if (tbody) {
@@ -2515,9 +2861,17 @@ reject(err);
 }
 function displayVehicleStatus(vehicleRecords) {
 
+console.log('displayVehicleStatus called with', vehicleRecords.length, 'records');
+console.log('Current filter active:', window.currentStatusFilter);
+
 const tbody = document.querySelector('#status-table tbody');
 
-if (!tbody) return;
+if (!tbody) {
+  console.error('status-table tbody not found!');
+  return;
+}
+
+console.log('status-table tbody found, proceeding to update');
 
 // Always filter out trailers from default status table
 vehicleRecords = vehicleRecords.filter(vehicle => {
@@ -2525,6 +2879,37 @@ vehicleRecords = vehicleRecords.filter(vehicle => {
     const size = (vehicle.size || '').toLowerCase().trim();
     return !vehicleType.includes('trailer') && !size.includes('trailer');
 });
+
+// Apply status filter if active (from status.js)
+if (window.currentStatusFilter) {
+  const filterStatus = window.currentStatusFilter.toLowerCase().trim();
+  console.log('Applying filter for status:', filterStatus);
+  console.log('Total vehicles before filter:', vehicleRecords.length);
+  
+  vehicleRecords = vehicleRecords.filter(vehicle => {
+    const vehicleStatus = (vehicle.status || '').toLowerCase().trim();
+    
+    // Match status with partial matching for "Totally Down" and "Operational/Hustling"
+    if (filterStatus.includes('totally down')) {
+      return vehicleStatus.includes('totally down') || vehicleStatus.includes('totallydown');
+    } else if (filterStatus.includes('operational/hustling') || filterStatus.includes('hustling')) {
+      return vehicleStatus.includes('operational/hustling') || vehicleStatus.includes('hustling');
+    } else if (filterStatus.includes('down')) {
+      return vehicleStatus.includes('down') && !vehicleStatus.includes('totally');
+    } else if (filterStatus.includes('operational')) {
+      return vehicleStatus.includes('operational') && !vehicleStatus.includes('hustling');
+    }
+    return false;
+  });
+  console.log(`Filtered to ${vehicleRecords.length} vehicles with status: ${window.currentStatusFilter}`);
+  
+  // Log sample statuses for debugging
+  if (vehicleRecords.length === 0) {
+    console.log('No vehicles matched. Sample statuses from database:');
+    const sampleStatuses = [...new Set(vehicleRecords.map(v => v.status))].slice(0, 5);
+    console.log(sampleStatuses);
+  }
+}
 
 // Check if user is admin (guest view if not)
 
@@ -2540,16 +2925,20 @@ actionsHeader.style.display = isAdmin ? '' : 'none';
 }
 if (!vehicleRecords || vehicleRecords.length === 0) {
 const colspan = isAdmin ? 7 : 6; // 7 columns for admin (including Actions), 6 for guest (no Actions column)
+const message = window.currentStatusFilter 
+  ? `No vehicles found with status: ${window.currentStatusFilter}`
+  : 'No vehicles found. Add vehicles to Vehicle Registry first.';
 tbody.innerHTML = `
 <tr>
 <td colspan="${colspan}" style="text-align: center; padding: 20px; color: #666;">
-No vehicles found. Add vehicles to Vehicle Registry first.
+${message}
 </td>
 </tr>
 `;
 return;
 }
 // Display vehicles from vehicle_registry table with driver and status
+console.log('Generating vehicle rows for', vehicleRecords.length, 'vehicles');
 const vehicleRows = vehicleRecords.map(vehicle => {
 // Map status values to colors for consistency
 const statusColor = {
@@ -2573,7 +2962,10 @@ ${isAdmin ? `
 </tr>
 `;
 }).join('');
+console.log('Generated', vehicleRows.split('</tr>').length - 1, 'rows');
+console.log('Setting tbody.innerHTML');
 tbody.innerHTML = vehicleRows;
+console.log('tbody.innerHTML set successfully');
 }
 // Function to populate CERTIFICATE OF REGISTRATION table
 function displayCertificateOfRegistration(vehicles) {
@@ -3531,6 +3923,37 @@ if (btn.dataset.filter === filterType) {
 btn.classList.add('active');
 }
 });
+
+// Update plant filter state based on tab type
+let currentPlantFilter = null;
+switch(filterType) {
+  case 'truck':
+    currentPlantFilter = truckPlantFilter;
+    break;
+  case 'trailer':
+    currentPlantFilter = trailerPlantFilter;
+    break;
+  case 'container':
+    currentPlantFilter = containerPlantFilter;
+    break;
+  default:
+    currentPlantFilter = truckPlantFilter;
+}
+
+// Update global filter for backward compatibility
+selectedPlantFilter = currentPlantFilter;
+
+// Update plant card UI to show active state for current tab
+const cards = document.querySelectorAll('#repair-view .plant-card');
+cards.forEach(card => {
+  card.classList.remove('active');
+  if (currentPlantFilter && card.dataset.plant === currentPlantFilter) {
+    card.classList.add('active');
+  }
+});
+
+// Update plant counts with the new tab type
+loadPlantCounts('repair', filterType);
 
 // Update title based on filter
 const repairTitle = document.querySelector('#repair-view .recentVehicles .cardHeader h2');
@@ -4869,21 +5292,46 @@ function setRegistryFilter(filterType) {
 
 currentRegistryFilter = filterType;
 
-
-
 // Update button states
-
 const buttons = document.querySelectorAll('.registry-filter-btn');
-
 buttons.forEach(btn => {
-
 btn.classList.remove('active');
-
 if (btn.dataset.filter === filterType) {
-
 btn.classList.add('active');
 }
 });
+
+// Update plant filter state based on tab type
+let currentPlantFilter = null;
+switch(filterType) {
+  case 'truck':
+    currentPlantFilter = truckPlantFilter;
+    break;
+  case 'trailer':
+    currentPlantFilter = trailerPlantFilter;
+    break;
+  case 'container':
+    currentPlantFilter = containerPlantFilter;
+    break;
+  default:
+    currentPlantFilter = truckPlantFilter;
+}
+
+// Update global filter for backward compatibility
+selectedPlantFilter = currentPlantFilter;
+
+// Update plant card UI to show active state for current tab
+const cards = document.querySelectorAll('#registry-view .plant-card');
+cards.forEach(card => {
+  card.classList.remove('active');
+  if (currentPlantFilter && card.dataset.plant === currentPlantFilter) {
+    card.classList.add('active');
+  }
+});
+
+// Update plant counts with the new tab type
+loadPlantCounts('registry', filterType);
+
 // Update title and button text based on filter
 // Use more specific selector to target the registry view title
 const registryTitle = document.querySelector('#registry-view .recentVehicles .cardHeader h2');
@@ -4960,6 +5408,37 @@ btn.classList.add('active');
 }
 });
 
+// Update plant filter state based on tab type
+let currentPlantFilter = null;
+switch(filterType) {
+  case 'truck':
+    currentPlantFilter = truckPlantFilter;
+    break;
+  case 'trailer':
+    currentPlantFilter = trailerPlantFilter;
+    break;
+  case 'container':
+    currentPlantFilter = containerPlantFilter;
+    break;
+  default:
+    currentPlantFilter = truckPlantFilter;
+}
+
+// Update global filter for backward compatibility
+selectedPlantFilter = currentPlantFilter;
+
+// Update plant card UI to show active state for current tab
+const cards = document.querySelectorAll('#status-view .plant-card');
+cards.forEach(card => {
+  card.classList.remove('active');
+  if (currentPlantFilter && card.dataset.plant === currentPlantFilter) {
+    card.classList.add('active');
+  }
+});
+
+// Update plant counts with the new tab type
+loadPlantCounts('status', filterType);
+
 // For C/R and O/R, also keep the parent button active
 if (filterType === 'cr' || filterType === 'or') {
 const parentBtn = document.getElementById(`status-${lastSelectedParentButton}-btn`);
@@ -5012,6 +5491,37 @@ if (btn.dataset.filter === filterType) {
 btn.classList.add('active');
 }
 });
+
+// Update plant filter state based on tab type
+let currentPlantFilter = null;
+switch(filterType) {
+  case 'truck':
+    currentPlantFilter = truckPlantFilter;
+    break;
+  case 'trailer':
+    currentPlantFilter = trailerPlantFilter;
+    break;
+  case 'container':
+    currentPlantFilter = containerPlantFilter;
+    break;
+  default:
+    currentPlantFilter = truckPlantFilter;
+}
+
+// Update global filter for backward compatibility
+selectedPlantFilter = currentPlantFilter;
+
+// Update plant card UI to show active state for current tab
+const cards = document.querySelectorAll('#trucks-view .plant-card');
+cards.forEach(card => {
+  card.classList.remove('active');
+  if (currentPlantFilter && card.dataset.plant === currentPlantFilter) {
+    card.classList.add('active');
+  }
+});
+
+// Update plant counts with the new tab type
+loadPlantCounts('trucks', filterType);
 
 // Update title based on filter
 const truckImagesTitle = document.querySelector('#trucks-view .recentVehicles .cardHeader h2');
@@ -9074,6 +9584,8 @@ query = query.eq('location_plant', selectedPlantFilter);
 }
 const { data, error } = await query;
 if (error) throw error;
+// Update trailer count badge
+updateTrailerCountBadge(data ? data.length : 0);
 displayTrailers(data || []);
 } catch (err) {
 console.error('Error loading trailers:', err.message);
@@ -10082,6 +10594,8 @@ if (error) throw error;
 showSuccess('Trailer deleted successfully!', 'Success');
 // Reload trailer data to refresh table
 await loadTrailerData();
+// Update trailer count
+updateContainerTrailerCounts();
 } catch (err) {
 console.error('Error deleting trailer:', err.message);
 showError('Failed to delete trailer', 'Error');
@@ -10151,6 +10665,8 @@ if (error) throw error;
 await loadTrailerData();
 closeTrailerModal();
 showSuccess(editingTrailerId ? 'Trailer updated successfully!' : 'Trailer added successfully!', 'Success');
+// Update trailer count
+updateContainerTrailerCounts();
 } catch (err) {
 console.error('Error saving trailer:', err.message);
 showError('Failed to save trailer', 'Error');
@@ -10324,7 +10840,10 @@ throw result.error;
 showSuccess(editingContainerId ? 'Container updated successfully!' : 'Container added successfully!');
 closeContainerModal();
 // Reload container table to show the new/updated container
-setTimeout(() => loadContainerDataForRegistry(), 500);
+setTimeout(() => {
+loadContainerDataForRegistry();
+updateContainerTrailerCounts();
+}, 500);
 });
 } catch (err) {
 console.error('Error saving container:', err.message);
@@ -10395,6 +10914,8 @@ if (error) throw error;
 showSuccess('Container deleted successfully!', 'Success');
 // Reload container data to refresh table
 await loadContainerDataForRegistry();
+// Update container count
+updateContainerTrailerCounts();
 } catch (err) {
 console.error('Error deleting container:', err.message);
 showError('Failed to delete container', 'Error');
@@ -10447,7 +10968,7 @@ let query = supabaseClient
 .from('containers')
 .select('*')
 .order('container', { ascending: true });
-// Apply plant filter if specified
+// Apply plant filter if specified  
 if (selectedPlantFilter) {
 query = query.eq('plant', selectedPlantFilter);
 }

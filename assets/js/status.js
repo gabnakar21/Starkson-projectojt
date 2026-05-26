@@ -2,18 +2,36 @@
 
 // Status state variables
 let currentStatusView = 'trucks'; // 'trucks', 'trailers', 'containers'
+window.currentStatusFilter = null; // Current status filter for truck table (accessible from main.js)
 
 // Initialize status when view is shown
-function initializeStatus() {
+async function initializeStatus() {
   console.log('Status view initialized');
   
   // Setup status event listeners
   setupStatusEventListeners();
   
+  // Ensure vehicle data is loaded before proceeding
+  if (typeof window.vehicleStatusRecords === 'undefined' || !window.vehicleStatusRecords || window.vehicleStatusRecords.length === 0) {
+    console.log('Vehicle data not loaded, loading now...');
+    await loadVehicleStatus();
+    console.log('Vehicle data loaded, count:', window.vehicleStatusRecords ? window.vehicleStatusRecords.length : 0);
+  } else {
+    console.log('Vehicle data already available, count:', window.vehicleStatusRecords.length);
+  }
+  
+  // Setup status row click handlers (ensure they're attached)
+  setupStatusRowListeners();
+  
   // Reset to Truck as default active state when entering status tab
   setTimeout(() => {
     switchStatusView('trucks');
   }, 100);
+  
+  // Re-attach status row listeners after table is populated (delay to ensure table is rendered)
+  setTimeout(() => {
+    setupStatusRowListeners();
+  }, 500);
 }
 
 // Setup status event listeners
@@ -42,8 +60,58 @@ function setupStatusEventListeners() {
     });
   }
   
+  // Status row click handlers for Vehicle Status Summary table
+  const statusRows = document.querySelectorAll('.status-row.clickable');
+  statusRows.forEach(row => {
+    row.addEventListener('dblclick', function() {
+      const status = this.getAttribute('data-status');
+      handleStatusRowClick(status, this);
+    });
+  });
+  
   // Setup editable placeholder functionality
   setupEditablePlaceholders();
+}
+
+// Handle status row click
+function handleStatusRowClick(status, rowElement) {
+  console.log('Status row clicked:', status);
+  console.log('Current filter before click:', window.currentStatusFilter);
+  console.log('vehicleStatusRecords available:', typeof window.vehicleStatusRecords !== 'undefined' && window.vehicleStatusRecords && window.vehicleStatusRecords.length > 0);
+  
+  // Toggle filter: if clicking the same status, clear the filter
+  if (window.currentStatusFilter === status) {
+    window.currentStatusFilter = null;
+    // Remove highlight from all rows
+    document.querySelectorAll('.status-row.clickable').forEach(r => {
+      r.style.backgroundColor = '';
+    });
+    console.log('Status filter cleared');
+  } else {
+    window.currentStatusFilter = status;
+    // Remove highlight from all rows
+    document.querySelectorAll('.status-row.clickable').forEach(r => {
+      r.style.backgroundColor = '';
+    });
+    // Highlight selected row
+    rowElement.style.backgroundColor = '#e8f5e9';
+    console.log('Status filter set to:', status);
+  }
+  
+  // Apply filter immediately using cached data (no async delay)
+  if (typeof window.vehicleStatusRecords !== 'undefined' && window.vehicleStatusRecords && window.vehicleStatusRecords.length > 0) {
+    console.log('Using cached vehicleStatusRecords, count:', window.vehicleStatusRecords.length);
+    if (typeof displayVehicleStatus === 'function') {
+      displayVehicleStatus(window.vehicleStatusRecords);
+      console.log('displayVehicleStatus called successfully');
+    } else {
+      console.error('displayVehicleStatus function not found in main.js');
+    }
+  } else {
+    console.warn('vehicleStatusRecords not available, attempting to load...');
+    // Only load data as a last resort - this should rarely happen
+    loadVehicleStatus();
+  }
 }
 
 // Setup editable placeholder functionality for textareas
@@ -173,6 +241,10 @@ async function loadVehicleStatus() {
       .order('plate_no', { ascending: true });
     
     if (error) throw error;
+    
+    // Set window.vehicleStatusRecords for filtering
+    window.vehicleStatusRecords = vehicles || [];
+    console.log('vehicleStatusRecords set in status.js, count:', window.vehicleStatusRecords.length);
     
     displayVehicleStatus(vehicles || []);
     
@@ -380,6 +452,27 @@ function displayVehicleStatusSummary(vehicles) {
   document.getElementById('summary-grand-total').textContent = grandTotal;
   
   console.log('Summary table updated successfully');
+  
+  // Re-attach event listeners to status rows after table update
+  setupStatusRowListeners();
+}
+
+// Setup status row click handlers (separate function to call after table updates)
+function setupStatusRowListeners() {
+  const statusRows = document.querySelectorAll('.status-row.clickable');
+  statusRows.forEach(row => {
+    // Remove existing listeners to avoid duplicates
+    row.removeEventListener('click', handleStatusRowClickWrapper);
+    // Add new listener
+    row.addEventListener('click', handleStatusRowClickWrapper);
+  });
+}
+
+// Wrapper function to handle status row click
+function handleStatusRowClickWrapper(event) {
+  const row = event.currentTarget;
+  const status = row.getAttribute('data-status');
+  handleStatusRowClick(status, row);
 }
 
 // Load trailer status
@@ -432,38 +525,82 @@ async function loadContainerStatus() {
 
 // Display vehicle status
 function displayVehicleStatus(vehicles) {
-  const tableBody = document.querySelector('#truck-images-table tbody');
-  if (!tableBody) return;
+  const tbody = document.querySelector('#status-table tbody');
+  if (!tbody) return;
 
   // Check if user is admin
   const isAdmin = window.authSystem && window.authSystem.isAdmin();
 
-  if (vehicles.length === 0) {
-    const colspan = isAdmin ? 6 : 5;
-    tableBody.innerHTML = `
+  // Hide/show Actions column header based on auth status
+  const actionsHeader = document.querySelector('#status-table thead tr td:nth-child(7)');
+  if (actionsHeader) {
+    actionsHeader.style.display = isAdmin ? '' : 'none';
+  }
+
+  // Apply status filter if active
+  let filteredVehicles = vehicles;
+  if (window.currentStatusFilter) {
+    filteredVehicles = vehicles.filter(vehicle => {
+      const vehicleStatus = (vehicle.status || '').toLowerCase();
+      const filterStatus = window.currentStatusFilter.toLowerCase();
+      
+      // Match status with partial matching for "Totally Down" and "Operational/Hustling"
+      if (filterStatus.includes('totally down')) {
+        return vehicleStatus.includes('totally down') || vehicleStatus.includes('totallydown');
+      } else if (filterStatus.includes('operational/hustling') || filterStatus.includes('hustling')) {
+        return vehicleStatus.includes('operational/hustling') || vehicleStatus.includes('hustling');
+      } else if (filterStatus.includes('down')) {
+        return vehicleStatus.includes('down') && !vehicleStatus.includes('totally');
+      } else if (filterStatus.includes('operational')) {
+        return vehicleStatus.includes('operational') && !vehicleStatus.includes('hustling');
+      }
+      return false;
+    });
+    console.log(`Filtered to ${filteredVehicles.length} vehicles with status: ${window.currentStatusFilter}`);
+  }
+
+  if (filteredVehicles.length === 0) {
+    const colspan = isAdmin ? 7 : 6;
+    const message = window.currentStatusFilter 
+      ? `No vehicles found with status: ${window.currentStatusFilter}`
+      : 'No vehicles found. Add vehicles to Vehicle Registry first.';
+    tbody.innerHTML = `
       <tr>
-        <td colspan="${colspan}" style="text-align: center; padding: 40px; color: #666;">
-          <div>No vehicle status data available</div>
+        <td colspan="${colspan}" style="text-align: center; padding: 20px; color: #666;">
+          ${message}
         </td>
       </tr>
     `;
     return;
   }
 
-  const rows = vehicles.map(vehicle => `
-    <tr>
-      <td>${vehicle.plate_no || '-'}</td>
-      <td>${vehicle.make_model || '-'}</td>
-      <td>${vehicle.status || 'Active'}</td>
-      <td>${vehicle.location_plant || '-'}</td>
-      <td>${vehicle.gps_status || 'Inactive'}</td>
-      ${isAdmin ? `<td>
-        <button class="btn-view auth-required" onclick="window.statusModule.viewVehicleDetails('${vehicle.id}')">View</button>
-      </td>` : ''}
-    </tr>
-  `).join('');
+  // Map status values to colors for consistency
+  const statusColor = {
+    'OPERATIONAL': 'green',
+    'OPERATIONAL/HUSTLING': 'blue',
+    'DOWN': 'red',
+    'TOTALLY DOWN': 'brown'
+  };
 
-  tableBody.innerHTML = rows;
+  const vehicleRows = filteredVehicles.map(vehicle => {
+    const color = statusColor[vehicle.status] || 'black';
+    return `
+      <tr>
+        <td>${vehicle.plate || 'N/A'}</td>
+        <td>${vehicle.size || 'N/A'}</td>
+        <td>${vehicle.model || 'N/A'}</td>
+        <td>${vehicle.driver || 'N/A'}</td>
+        <td>${vehicle.truck_issue || '-'}</td>
+        <td><span style="color: ${color}; font-weight: 600;">${vehicle.status || 'N/A'}</span></td>
+        ${isAdmin ? `
+          <td style="text-align: center; gap: 5px; display: flex;">
+            <button onclick="openTruckEditModal('${vehicle.plate}')" class="action-btn">Edit</button>
+          </td>` : ''}
+      </tr>
+    `;
+  }).join('');
+  
+  tbody.innerHTML = vehicleRows;
 
   // Call updateCrudVisibility to ensure all CRUD elements are properly hidden/shown
   if (window.updateCrudVisibility) {
