@@ -1329,6 +1329,13 @@ table td:not(:nth-child(1)),
 
 }
 
+@media (max-width: 1024px) {
+  .plant-card .plant-count {
+    right: 15px;
+    font-size: 1.1rem;
+  }
+}
+
 .cardBox .card:hover .plant-count {
 
   color: var(--white);
@@ -11372,6 +11379,7 @@ body.about-view-active .topbar .search {
 
   .plant-card .plant-count {
     font-size: 1rem;
+    right: 15px;
   }
 }
 
@@ -11391,6 +11399,14 @@ body.about-view-active .topbar .search {
 
   .plant-card .plant-count {
     font-size: 0.9rem;
+    right: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .plant-card .plant-count {
+    font-size: 0.8rem;
+    right: 8px;
   }
 }
 
