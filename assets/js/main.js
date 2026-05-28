@@ -10754,20 +10754,7 @@ try {
 return await supabaseWithAuth(async () => {
 // Check for duplicates only when adding new container (not editing)
 if (!editingContainerId) {
-// Check if chassis_no already exists
-const { data: existingChassi, error: chassiError } = await supabaseClient
-.from('containers')
-.select('id')
-.eq('chassi_no', containerNumber)
-.limit(1);
-
-if (chassiError) throw chassiError;
-if (existingChassi && existingChassi.length > 0) {
-showError('Container with this Chassis No. already exists!', 'Duplicate Error');
-return;
-}
-
-// Check if container name already exists
+// Check if container name already exists (Number can be duplicate, but Container must be unique)
 const { data: existingContainer, error: containerError } = await supabaseClient
 .from('containers')
 .select('id')
