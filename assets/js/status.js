@@ -3,6 +3,7 @@
 // Status state variables
 let currentStatusView = 'trucks'; // 'trucks', 'trailers', 'containers'
 window.currentStatusFilter = null; // Current status filter for truck table (accessible from main.js)
+window.currentSizeFilter = null; // Current size filter for truck table
 
 // Initialize status when view is shown
 async function initializeStatus() {
@@ -71,6 +72,99 @@ function setupStatusEventListeners() {
   
   // Setup editable placeholder functionality
   setupEditablePlaceholders();
+  
+  // Setup size filter buttons for Vehicle Status Summary
+  setupSizeFilterButtons();
+}
+
+// Setup size filter buttons for Vehicle Status Summary table
+function setupSizeFilterButtons() {
+  const sizeFilterBtns = document.querySelectorAll('.size-filter-btn');
+  sizeFilterBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const size = this.getAttribute('data-size');
+      handleSizeFilterClick(size, this);
+    });
+  });
+}
+
+// Handle size filter button click
+function handleSizeFilterClick(size, buttonElement) {
+  console.log('Size filter clicked:', size);
+  
+  // Toggle filter: if clicking the same size, clear the filter
+  if (window.currentSizeFilter === size) {
+    window.currentSizeFilter = null;
+    // Remove highlight from all buttons
+    document.querySelectorAll('.size-filter-btn').forEach(btn => {
+      btn.style.backgroundColor = '';
+      btn.style.color = '';
+    });
+    console.log('Size filter cleared');
+  } else {
+    window.currentSizeFilter = size;
+    // Remove highlight from all buttons
+    document.querySelectorAll('.size-filter-btn').forEach(btn => {
+      btn.style.backgroundColor = '';
+      btn.style.color = '';
+    });
+    // Highlight selected button
+    buttonElement.style.backgroundColor = '#8b3f3f';
+    buttonElement.style.color = '#fff';
+    console.log('Size filter set to:', size);
+  }
+  
+  // Re-filter the truck table based on both status and size filters
+  applyTruckTableFilters();
+}
+
+// Apply truck table filters (status and size)
+function applyTruckTableFilters() {
+  if (typeof window.vehicleStatusRecords !== 'undefined' && window.vehicleStatusRecords && window.vehicleStatusRecords.length > 0) {
+    let filteredRecords = [...window.vehicleStatusRecords];
+    
+    // Apply size filter if active
+    if (window.currentSizeFilter) {
+      const filterSize = window.currentSizeFilter.toLowerCase().trim();
+      console.log('Applying size filter:', filterSize);
+      
+      filteredRecords = filteredRecords.filter(vehicle => {
+        const size = (vehicle.size || '').toLowerCase().trim();
+        return size.includes(filterSize);
+      });
+      
+      console.log(`Filtered to ${filteredRecords.length} vehicles with size: ${window.currentSizeFilter}`);
+    }
+    
+    // Apply status filter if active
+    if (window.currentStatusFilter) {
+      const filterStatus = window.currentStatusFilter.toLowerCase().trim();
+      console.log('Applying status filter:', filterStatus);
+      
+      filteredRecords = filteredRecords.filter(vehicle => {
+        const vehicleStatus = (vehicle.status || '').toLowerCase().trim();
+        
+        // Match status with partial matching for "Totally Down" and "Operational/Hustling"
+        if (filterStatus.includes('totally down')) {
+          return vehicleStatus.includes('totally down') || vehicleStatus.includes('totallydown');
+        } else if (filterStatus.includes('operational/hustling') || filterStatus.includes('hustling')) {
+          return vehicleStatus.includes('operational/hustling') || vehicleStatus.includes('hustling');
+        } else if (filterStatus.includes('down')) {
+          return vehicleStatus.includes('down') && !vehicleStatus.includes('totally');
+        } else if (filterStatus.includes('operational')) {
+          return vehicleStatus.includes('operational') && !vehicleStatus.includes('hustling');
+        }
+        return false;
+      });
+      
+      console.log(`Filtered to ${filteredRecords.length} vehicles with status: ${window.currentStatusFilter}`);
+    }
+    
+    // Call displayVehicleStatus with the filtered records
+    if (typeof displayVehicleStatus === 'function') {
+      displayVehicleStatus(filteredRecords);
+    }
+  }
 }
 
 // Handle status row click
@@ -99,19 +193,7 @@ function handleStatusRowClick(status, rowElement) {
   }
   
   // Apply filter immediately using cached data (no async delay)
-  if (typeof window.vehicleStatusRecords !== 'undefined' && window.vehicleStatusRecords && window.vehicleStatusRecords.length > 0) {
-    console.log('Using cached vehicleStatusRecords, count:', window.vehicleStatusRecords.length);
-    if (typeof displayVehicleStatus === 'function') {
-      displayVehicleStatus(window.vehicleStatusRecords);
-      console.log('displayVehicleStatus called successfully');
-    } else {
-      console.error('displayVehicleStatus function not found in main.js');
-    }
-  } else {
-    console.warn('vehicleStatusRecords not available, attempting to load...');
-    // Only load data as a last resort - this should rarely happen
-    loadVehicleStatus();
-  }
+  applyTruckTableFilters();
 }
 
 // Setup editable placeholder functionality for textareas

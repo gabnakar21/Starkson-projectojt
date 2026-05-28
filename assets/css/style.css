@@ -10484,6 +10484,16 @@ table td:nth-child(2) {
   border-bottom: 2px solid #f0f0f0;
 }
 
+.about-section h2[onclick] {
+  cursor: pointer;
+  transition: color 0.3s, transform 0.2s;
+}
+
+.about-section h2[onclick]:hover {
+  color: #c95454;
+  transform: translateX(5px);
+}
+
 .about-section p {
   font-size: 15px;
   line-height: 1.8;

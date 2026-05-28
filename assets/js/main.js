@@ -2850,6 +2850,7 @@ function displayVehicleStatus(vehicleRecords) {
 
 console.log('displayVehicleStatus called with', vehicleRecords.length, 'records');
 console.log('Current filter active:', window.currentStatusFilter);
+console.log('Current size filter active:', window.currentSizeFilter);
 
 const tbody = document.querySelector('#status-table tbody');
 
@@ -2868,7 +2869,8 @@ vehicleRecords = vehicleRecords.filter(vehicle => {
 });
 
 // Apply status filter if active (from status.js)
-if (window.currentStatusFilter) {
+// Only apply if size filter is NOT active (to avoid double filtering)
+if (window.currentStatusFilter && !window.currentSizeFilter) {
   const filterStatus = window.currentStatusFilter.toLowerCase().trim();
   console.log('Applying filter for status:', filterStatus);
   console.log('Total vehicles before filter:', vehicleRecords.length);
@@ -9337,12 +9339,31 @@ if (!supabaseClient) {
 throw new Error('Supabase not initialized');
 }
 try {
+// Check for duplicate client (plant + destination + address combination)
+const { data: existingClient, error: checkError } = await supabaseClient
+.from('clients')
+.select('*')
+.eq('plant', clientData.plant)
+.eq('destination', clientData.destination)
+.eq('address', clientData.address)
+.single();
+
+if (checkError && checkError.code !== 'PGRST116') {
+// PGRST116 means no rows found, which is expected for new clients
+throw checkError;
+}
+
+if (existingClient) {
+throw new Error('A client with this plant, destination, and address already exists.');
+}
+
 // Try with auth wrapper first
 try {
 return await supabaseWithAuth(async () => {
 const { data, error } = await supabaseClient
 .from('clients')
 .insert([{
+plant: clientData.plant,
 destination: clientData.destination,
 address: clientData.address,
 going_to: clientData.goingTo,
@@ -9361,6 +9382,7 @@ console.warn('Auth wrapper failed, trying direct insert:', authError);
 const { data, error } = await supabaseClient
 .from('clients')
 .insert([{
+plant: clientData.plant,
 destination: clientData.destination,
 address: clientData.address,
 going_to: clientData.goingTo,
@@ -11585,6 +11607,7 @@ if (clientForm) {
 clientForm.addEventListener('submit', async function(e) {
 e.preventDefault();
 // Get form values
+const plant = document.getElementById('client-plant').value.trim();
 const destination = document.getElementById('client-destination').value.trim();
 const address = document.getElementById('client-address').value.trim();
 const goingTo = document.getElementById('client-going-to').value.trim();
@@ -11592,13 +11615,14 @@ const goingBack = document.getElementById('client-going-back').value.trim();
 const totalKm = document.getElementById('client-total-km').value.trim();
 const averageTime = document.getElementById('client-average-time').value.trim();
 // Validate required fields
-if (!destination || !address || !averageTime) {
+if (!plant || !destination || !address || !averageTime) {
 showWarning('Please fill in all required fields', 'Validation Error');
 return;
 }
 try {
 // Save client data to database
 await saveClient({
+plant,
 destination,
 address,
 goingTo,
@@ -11650,4 +11674,46 @@ dieselModalOverlay.addEventListener('click', closeDieselModal);
 if (dieselForm) {
 dieselForm.addEventListener('submit', saveDieselData);
 }
+});
+// ====================== DEVELOPER MODAL FUNCTIONS ==========================
+// Open Developer Modal
+function openDeveloperModal() {
+  const modal = document.getElementById('developer-modal');
+  const overlay = document.getElementById('developer-modal-overlay');
+  
+  if (modal && overlay) {
+    modal.style.display = 'block';
+    overlay.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+// Close Developer Modal
+function closeDeveloperModal() {
+  const modal = document.getElementById('developer-modal');
+  const overlay = document.getElementById('developer-modal-overlay');
+  
+  if (modal && overlay) {
+    modal.style.display = 'none';
+    overlay.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+}
+
+// Developer Modal Event Listeners
+document.addEventListener('DOMContentLoaded', function() {
+  const developerModalCloseBtn = document.getElementById('developer-modal-close-btn');
+  const developerModalOverlay = document.getElementById('developer-modal-overlay');
+
+  if (developerModalCloseBtn) {
+    developerModalCloseBtn.addEventListener('click', closeDeveloperModal);
+  }
+
+  if (developerModalOverlay) {
+    developerModalOverlay.addEventListener('click', function(e) {
+      if (e.target === developerModalOverlay) {
+        closeDeveloperModal();
+      }
+    });
+  }
 });

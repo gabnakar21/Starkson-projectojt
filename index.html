@@ -831,12 +831,12 @@
                           <thead>
                             <tr>
                               <td>Status</td>
-                              <td>Truck Head</td>
-                              <td>12Wheeler</td>
-                              <td>10Wheeler</td>
-                              <td>8Wheeler</td>
-                              <td>6Wheeler</td>
-                              <td>4Wheeler</td>
+                              <td><button class="size-filter-btn" data-size="truck head" style="background: none; border: none; color: inherit; font-weight: inherit; cursor: pointer; padding: 0;">Truck Head</button></td>
+                              <td><button class="size-filter-btn" data-size="12 wheeler" style="background: none; border: none; color: inherit; font-weight: inherit; cursor: pointer; padding: 0;">12Wheeler</button></td>
+                              <td><button class="size-filter-btn" data-size="10 wheeler" style="background: none; border: none; color: inherit; font-weight: inherit; cursor: pointer; padding: 0;">10Wheeler</button></td>
+                              <td><button class="size-filter-btn" data-size="8 wheeler" style="background: none; border: none; color: inherit; font-weight: inherit; cursor: pointer; padding: 0;">8Wheeler</button></td>
+                              <td><button class="size-filter-btn" data-size="6 wheeler" style="background: none; border: none; color: inherit; font-weight: inherit; cursor: pointer; padding: 0;">6Wheeler</button></td>
+                              <td><button class="size-filter-btn" data-size="4 wheeler" style="background: none; border: none; color: inherit; font-weight: inherit; cursor: pointer; padding: 0;">4Wheeler</button></td>
                               <td>Total</td>
                             </tr>
                           </thead>
@@ -3373,7 +3373,7 @@
 
                         <div style="display: flex; gap: 10px;">
 
-                            <button id="new-gps-btn" type="button" class="btn crud-button auth-required" style="padding: 10px 20px; background: linear-gradient(135deg, #2e7d32 0%, #4caf50 50%, #388e3c 100%); color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.3s;">
+                            <button id="new-gps-btn" type="button" class="btn" style="padding: 10px 20px; background: linear-gradient(135deg, #2e7d32 0%, #4caf50 50%, #388e3c 100%); color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.3s;">
 
                                 Status
 
@@ -4605,55 +4605,80 @@
 
                     <h1>About Starkson Packaging Inc.</h1>
 
-                    <p class="about-subtitle">Innovative Packaging Solutions Since 1988</p>
-
                 </div>
 
                 <div class="about-section">
 
-                    <h2>MISSION STATEMENT</h2>
+                    <h2>Food Safety and Quality Policy</h2>
 
-                    <p>To provide Safe and General Construction work and Services that exceed our clients’ expectations through a highly motivated team of workers.
-                    On Time and quality projects completed with zero accidents.
-                    Full compliance to client’s rules and regulations.</p>
+                    <p>At Starkson Packaging Inc., we are committed to providing safe, high-quality, and reliable food-grade packaging materials, promotional items, and sourcing programs. 
+                        Our goal is to consistently meet customer expectations, achieve business success, and ensure that all products are safe and comply with all relevant standards, statutory and regulatory requirements.</p>
 
-                </div>
-
-                <div class="about-section">
-
-                    <h2>CORE VALUES</h2>
+                    <p>To achieve this, SPI shall:</p>
 
                     <ul class="about-list">
 
-                        <li>Utilize feedback that can improve employee team efficiency</li>
+                        <li>Implement and maintain a robust Food Safety and Quality Management System (FSQMS)
+                             that promotes safe practices, accountability, and continuous improvement.</li>
 
-                        <li>Investigate and control all areas of concern</li>
+                        <li>Ensure all products consistently meet established specifications and procedures.</li>
 
-                        <li>Standard implementation and maintenance</li>
+                        <li>Provide innovative packaging solutions and promotional programs while maintaining safety and quality.</li>
 
-                        <li>Continuous pursuit for system and process</li>
+                        <li>Deliver products and services on time to meet customer needs.</li>
 
-                        <li>Reduce customer dissatisfaction level</li>
+                        <li>Train and empower all employees to understand and follow SPI’s food safety requirements, 
+                            emphasizing hygiene, safe practices, and responsibility for the quality of their work.</li>
 
-                        <li>Ensure service quality and customer satisfaction</li>
+                        <li>Conduct hazard analysis and implement appropriate control measures, including HACCP, to prevent risks to food safety.</li>
+
+                        <li>Review, audit, and continuously improve systems, processes, and performance at all levels of the business.</li>
 
                     </ul>
+
+                    <p>Senior Management ensures adequate organization, resources, equipment, and training to achieve SPI’s food safety and quality objectives. 
+                        All employees share responsibility for maintaining product safety and quality and are required to cooperate fully to meet statutory and regulatory obligations.</p>
+
+                    <p>This policy is communicated to all employees and relevant stakeholders and is reviewed regularly to ensure it remains relevant and effective.</p>
 
                 </div>
 
                 <div class="about-section">
 
-                    <h2>Developer</h2>
+                    <h2 style="cursor: pointer; color: var(--blue); transition: color 0.3s;" onclick="openDeveloperModal()">Developer</h2>
 
-                    <p><b style="color: rgba(201, 84, 84, 0.9);">Programmer:</b> Lance Gabriel N. Francisco</p>
+                </div>
 
-                    <p><b style="color: rgba(201, 84, 84, 0.9);">School:</b> Cavite State University - Silang Campus</p>
+                <!-- Developer Modal -->
+                <div id="developer-modal-overlay" class="modal-overlay" style="display: none;"></div>
 
-                    <p><b style="color: rgba(201, 84, 84, 0.9);">Status:</b> On The Job Training - BS Information Technology</p>
+                <div id="developer-modal" class="modal-form" style="display: none;">
 
-                    <p><b style="color: rgba(201, 84, 84, 0.9);">Ideal Design By:</b> Dee-ar / GPS Analyst</p>
+                    <div class="modal-content">
 
-                    <p><b style="color: rgba(201, 84, 84, 0.9);">Program Build:</b> March 31 2026 - May 20, 2026</p>
+                        <div class="modal-header">
+
+                            <h2>Developer Information</h2>
+
+                            <button type="button" id="developer-modal-close-btn" class="modal-close" title="Close">×</button>
+
+                        </div>
+
+                        <div class="modal-body" style="padding: 25px;">
+
+                            <p style="margin: 15px 0; font-size: 15px; line-height: 1.8;"><b style="color: rgba(201, 84, 84, 0.9);">Programmer:</b> Lance Gabriel N. Francisco</p>
+
+                            <p style="margin: 15px 0; font-size: 15px; line-height: 1.8;"><b style="color: rgba(201, 84, 84, 0.9);">School:</b> Cavite State University - Silang Campus</p>
+
+                            <p style="margin: 15px 0; font-size: 15px; line-height: 1.8;"><b style="color: rgba(201, 84, 84, 0.9);">Status:</b> On The Job Training - BS Information Technology</p>
+
+                            <p style="margin: 15px 0; font-size: 15px; line-height: 1.8;"><b style="color: rgba(201, 84, 84, 0.9);">Ideal Design By:</b> Dee-ar / GPS Analyst</p>
+
+                            <p style="margin: 15px 0; font-size: 15px; line-height: 1.8;"><b style="color: rgba(201, 84, 84, 0.9);">Program Build:</b> March 31 2026 - May 28, 2026</p>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
