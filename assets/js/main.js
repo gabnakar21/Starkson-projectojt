@@ -2151,7 +2151,7 @@ ${isAdmin ? `
 <td>${v.model || 'N/A'}</td>
 <td>${v.size || 'N/A'}</td>
 <td>${v.year_model || 'N/A'}</td>
-<td>${v.plant || 'N/A'}</td>
+<td>${v.plant || 'Others'}</td>
 <td>${v.engine_no || 'N/A'}</td>
 <td>${v.chassi_no || 'N/A'}</td>
 <td>${v.classification || 'N/A'}</td>
@@ -2272,7 +2272,86 @@ if (dashboardDriversBody) dashboardDriversBody.innerHTML = dashboardDriverRows;
 if (window.updateCrudVisibility) {
     window.updateCrudVisibility();
 }
+
+// Load and populate dashboard vehicle summary
+loadDashboardVehicleSummary(plantFilter);
 }
+
+// Load dashboard vehicle summary table
+async function loadDashboardVehicleSummary(plantFilter) {
+    try {
+        // Fetch all vehicles from vehicle_registry
+        let query = supabaseClient
+            .from('vehicle_registry')
+            .select('size');
+        
+        // Apply plant filter if specified
+        if (plantFilter) {
+            query = query.eq('plant', plantFilter);
+        }
+        
+        const { data: vehicles, error } = await query;
+        
+        if (error) {
+            console.error('Error loading vehicle summary:', error);
+            return;
+        }
+        
+        // Initialize counters
+        let truckHeadCount = 0;
+        let twelveWheelerCount = 0;
+        let tenWheelerCount = 0;
+        let eightWheelerCount = 0;
+        let sixWheelerCount = 0;
+        let fourWheelerCount = 0;
+        
+        // Count vehicles by size
+        if (vehicles && vehicles.length > 0) {
+            vehicles.forEach(vehicle => {
+                const size = (vehicle.size || '').toLowerCase().trim();
+                
+                if (size.includes('truck head')) {
+                    truckHeadCount++;
+                } else if (size.includes('12 wheeler') || size.includes('12wheeler')) {
+                    twelveWheelerCount++;
+                } else if (size.includes('10 wheeler') || size.includes('10wheeler')) {
+                    tenWheelerCount++;
+                } else if (size.includes('8 wheeler') || size.includes('8wheeler')) {
+                    eightWheelerCount++;
+                } else if (size.includes('6 wheeler') || size.includes('6wheeler')) {
+                    sixWheelerCount++;
+                } else if (size.includes('4 wheeler') || size.includes('4wheeler')) {
+                    fourWheelerCount++;
+                }
+            });
+        }
+        
+        // Calculate total
+        const totalCount = truckHeadCount + twelveWheelerCount + tenWheelerCount + 
+                          eightWheelerCount + sixWheelerCount + fourWheelerCount;
+        
+        // Update the dashboard summary table
+        const truckHeadEl = document.getElementById('dashboard-summary-truckhead');
+        const twelveWheelerEl = document.getElementById('dashboard-summary-12wheeler');
+        const tenWheelerEl = document.getElementById('dashboard-summary-10wheeler');
+        const eightWheelerEl = document.getElementById('dashboard-summary-8wheeler');
+        const sixWheelerEl = document.getElementById('dashboard-summary-6wheeler');
+        const fourWheelerEl = document.getElementById('dashboard-summary-4wheeler');
+        const totalEl = document.getElementById('dashboard-summary-total');
+        
+        if (truckHeadEl) truckHeadEl.textContent = truckHeadCount || '-';
+        if (twelveWheelerEl) twelveWheelerEl.textContent = twelveWheelerCount || '-';
+        if (tenWheelerEl) tenWheelerEl.textContent = tenWheelerCount || '-';
+        if (eightWheelerEl) eightWheelerEl.textContent = eightWheelerCount || '-';
+        if (sixWheelerEl) sixWheelerEl.textContent = sixWheelerCount || '-';
+        if (fourWheelerEl) fourWheelerEl.textContent = fourWheelerCount || '-';
+        if (totalEl) totalEl.textContent = totalCount || '-';
+        
+    } catch (error) {
+        console.error('Error in loadDashboardVehicleSummary:', error);
+    }
+}
+
 // Load trailer data for repair section
 async function loadTrailerDataForRepair(plantFilter) {
     try {
@@ -5606,7 +5685,7 @@ const plate = document.getElementById('plate').value.trim();
 const model = document.getElementById('model').value.trim();
 const size = document.getElementById('size').value.trim();
 const year_model = parseInt(document.getElementById('year_model').value, 10);
-const plant = document.getElementById('plant').value.trim();
+const plant = document.getElementById('plant').value.trim() || 'Others';
 // Validate all fields
 let isValid = true;
 clearVehicleFormErrors();
@@ -5624,10 +5703,6 @@ isValid = false;
 }
 if (!year_model || isNaN(year_model)) {
 document.getElementById('year_model').classList.add('error');
-isValid = false;
-}
-if (!plant) {
-document.getElementById('plant').classList.add('error');
 isValid = false;
 }
 if (!isValid) {

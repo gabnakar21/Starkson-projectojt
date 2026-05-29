@@ -11880,3 +11880,63 @@ body.about-view-active .topbar .search {
 #vehicle-status-summary-table tr:last-child td {
   font-weight: bold !important;
 }
+
+/* Dashboard Vehicle Summary Table */
+#dashboard-vehicle-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+#dashboard-vehicle-summary-table thead tr {
+  background: linear-gradient(135deg, #8b3f3f 0%, #c95454 50%, #a04949 100%);
+  color: #fff;
+}
+
+#dashboard-vehicle-summary-table thead td {
+  padding: 12px 15px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid #ddd;
+}
+
+#dashboard-vehicle-summary-table tbody td {
+  padding: 12px 15px;
+  text-align: center;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  background-color: #fff;
+}
+
+#dashboard-vehicle-summary-table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+#dashboard-vehicle-summary-table tbody td:last-child {
+  font-weight: bold;
+  background-color: #f0f0f0;
+}
+
+/* Dashboard Vehicle Summary Table Responsive */
+@media (max-width: 768px) {
+  #dashboard-vehicle-summary-table {
+    font-size: 0.75rem;
+  }
+
+  #dashboard-vehicle-summary-table td {
+    padding: 8px 4px;
+    min-width: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  #dashboard-vehicle-summary-table {
+    font-size: 0.7rem;
+  }
+
+  #dashboard-vehicle-summary-table td {
+    padding: 6px 3px;
+    min-width: 40px;
+  }
+}

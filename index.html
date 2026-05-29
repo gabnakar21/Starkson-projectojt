@@ -402,6 +402,64 @@
 
                   </div>
 
+                  <div class="recentVehicles" style="margin-top: 30px;">
+
+                    <div class="cardHeader">
+
+                      <h2>Vehicle Summary</h2>
+
+                    </div>
+
+                    <table id="dashboard-vehicle-summary-table" style="width:100%; border-collapse: collapse;">
+
+                      <thead>
+
+                        <tr>
+
+                          <td>Truck Head</td>
+
+                          <td>12Wheeler</td>
+
+                          <td>10Wheeler</td>
+
+                          <td>8Wheeler</td>
+
+                          <td>6Wheeler</td>
+
+                          <td>4Wheeler</td>
+
+                          <td>Total</td>
+
+                        </tr>
+
+                      </thead>
+
+                      <tbody>
+
+                        <tr>
+
+                          <td id="dashboard-summary-truckhead">-</td>
+
+                          <td id="dashboard-summary-12wheeler">-</td>
+
+                          <td id="dashboard-summary-10wheeler">-</td>
+
+                          <td id="dashboard-summary-8wheeler">-</td>
+
+                          <td id="dashboard-summary-6wheeler">-</td>
+
+                          <td id="dashboard-summary-4wheeler">-</td>
+
+                          <td id="dashboard-summary-total">-</td>
+
+                        </tr>
+
+                      </tbody>
+
+                    </table>
+
+                  </div>
+
               </div>
 
             </div>
@@ -2225,9 +2283,9 @@
 
                                 <div class="form-group">
 
-                                    <label for="plant">Plant <span class="required">*</span></label>
+                                    <label for="plant">Plant</label>
 
-                                    <select id="plant" required>
+                                    <select id="plant">
 
                                         <option value="">Select Plant</option>
 
@@ -2238,6 +2296,8 @@
                                         <option value="HASBRO">HASBRO</option>
 
                                         <option value="WARNER">WARNER</option>
+
+                                        <option value="Others">Others</option>
 
                                     </select>
 

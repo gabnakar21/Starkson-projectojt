@@ -206,7 +206,7 @@
       // Only show Edit button for admin users
       if (window.authSystem && window.authSystem.isAdmin()) {
         const actionTd = document.createElement('td');
-        actionTd.className = 'auth-required';
+        actionTd.className = 'auth-required'; 
         const editBtn = document.createElement('button');
         editBtn.type = 'button';
         editBtn.className = 'btn-edit';
